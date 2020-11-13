@@ -1,27 +1,32 @@
-arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# What does the following code return? 
+# What does it output? Why?
+# What concept does it demonstrate?
 
-new_array = arr.select do |n| 
- n + 1
- end
-
-p new_array
+a = "Hello"
+b = a
+a = "Goodbye"
 
 =begin
-lin6: will output an array [1..10] and return an array [1..10] 
-line1: we initialize the local variable arr and assign to it an Array object with integers 1 through 10 as elements.
-line3: we initialize the local variable new_array and assign it to the return value of:
-line 3-5: we invoke the #select method on the local variable arr and pass the do..end block as an argument.
-As the select method iterates over each element in the array, it passes it to the block parameter n. The code on lin 4 adds 1 to , but nothing is done with this.
+1(return). the folowing code output nothing as we don't use puts, p and we are not using any function
 
-This problem demostrates the concept of truthiness. The select method returns a new array based on the return value of the  block. If the return value evaluates to true, then the element is elected.  Since everything in Ruby is truthy other than false or nil, the code on line 4 evaluates to true.
+2(output).
+On `line5` we initialize the variable a with a 'Hello' string
+On `line6` we initialize the variable make in it equal to variable a
+On `line7` we reassign the variable a to 'Goodbye'
 
-##
-iwe set an array 'arr' with 1..10 numbers/items
-we set 'new_array' passing each n-item using the select method
-select method it evaluates the with an 'if statement' the truthiness of the condition inside the block and push the true values to a new array.
-in this case n+1, as 1+1 etc... are all 'true'. The 'if' condition "if 1+1" is true as in ruby
-everything evaluated has truetiness except false and nil.
-5: otuput will be the same value of  arr itself as new_array (select method returns the intial array)
+3(concept) with the example we can demostrate that when we reassign a variable(in this case 'a' to 'goodbye') we mutate the initial value and stops pointing to the same point of memory from b('b' keeps the intial value of a.
+and we are pointing to another part of memory.
+We can show this using 'p' below, as we see b is 'hello' and a changes while we reassign.
 =end
 
-
+puts "###" 
+puts 'initialize a to hello'
+p a = "Hello"
+puts 'assign a to initialized variable b'
+p b = a
+puts "we reassign a to goodbye"
+a = "Goodbye"
+puts 'calling b later reassign a'
+p b
+puts 'calling a later reassigment'
+p a 
