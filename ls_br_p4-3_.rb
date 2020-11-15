@@ -32,18 +32,12 @@ query2 = {
 }
 
 def search(query)
-  query_product = []
-  PRODUCTS.each do |product|
-    query_product << product if product[:name].downcase.start_with? query[:q]
+  PRODUCTS.select do |product|
+    product[:name].downcase.include?(query[:q]) && (query[:price_min]..query[:price_max]).include?(product[:price])
   end
-  result = query_product.select do |product|
-    product[:price] >= query[:price_min] && product[:price] <= query[:price_max]
-  end
-  p result
-  # puts query[:price_min]
-  # puts query[:price_max]
-  # puts query[:q]
 end
 
+p search(query)
 p search(query) == [{name: "Thinkpad x220", price: 250}]
+p search(query2)
 p search(query2) == [{:name=>"Dell inspiron", :price=>300}, {:name=>"Dell inspiron", :price=>450}]
