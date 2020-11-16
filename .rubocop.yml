@@ -1,0 +1,7 @@
+Metrics/LineLength:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'open_katas/ls_br_p4-2_fizzbuzz.rb'
+    - 'open_katas/ex1.rb'
