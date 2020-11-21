@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Build a command line calculator program that does the following:
 
 # asks for two numbers
@@ -14,12 +16,12 @@
 # perform the operation
 # display the result to the user. final output
 
-Kernel.puts('Please add the first operator')
-first_operator  = Kernel.gets().chomp().to_i()
-Kernel.puts('Add the second operator')
-second_operator = Kernel.gets().chomp().to_i()
-Kernel.puts("Add the operation you want to do '+','-','*','/'")
-operation       = Kernel.gets().chomp()
+# Kernel.puts('Please add the first operator')
+# first_operator = Kernel.gets.chomp.to_i
+# Kernel.puts('Add the second operator')
+# second_operator = Kernel.gets.chomp.to_i
+# Kernel.puts("Add the operation you want to do '+','-','*','/'")
+# operation = Kernel.gets.chomp
 
 def operation(first_operator, second_operator, operation)
   case operation
@@ -30,9 +32,9 @@ def operation(first_operator, second_operator, operation)
   when '*'
     Kernel.puts(first_operator * second_operator)
   when '/'
-    Kernel.puts(first_operator / second_operator.to_f())
+    Kernel.puts(first_operator / second_operator.to_f)
   else
-    Kernel.puts("This operation does not extist in this calculator")
+    Kernel.puts('This operation does not extist in this calculator')
   end
 end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # https://launchschool.com/blog/live-session-beginning-ruby-part-4
 # write a method that takes a string as an argument, return string in rever order without using the revers method
 

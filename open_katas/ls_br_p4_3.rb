@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Add the code in the missing  #search method
 
 PRODUCTS = [
