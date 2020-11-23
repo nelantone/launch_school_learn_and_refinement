@@ -1,3 +1,5 @@
+require 'yaml'
+
 # frozen_string_literal: true
 
 # Build a command line calculator program that does the following:
@@ -57,18 +59,42 @@ def operation_validator(operation)
   operation
 end
 
+def float?(string)
+  true if Float(string) rescue false
+end
+
+def integer?(string)
+  true if Integer(string) rescue false
+end
+
+def number?(string)
+  if float?(string) || integer?(string)
+    if (integer?(string))
+      string.to_i
+    else
+      string.to_f
+    end
+  end
+end
+
 loop do # main_loop
   loop do
     prompt('Please add the first operator')
-    first_operator = Kernel.gets.chomp.to_i
-    break if first_operator != 0
+    first_operator = Kernel.gets.chomp
+    if number?(first_operator)
+      first_operator = number?(first_operator)
+      break
+    end
     prompt('Type a correct number(integer or number different than 0)')
   end
 
   loop do
     prompt('Add the second operator')
-    second_operator = Kernel.gets.chomp.to_i
-    break if second_operator != 0
+    second_operator = Kernel.gets.chomp
+    if number?(second_operator)
+      second_operator = number?(second_operator)
+      break
+    end
     prompt('Type a correct number(integer or number different than 0)')
   end
 
