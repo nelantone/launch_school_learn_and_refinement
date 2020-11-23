@@ -23,7 +23,7 @@ second_operator = 0
 @lang = ''
 
 def prompt(text)
-  puts ">> #{text}"
+  Kernel.puts(">> #{text}")
 end
 
 prompt("Welcome to the calculator/ Bienvenido a la calculadora")
