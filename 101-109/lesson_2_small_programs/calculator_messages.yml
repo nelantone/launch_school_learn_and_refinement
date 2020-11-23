@@ -1,0 +1,45 @@
+en:
+  addition: 'Addition'
+  write_name: "please write your name"
+  greeting: "Hello"
+  add_first_op: 'Please add the first operator'
+  add_second_op: 'Add the second operator'
+  correct_num: 'Type a valid number'
+  other_operation: "Do you want to do another operation? Type 'Y'"
+  thanks: 'Thanks for using the calculator'
+  op_select: "Add the operation you want to do
+  type '+' to addition,
+  type '-' to substraction,
+  type '*' to multiplication,
+  type '/' to division "
+  valid_op: 'Please write a valid operation'
+  sum: "Addition"
+  less: "Substraction"
+  mult: "Multiplication"
+  div: "Division"
+  add_operation: "Add the operation you want to do:
+  \n type '+' to addition,
+  \n type '-' to substraction,
+  \n type '*' to multiplication,
+  \n type '/' to division "
+
+es:
+  addition: 'Suma'
+  write_name: "escribe tu nombe"
+  greeting: "Hola"
+  add_first_op: 'Añade el primer numero'
+  add_second_op: 'Añade el segundo numero'
+  correct_num: 'Inserta un numero correcto'
+  other_operation: 'deseas hacer otra operacion? Inserta "Y" '
+  thanks: 'Gracias por usar la calculadora'
+  op_select: ""
+  valid_op: 'Elije una operación valida'
+  sum: "suma"
+  less: "resta"
+  mult: "multiplicación"
+  div: "división"
+  add_operation: "Que operación deseas hacer:
+  \n inserta '+' para sumar,
+  \n inserta '-' para restar,
+  \n inserta '*' para multiplicar,
+  \n inserta '/' para dividir "

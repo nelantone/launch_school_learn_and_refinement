@@ -1,4 +1,5 @@
 require 'yaml'
+MSG = YAML.load_file('calculator_messages.yml')
 
 # frozen_string_literal: true
 
@@ -19,57 +20,77 @@ require 'yaml'
 # display the result to the user. final output
 first_operator = 0
 second_operator = 0
+@lang = ''
 
 def prompt(text)
   puts ">> #{text}"
 end
 
+prompt("Welcome to the calculator/ Bienvenido a la calculadora")
+loop do
+  prompt("Choose your language 'en','es'/Elige tu idioma 'en','es'")
+  @lang = gets.chomp
+  break if ['en', 'es'].include? @lang
+end
+prompt(MSG[@lang]['write_name'])
+name = Kernel.gets().chomp()
+prompt(MSG[@lang]['greeting'] + ' ' + name)
+
 def operation(first_operator, second_operator, operation)
   case operation
   when '+'
-    prompt('Addition')
     prompt(first_operator + second_operator)
   when '-'
-    prompt('Substraction')
     prompt(first_operator - second_operator)
   when '*'
-    prompt('Multiplication')
     prompt(first_operator * second_operator)
   when '/'
-    prompt('Division')
     prompt(first_operator / second_operator.to_f)
   end
 end
 
+def oper_message(operation)
+  case operation
+  when '+'
+    prompt(MSG[@lang]['add'])
+  when '-'
+    prompt(MSG[@lang]['sub'])
+  when '*'
+    prompt(MSG[@lang]['mult'])
+  when '/'
+    prompt(MSG[@lang]['div'])
+  end
+end
+
 def operation_selector
-  prompt("Add the operation you want to do:
-  type '+' to addition,
-  type '-' to substraction,
-  type '*' to multiplication,
-  type '/' to division ")
+  prompt(MSG[@lang]['add_operation'])
   Kernel.gets.chomp
 end
 
 def operation_validator(operation)
   loop do
     break if %w(+ - * /).include? operation
-    prompt("Please write a valid operation ")
+    prompt(MSG[@lang]['valid_op'])
     operation = operation_selector
   end
   operation
 end
 
 def float?(string)
-  true if Float(string) rescue false
+  true if Float(string)
+rescue StandardError
+  false
 end
 
 def integer?(string)
-  true if Integer(string) rescue false
+  true if Integer(string)
+rescue StandardError
+  false
 end
 
 def number?(string)
   if float?(string) || integer?(string)
-    if (integer?(string))
+    if integer?(string)
       string.to_i
     else
       string.to_f
@@ -79,33 +100,34 @@ end
 
 loop do # main_loop
   loop do
-    prompt('Please add the first operator')
+    prompt(MSG[@lang]['add_first_op'])
     first_operator = Kernel.gets.chomp
     if number?(first_operator)
       first_operator = number?(first_operator)
       break
     end
-    prompt('Type a correct number(integer or number different than 0)')
+    prompt(MSG[@lang]['correct_num'])
   end
 
   loop do
-    prompt('Add the second operator')
+    prompt(MSG[@lang]['add_second_op'])
     second_operator = Kernel.gets.chomp
     if number?(second_operator)
       second_operator = number?(second_operator)
       break
     end
-    prompt('Type a correct number(integer or number different than 0)')
+    prompt(MSG[@lang]['correct_num'])
   end
 
   operation = operation_validator(operation_selector)
 
+  oper_message(operation)
   operation(first_operator, second_operator, operation)
 
-  prompt("Do you want to do another operation? Type 'Y'")
+  prompt(MSG[@lang]['other_operation'])
   question = Kernel.gets().chomp()
 
   break unless question.downcase == 'y'
 end
 
-prompt('Thanks for using the calculator')
+prompt(MSG[@lang]['thanks'])
