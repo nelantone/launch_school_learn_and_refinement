@@ -31,7 +31,7 @@ end
 
 Kernel.puts("== Welcome to the mortgage calculator == \n\n".upcase)
 prompt("Please Add your currency name")
-currency= Kernel.gets().chomp()
+currency = Kernel.gets().chomp()
 prompt("Add the loan ammount")
 loan_amount = Kernel.gets().chomp().to_f
 prompt("Add the annual percentage rate")
