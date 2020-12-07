@@ -3,8 +3,8 @@
 ```ruby
 def speak(speech)
   speech.capitalize!
-  speech.concat(' World')
-  speech + "!"
+  puts speech.concat(' World')
+  puts speech + "!"
 end
 
 speech = "hello"
@@ -35,7 +35,7 @@ What does the following code return? What does it output? Why?
 
 11: we display speech variable.
 
-\>>Hello => nil
+\>>Hello World=> nil
 
 What concept does it demonstrate?
 
@@ -44,17 +44,26 @@ speech is pointing to 'hello'
 once we pass the argument string inside the method we invoke to destructive methods
 #concat & #capitalize! is a string and the methods are destructive
 but points to the same fisical place in memory these 2 consecutive times.
-the las method #+ is not destuctive so will point to the same object_id as the line before(speech.concat)
+the las method #+ is not destuctive and will not point to the same object_id as the line before(speech.concat)
+as example:
+
+speech.object_id
+\>>=> 1880
+
+(speech.concat('!')).object_id
+\>>=>1880
+
+(speech + '!').object_id
+\>>=> 1900
+
 
 The second concept is the mutation of a variable inside a method (variable passed by reference)
 #concat & #capitalize! it mutates the object itself but #+ not(the sope of this change will only inside the block)
 
 The third concept is side effects
-when we define a method we need to be sure that is only one side effect, or we full mutate the variable and we return the mutation
-or we display the non mutation and don't mutate the variable/argument.
-In this case we mutate the variable/argument and on the same time we return a different value as the one we save. This can be confusing.
-
-
+when we define a method we need to be sure that is only one side effect, or we full mutate the object that variable/parameter is pointing and we return the object mutation or we display the non mutation and don't mutate the object.
+In this specific case we mutate the objects that variables/parameters are pointing and on the same time we return a new object. This can be confusing.
+a new object not value, because variables point to objects and do not hold values while objects have values.
 
 
 # problem 2
@@ -73,7 +82,7 @@ What does the following code return? What does it output? Why?
 
 2: initialized inner scope variable pinting to a string
 
-3: closing method
+3: closing method. The method = assigned the string "Welcome to Launch School!" to the variable my_speech and at the same time returns it as well. Since it is the last line, the string object was also the return value of the method speech.
 
 \>> => :speech
 
@@ -101,10 +110,9 @@ p name
 
 What does the following code return? What does it output? Why?
 
-1: intitializing name constant pointing to 'Bob' string
+1: intitializing name pointing to 'Bob' string
 
-3: defining a loop with a iteration of 5 times and staring a block with
-`name` as block argument
+3: defining a loop with a iteration of 5 times and passing `name` as parameter defined by the block. The argument that is passed to the block is a numeric value in each iteration. That passes those argument method times.
 
 4: try to reasign name to another string, from the block argument first iteration?
 for the initialized variable outside? name variable will not be reassigned because
