@@ -15,12 +15,11 @@ width_in_metters = gets.chomp.to_f
 
 sqm = square_meters(length_in_metters, width_in_metters)
 
-puts "The area of the room is #{sqm} square metters" + 
-      " (#{square_feet_convert(sqm)} square feet)"
+puts "The area of the room is #{sqm} square metters" \
+     " (#{square_feet_convert(sqm)} square feet)"
 
 length_in_metters = 10
 width_in_metters = 7
 
 sqm = square_meters(length_in_metters, width_in_metters)
 p sqm == 70.0
-p square_feet_convert(sqm) == square_feet_convert(sqm)
