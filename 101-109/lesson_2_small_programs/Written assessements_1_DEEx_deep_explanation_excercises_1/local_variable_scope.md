@@ -270,7 +270,7 @@ Why?
 >> Errorname
 
 What concept does it demonstrate?
-Demostrates the concept of variable scope, initializing a variable inside a block 
+Demostrates the concept of variable scope, initializing a variable inside a block
 will not be reachable outscope. But outside scope variable is reachable inside and outside.
 
 ** other words
