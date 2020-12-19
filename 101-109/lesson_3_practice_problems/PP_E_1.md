@@ -6,7 +6,7 @@ it means `not equal` we will use it as opposite as equal comparing as `unless`
 we will be able to write `unless a == 1` or `if a != 1`
 
 put ! before something, like !user_name
-> not user_name it's the same as `unless user_name`
+> not user_name it's tπhe same as `unless user_name`
 
 put ! after something, like words.uniq!
 > in this case it means we will use #uniq destructive method variation `uniq!` will mutate the object with the result of uniq obkect elements inside an array vs `uniq`.
