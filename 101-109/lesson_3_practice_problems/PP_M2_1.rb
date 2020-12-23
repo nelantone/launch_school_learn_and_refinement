@@ -51,7 +51,6 @@ def fun_with_ids
     pointing to another place in memory."
     puts
 
-
     a_inner = a_outer
     b_inner = b_outer
     c_inner = c_outer
@@ -84,12 +83,28 @@ def fun_with_ids
   *Notice that Ruby re-uses the objects under the hood when it can, but uses different ones for different values."
   puts
 
-  puts "a_inner is #{a_inner} with an id of: #{a_inner_id} INSIDE and: #{a_inner.object_id} AFTER the block." rescue puts "ugh ohhhhh"
-  puts "b_inner is #{b_inner} with an id of: #{b_inner_id} INSIDE and: #{b_inner.object_id} AFTER the block." rescue puts "ugh ohhhhh"
-  puts "c_inner is #{c_inner} with an id of: #{c_inner_id} INSIDE and: #{c_inner.object_id} AFTER the block." rescue puts "ugh ohhhhh"
-  puts "d_inner is #{d_inner} with an id of: #{d_inner_id} INSIDE and: #{d_inner.object_id} AFTER the block." rescue puts "ugh ohhhhh"
+  begin
+    puts "a_inner is #{a_inner} with an id of: #{a_inner_id} INSIDE and: #{a_inner.object_id} AFTER the block."
+  rescue StandardError
+    puts "ugh ohhhhh"
+  end
+  begin
+    puts "b_inner is #{b_inner} with an id of: #{b_inner_id} INSIDE and: #{b_inner.object_id} AFTER the block."
+  rescue StandardError
+    puts "ugh ohhhhh"
+  end
+  begin
+    puts "c_inner is #{c_inner} with an id of: #{c_inner_id} INSIDE and: #{c_inner.object_id} AFTER the block."
+  rescue StandardError
+    puts "ugh ohhhhh"
+  end
+  begin
+    puts "d_inner is #{d_inner} with an id of: #{d_inner_id} INSIDE and: #{d_inner.object_id} AFTER the block."
+  rescue StandardError
+    puts "ugh ohhhhh"
+  end
   puts
-  puts">> _inner variables were initialized inside the block. This is why we can't access outside and there are all raising undefined value or method exceptions.
+  puts ">> _inner variables were initialized inside the block. This is why we can't access outside and there are all raising undefined value or method exceptions.
 
   *Notice that once we leave the block, those variables that were defined inside the block lose their meaning."
 end

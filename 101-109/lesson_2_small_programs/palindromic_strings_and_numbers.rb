@@ -6,7 +6,7 @@ palindrome, false otherwise. A palindrome reads the same forward and backward.
 For this exercise, case matters as does punctuation and spaces
   - problem domain:
     palindrome: palindrome reads the same forward and backward.
-    Alphanumeric char: 
+    Alphanumeric char:
   - define input/output
     input: string
     output: boolean
@@ -47,7 +47,7 @@ end
 def reversing_number_octal_remover(integer)
   integer_s = integer.to_s
   if integer.to_s.end_with?('0')
-    integer_s = integer_s.gsub(/0.$/,'')
+    integer_s = integer_s.gsub(/0.$/, '')
     integer_s == integer_s.reverse
   end
 end
@@ -56,7 +56,7 @@ def palindromic_number?(integer)
   integer == integer.to_s.reverse.to_i
 end
 
-#or
+# or
 def palindromic_number2?(number)
   palindrome?(number.to_s)
 end
@@ -66,4 +66,4 @@ p palindromic_number?(34543) == true
 p palindromic_number?(123210) == false
 p palindromic_number?(22) == true
 p palindromic_number?(5) == true
-p palindromic_number?(02120) == false
+p palindromic_number?(0o2120) == false
