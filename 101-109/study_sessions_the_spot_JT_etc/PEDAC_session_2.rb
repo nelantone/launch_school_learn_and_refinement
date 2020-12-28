@@ -77,21 +77,15 @@ we repate this process for each item
 
 def exclude_invalid_chars(input_string)
   ary_downcased = input_string.downcase.chars
-  ary_downcased.select! { |char| char.match?(/[a-z]|[0-9]/) }
-  ary_downcased
+  ary_downcased.keep_if { |char| char.match?(/[a-z]|[0-9]/) }
 end
 
 def append_or_set_in_count(key, value, hash_counter)
-  if hash_counter.key?(key)
-    hash_counter[key] << value
-  else
-    hash_counter[key] = [value]
-  end
+  hash_counter.key?(key) ? hash_counter[key] << value : hash_counter[key] = [value]
 end
 
 def sort_values(hash_counter)
-  hash_counter.map { |_, value| value.sort! }
-  hash_counter
+  hash_counter.each { |_, value| value.sort! }
 end
 
 def get_char_count(input_s)
