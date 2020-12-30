@@ -61,22 +61,22 @@ original Array.
 def running_total(array)
   array.map.with_index { |_, index| array[0..index].sum }
 end
-#or
+
+# or
 def running_total(ary)
   sum = 0
   ary.map { |num| sum += num }
 end
 
-#or
+# or
 def running_total(ary)
-  ary.each_with_object([]) { |value, array| (value + array.last.to_i)}
+  ary.each_with_object([]) { |value, array| (value + array.last.to_i) }
 end
 
-#or this nice one
+# or this nice one
 def running_total(arr)
   arr.inject([]) { |arr, n| arr << (arr.last.to_i + n) }
 end
-
 
 running_total([2, 5, 13]) == [2, 7, 20]
 running_total([14, 11, 7, 15, 20]) == [14, 25, 32, 47, 67]
