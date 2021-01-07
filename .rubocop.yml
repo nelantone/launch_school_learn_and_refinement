@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 Metrics/LineLength:
   Enabled: false
 
@@ -5,10 +7,11 @@ AllCops:
   Exclude:
     - 'open_katas/ls_br_p4-2_fizzbuzz.rb'
     - 'open_katas/ex1.rb'
-    - '101-109/lesson_2_small_programs/pseudocode.rb'
-    - '101-109/lesson_3_practice_problems/pp_m2_2.rb'
+    - '101-109/lesson_2-small_programs/pseudocode.rb'
+    - '101-109/lesson_3-practice_problems/pp_m2_2.rb'
     - '101-109/lesson_3_practice_problems/pp_m2_1.rb'
     - '101-109/lesson_2_small_programs/square.rb'
+    - '101-109/lesson_3-practice_problems/pp_m2_1.rb'
 # .rubocop.yml for RB101 Lessons 2-5 (05 Oct 2020)
 
   # Display cop names

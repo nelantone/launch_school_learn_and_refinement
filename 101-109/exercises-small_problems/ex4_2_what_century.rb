@@ -1,16 +1,16 @@
 def ordinalize(century)
-  return "#{century}th" if (century.to_s.end_with?('11','12','13'))
+  return "#{century}th" if century.to_s.end_with?('11', '12', '13')
 
-  case century%10
+  case century % 10
   when 1 then "#{century}st"
   when 2 then "#{century}nd"
   when 3 then "#{century}rd"
-  else then "#{century}th"
+  else "#{century}th"
   end
 end
 
 def century(number)
-  century = (number.to_f/100).to_s
+  century = (number.to_f / 100).to_s
 
   century.end_with?('0') ? century = century.to_i : century = century.to_i + 1
 
