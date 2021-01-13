@@ -6,7 +6,7 @@
 # string will always contain at least one word. You may also assume that each
 # string contains nothing but words and spaces
 
-#Examples:
+# Examples:
 
 def swap(words_string)
   words_array = words_string.split.map do |word|
@@ -39,16 +39,13 @@ def swap(words)
   result.join(' ')
 end
 
-
 # Further Exploration
 # How come our solution passes word into the swap_first_last_characters method invocation instead of just passing the characters that needed to be swapped? Suppose we had this implementation:
-
 
 # def swap_first_last_characters(a, b)
 #   a, b = b, a
 # end
 # and called the method like this:
-
 
 # swap_first_last_characters(word[0], word[-1])
 # Would this method work? Why or why not?
