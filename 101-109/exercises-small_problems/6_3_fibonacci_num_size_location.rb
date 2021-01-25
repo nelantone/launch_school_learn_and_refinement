@@ -88,14 +88,14 @@ Code:
 # The next one it is better and without recursion
 
 def find_fibonacci_index_by_length(number_of_digits)
-  fibonacci_sequence = [1, 1]
+  fibo_order = [1, 1]
 
   loop do
-    fibonacci_sequence << (fibonacci_sequence[-1] + fibonacci_sequence[-2])
-    break if (fibonacci_sequence.last.to_s.size <=> number_of_digits) == 0
+    fibo_order << (fibo_order[-1] + fibo_order[-2])
+    break if (fibo_order.last.to_s.size <=> number_of_digits) == 0
   end
 
-  fibonacci_sequence.length
+  fibo_order.length
 end
 
 find_fibonacci_index_by_length(2) == 7          # 1 1 2 3 5 8 13
@@ -104,3 +104,7 @@ find_fibonacci_index_by_length(10) == 45
 find_fibonacci_index_by_length(100) == 476
 find_fibonacci_index_by_length(1000) == 4782
 find_fibonacci_index_by_length(10000) == 47847
+
+start = Time.now
+find_fibonacci_index_by_length(10000) == 47847
+finish = Time.now
