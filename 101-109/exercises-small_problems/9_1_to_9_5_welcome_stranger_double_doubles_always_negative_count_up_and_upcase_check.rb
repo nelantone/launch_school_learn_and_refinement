@@ -93,7 +93,6 @@ sequence(5) == [1, 2, 3, 4, 5]
 sequence(3) == [1, 2, 3]
 sequence(1) == [1]
 
-
 # Uppercase Check
 # Write a method that takes a string argument, and returns true if all of
 # the alphabetic characters inside the string are uppercase, false otherwise.
