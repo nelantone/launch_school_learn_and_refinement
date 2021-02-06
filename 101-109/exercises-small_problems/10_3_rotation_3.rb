@@ -39,7 +39,6 @@ time. fixed-num pending reversed
 4. 3215 97
 5. 32157 9
 
-
 Data structure:
 
 Algorithm:
@@ -56,12 +55,11 @@ def rotate_array(ary)
   new_ary << new_ary.shift
 end
 
-
 def max_rotation(number)
   ary_digits = number.to_s.chars
   result = []
 
-  until ary_digits.empty? do
+  until ary_digits.empty?
     ary_digits = rotate_array(ary_digits)
 
     result << ary_digits.shift

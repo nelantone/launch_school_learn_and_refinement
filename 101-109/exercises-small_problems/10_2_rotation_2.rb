@@ -65,7 +65,6 @@ def rotate_rightmost_digits(number, last_n_digit)
   rotate_array_at(ary, last_n_digit).join.to_i
 end
 
-
 rotate_rightmost_digits(735291, 6) == 352917
 rotate_rightmost_digits(735291, 1) == 735291
 rotate_rightmost_digits(735291, 2) == 735219
