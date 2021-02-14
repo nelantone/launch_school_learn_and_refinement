@@ -1,4 +1,3 @@
-
 =begin
 Fibonacci Numbers (Recursion)
 The Fibonacci series is a sequence of numbers starting with 1 and 1 where
@@ -69,10 +68,10 @@ developers can have trouble dealing with it.
 - Code:
 =end
 
-def fibonacci(numth)
+def fibonacwci(numth)
   return 1 if numth == 1 || numth == 2
 
-  fibonacci(numth - 2) + fibonacci(numth - 1)
+  fibonacci(numth - 1) + fibonacci(numth - 2)
 end
 
 # Examples:
@@ -86,3 +85,61 @@ fibonacci(6) == 8 #  (3) + (5) = (8)
 fibonacci(7) == 8 #  (5) + (8) = 13
 fibonacci(12) == 144
 fibonacci(20) == 6765
+
+# Fibonacci Numbers (Procedural)
+# In the previous exercise, we developed a recursive solution to calculating
+# the nth Fibonacci number. In a language that is not optimized for recursion,
+# some (not all) recursive methods can be extremely slow and require massive
+# quantities of memory and/or stack space.
+
+# Ruby does a reasonably good job of handling recursion, but it isn't designed
+# for heavy recursion; as a result, the Fibonacci solution is only useful up to
+# about fibonacci(40). With higher values of nth, the recursive solution is
+# impractical. (Our tail recursive solution did much better, but even that
+# failed at around fibonacci(8200).)
+
+# Fortunately, every recursive method can be rewritten as a non-recursive
+# (procedural) method.
+
+# Rewrite your recursive fibonacci method so that it computes its results
+# without recursion.
+
+=begin
+Problem understanding
+  ... same as before
+  - rules:
+    - explicit:
+      - don't use recursive method
+      - sequence of numbers starting with 1
+  ... same as before
+=end
+
+# Examples:
+
+def fibonacci(numth)
+  fibonacci = [1, 1]
+
+  3.upto(numth).each { fibonacci << fibonacci[-1] + fibonacci[-2] }
+
+  fibonacci.last
+end
+
+# or
+# def fibonacci(numth)
+#   fibonacci = [0,1]
+
+#   0.upto(numth - 2).each { fibonacci << fibonacci[-1] + fibonacci[-2] }
+
+#   fibonacci.last
+# end
+
+fibonacci(20) == 6765
+fibonacci(100) == 354224848179261915075
+fibonacci(100_001) # => 4202692702.....8285979669707537501
+
+
+starting = Time.now
+fibonacci(100)
+ending = Time.now
+elapsed = ending - starting
+elapsed
