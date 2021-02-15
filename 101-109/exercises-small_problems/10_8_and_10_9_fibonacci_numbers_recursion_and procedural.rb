@@ -68,10 +68,10 @@ developers can have trouble dealing with it.
 - Code:
 =end
 
-def fibonacwci(numth)
-  return 1 if numth == 1 || numth == 2
+def fibonacwci(nth)
+  return 1 if nth == 1 || nth == 2
 
-  fibonacci(numth - 1) + fibonacci(numth - 2)
+  fibonacci(nth - 1) + fibonacci(nth - 2)
 end
 
 # Examples:
@@ -116,19 +116,19 @@ Problem understanding
 
 # Examples:
 
-def fibonacci(numth)
+def fibonacci(nth)
   fibonacci = [1, 1]
 
-  3.upto(numth).each { fibonacci << fibonacci[-1] + fibonacci[-2] }
+  3.upto(nth) { fibonacci[1] = fibonacci[-1] + fibonacci.shift }
 
   fibonacci.last
 end
 
 # or
-# def fibonacci(numth)
+# def fibonacci(nth)
 #   fibonacci = [0,1]
 
-#   0.upto(numth - 2).each { fibonacci << fibonacci[-1] + fibonacci[-2] }
+#   0.upto(nth - 2) { fibonacci << fibonacci[-1] + fibonacci[-2] }
 
 #   fibonacci.last
 # end
@@ -136,7 +136,6 @@ end
 fibonacci(20) == 6765
 fibonacci(100) == 354224848179261915075
 fibonacci(100_001) # => 4202692702.....8285979669707537501
-
 
 starting = Time.now
 fibonacci(100)
