@@ -69,7 +69,7 @@ list = [1, 2, 3, 4]
 result = reverse!(list)
 result == [4, 3, 2, 1] # true
 list == [4, 3, 2, 1] # true
-list.object_id == result.object_id # true
+list.equal?(result) # true
 
 list = %w(a b e d c)
 reverse!(list) == ["c", "d", "e", "b", "a"] # true

@@ -50,8 +50,8 @@ and it is also divisible by 400 it is also a leap year
 
 def leap_year?(year)
   return false if year % 4 != 0
-  if year % 100 == 0
-    return false unless year % 400 == 0
+  if year % 100 == (0) && !(year % 400 == 0)
+    return false
   end
   true
 end
@@ -83,8 +83,8 @@ determine leap years both before and after 1752.
 
 def leap_year?(year)
   return false if year % 4 != 0
-  if year >= 1752 && year % 100 == 0
-    return false unless year % 400 == 0
+  if year >= 1752 && year % 100 == 0 && !(year % 400 == 0)
+    return false
   end
   true
 end
