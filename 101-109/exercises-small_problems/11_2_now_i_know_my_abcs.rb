@@ -40,12 +40,12 @@
 - Code:
 =end
 
-BLOCKS  = %w(BO XK DQ CP NA GT RE FS JW HU VI LY ZM)
+BLOCKS = %w(BO XK DQ CP NA GT RE FS JW HU VI LY ZM)
 
 def add_pair_of(char)
   index_at = 0
 
-  BLOCKS.each_with_index {|pair, idx| index_at = idx if pair.include?(char) }
+  BLOCKS.each_with_index { |pair, idx| index_at = idx if pair.include?(char) }
 
   BLOCKS[index_at]
 end
