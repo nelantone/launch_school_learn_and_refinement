@@ -30,14 +30,16 @@
 =end
 
 def balanced?(string)
-  candiates = string.scan(/\(.*\)|\[.*\]|\".*\"|\'.*\'|\{.*\}/)
+  matchars = string.scan(/\(.*\)|\[.*\]|\".*\"|\'.*\'|\{.*\}/)
 
-  if candiates.empty? && (/\)|\(|\[|\]|\"|\'|\{|\}/).match?(string)
-    false
-  elsif candiates.empty?
-    string.delete(' ').size.even?
+  if matchars.empty? && (/\)|\(|\[|\]|\"|\'|\{|\}/).match?(string)
+    return false
+  elsif matchars.empty?
+    return true
   else
-    candiates.map { |chars| chars.delete(' ').size.even? }.all? true
+    pairchars = matchars.map {|c| c.scan(/\)|\(|\[|\]|\"|\'|\{|\}/)}.flatten
+
+    pairchars.size.even? ? true : false
   end
 end
 
@@ -57,21 +59,21 @@ balanced?('What ((is))) up(') == false
 # Square brackets and curly brackets normally come in pairs. Quotation
 # marks(single and double) also typically come in pairs and should be
 # balanced. Can you expand this method to take into account those characters?
-balanced?("¿[{'{is}'}]?") == true
+balanced?("¿[{'{{is}}'}]?") == true
 balanced?(" is") == true
 balanced?('¿[is]?') == true
 balanced?('¿"is"?') == true
 balanced?("¿'is'?") == true
 balanced?("¿{is}?") == true
-balanced?("¿{i}?") == false
+balanced?("¿{i}?") == true
 balanced?("¿is}?") == false
 balanced?("¿{is?") == false
 balanced?("¿'is?") == false
 balanced?("¿is'?") == false
-balanced?("¿'s'?") == false
+balanced?("¿'s'?") == true
 balanced?('¿"is?') == false
 balanced?('¿is"?') == false
-balanced?('¿"s"?') == false
-balanced?("¿[i]?") == false
+balanced?('¿"s"?') == true
+balanced?("¿[i]?") == true
 balanced?("¿is]?") == false
 balanced?("¿[is?") == false
