@@ -16,7 +16,7 @@ def solution(string, match)
   string.scan(match).count
 end
 
-p solution('abcdeb','b') == 2
+p solution('abcdeb', 'b') == 2
 p solution('abcdeb', 'a') == 1
 p solution('abbc', 'bb') == 1
 p solution('aaabbbcccc', 'bbb') == 1

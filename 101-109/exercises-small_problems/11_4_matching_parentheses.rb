@@ -33,11 +33,11 @@ def balanced?(string)
   matchars = string.scan(/\(.*\)|\[.*\]|\".*\"|\'.*\'|\{.*\}/)
 
   if matchars.empty? && (/\)|\(|\[|\]|\"|\'|\{|\}/).match?(string)
-    return false
+    false
   elsif matchars.empty?
-    return true
+    true
   else
-    pairchars = matchars.map {|c| c.scan(/\)|\(|\[|\]|\"|\'|\{|\}/)}.flatten
+    pairchars = matchars.map { |c| c.scan(/\)|\(|\[|\]|\"|\'|\{|\}/) }.flatten
 
     pairchars.size.even? ? true : false
   end
