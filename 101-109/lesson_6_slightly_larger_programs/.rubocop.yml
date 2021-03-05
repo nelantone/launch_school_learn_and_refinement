@@ -1,6 +1,10 @@
+inherit_from: .rubocop_todo.yml
+
 # .rubocop.yml for RB101 Lessons 6 (05 Oct 2020)
 
 AllCops:
+  Exclude:
+    - 'tic_tac_toe.rb'
   # Display cop names
   DisplayCopNames: true
   # Display Extra details

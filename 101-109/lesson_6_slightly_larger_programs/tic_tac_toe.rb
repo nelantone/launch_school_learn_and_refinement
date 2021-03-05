@@ -36,8 +36,8 @@ tictactoe for one player
 - Code
 =end
 
-WIN_RESULTS = [ %w(00 01 02), %w(10 11 12), %w(20 21 22), %w(00 11 22),
-                  %w(02 11 20), %w(00 10 20), %w(01 11 21), %w(02 12 22) ]
+WIN_RESULTS = [%w(00 01 02), %w(10 11 12), %w(20 21 22), %w(00 11 22),
+               %w(02 11 20), %w(00 10 20), %w(01 11 21), %w(02 12 22)]
 
 def display_matrix(m)
   puts ''
@@ -50,11 +50,12 @@ def display_matrix(m)
 end
 
 def free_spots(matrix)
-  matrix.map.with_index do |row_spot, idx_r|
+  free_not_filtered_spots = matrix.map.with_index do |row_spot, idx_r|
     row_spot.map.with_index do |_, idx_c|
       [idx_r, idx_c] if matrix[idx_r][idx_c] == ' '
     end
-  end.map { |row| row.delete_if(&:nil?) }
+  end
+  free_not_filtered_spots.map { |row| row.delete_if(&:nil?) }
 end
 
 def display_spots(matrix)
@@ -64,12 +65,15 @@ end
 def play(player_row_col, symbol, m)
   row_player = player_row_col[0].to_i
   col_player = player_row_col[1].to_i
-
   m[row_player][col_player] = symbol
 end
 
-def player_won?(matrix)
-  WIN_RESULTS.map {|win_res| win_res.all? { |el| matrix.include? el } }.any?
+def player_won?(matrix, symbol, m)
+  if WIN_RESULTS.map { |win_res| win_res.all? { |el| matrix.include? el } }.any?
+    display_matrix(m)
+    symbol == 'O' ? (puts 'Computer won!') : (puts 'Player won!')
+    true
+  end
 end
 
 def show_player_results(matrix, symbol)
@@ -80,6 +84,26 @@ def show_player_results(matrix, symbol)
     end
   end
   total
+end
+
+def a_tie?(free_spots, m)
+  if free_spots.all?(&:empty?)
+    display_matrix(m)
+    puts "there is no winner, it's a tie!"
+    true
+  end
+end
+
+def spot_validator(free_spots, row_col_usr, m)
+  until free_spots.include?(row_col_usr)
+    puts ''
+    puts 'Error:'
+    puts "#{row_col_usr} not valid, please check again the valid options:"
+    puts ''
+    display_spots(m)
+    puts 'choose a row and column/item'
+    row_col_usr = gets.chomp
+  end
 end
 
 puts 'Welcome to Tic Tac Toe!'.center(28)
@@ -93,14 +117,11 @@ loop do
   loop do
     single_ary_free_spots = free_spots(m).flatten(1).map(&:join)
 
-    if single_ary_free_spots.all?(&:empty?)
-      puts "there is no winner, it's a tie!"
-      break
-    end
+    break if a_tie?(single_ary_free_spots, m)
 
     display_matrix(m)
 
-    puts "Please choos one free spot, it will be market with an 'X'"
+    puts "Please choose one free spot, it will be market with an 'X'"
     puts "your free spots are:"
     puts ''
     display_spots(m)
@@ -110,40 +131,28 @@ loop do
     puts 'choose a row and column/item'
     puts 'For example top left is 00, bottom right 22, center 11'
 
-
     row_col_usr = gets.chomp
 
-    until single_ary_free_spots.include?(row_col_usr)
-      puts ''
-      puts 'Error:'
-      puts "#{row_col_usr} not valid, please check again the valid options:"
-      puts ''
-      display_spots(m)
-      puts 'choose a row and column/item'
-      row_col_usr = gets.chomp
-    end
+    spot_validator(single_ary_free_spots, row_col_usr, m)
 
     play(row_col_usr, 'X', m)
 
     player_results = show_player_results(m, 'X')
 
-    if player_won?(player_results)
-      display_matrix(m)
-      puts 'Player won!'
-      break
-    end
+    break if player_won?(player_results, 'X', m)
 
-    row_col_computer = single_ary_free_spots.sample
+    updated_free_spots = free_spots(m).flatten(1).map(&:join)
+    row_col_computer = updated_free_spots.sample
+
+    break if a_tie?(updated_free_spots, m)
+
     play(row_col_computer, 'O', m)
 
     computer_results = show_player_results(m, 'O')
 
-    if player_won?(computer_results)
-      display_matrix(m)
-      puts 'Computer won!'
-      break
-    end
+    break if player_won?(computer_results, 'O', m)
   end
+
   puts "to you want to play again? 'Yes/y' 'no' or other key to finish game"
   play_again = gets.chomp
   unless play_again.downcase == 'y' || play_again.downcase == 'yes'
@@ -151,7 +160,6 @@ loop do
     break
   end
 end
-
 
 =begin
   Problem understanding:
@@ -169,6 +177,9 @@ end
     * maybe with `any?` for true
   C
 =end
+
+# WIN_RESULTS = [%w(00 01 02), %w(10 11 12), %w(20 21 22), %w(00 11 22),
+#                %w(02 11 20), %w(00 10 20), %w(01 11 21), %w(02 12 22)]
 
 # def player_won?(matrix)
 #   WIN_RESULTS.map {|win_res| win_res.all? { |el| matrix.include? el } }.any?
@@ -194,14 +205,3 @@ end
 # is_a_winner = ["01", "02", "10", "12", "22"]
 
 # player_won?(is_a_winner)  ==  true
-
-
-# def player_won?(matrix)
-#   WIN_RESULTS.map do |win_res|
-#     p win_res
-#     win_res.all? do |el|
-#       p el
-#       p matrix.include? el
-#     end
-#   end.any?
-# end
