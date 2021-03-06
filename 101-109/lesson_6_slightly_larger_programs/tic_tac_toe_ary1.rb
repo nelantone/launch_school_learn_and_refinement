@@ -1,5 +1,3 @@
-require 'pry-byebug'
-
 INIT_M = ' '
 PLYR_MK = 'X'
 COMP_MK = 'O'
