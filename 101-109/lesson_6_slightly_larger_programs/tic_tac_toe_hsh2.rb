@@ -47,7 +47,7 @@ def joinor(ary_nums, delimiter=',', nexus='or')
   when 2 then ary_nums.join(" #{nexus} ")
   else
     delimit = "#{delimiter} "
-    "#{ary_nums[0, ary_nums.size-1].join(delimit)} #{nexus} #{ary_nums[-1]}"
+    "#{ary_nums[0, ary_nums.size - 1].join(delimit)} #{nexus} #{ary_nums[-1]}"
   end
 end
 
@@ -62,8 +62,28 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
+def computer_defense(brd)
+  square_defense = nil
+  WINNING_LINES.any? do |line|
+    player_makrs = brd.values_at(*line).count(PLAYER_MARKER)
+    if !brd.values_at(*line).index(' ').nil? && (player_makrs == 2)
+      empty_sq_index = brd.values_at(*line).index(' ')
+      square_defense = line[empty_sq_index]
+    end
+  end
+  square_defense
+end
+
+def player_close_win?(brd)
+  !!computer_defense(brd)
+end
+
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
+  square = if player_close_win?(brd)
+             computer_defense(brd)
+           else
+             empty_squares(brd).sample
+           end
   brd[square] = COMPUTER_MARKER
 end
 
@@ -71,7 +91,7 @@ def board_full?(brd)
   empty_squares(brd).empty?
 end
 
-def someone_won?(brd, total)
+def someone_won?(brd, _total)
   !!detect_winner(brd)
 end
 
@@ -89,25 +109,24 @@ end
 def output_totals(total)
   system 'clear'
   puts 'RESULTS'.center(15)
-  puts '='*15
+  puts '=' * 15
   prompt "Number of games: #{total[:games]} "
   prompt "computer wins: #{total[:score_com]}"
   prompt "user wins: #{total[:score_usr]}"
   prompt "ties: #{total[:ties]}"
-  puts '='*15
+  puts '=' * 15
 end
 
 def display_final_winner(total)
   final_winner = PLAYER_1 if total[:score_usr] == 2
   final_winner = PLAYER_2 if total[:score_com] == 2
 
-  puts '='*15
+  puts '=' * 15
   puts "The final winner is the #{final_winner}!"
-  puts '='*15
+  puts '=' * 15
 end
 
 loop do
-
   board = initialize_board
 
   display_board(board)
