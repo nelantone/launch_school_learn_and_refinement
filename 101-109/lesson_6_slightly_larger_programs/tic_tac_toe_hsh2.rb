@@ -79,9 +79,9 @@ def computer_defense(brd)
   square_defense = nil
 
   WINNING_LINES.any? do |line|
-    player_makrs = brd.values_at(*line).count(X_MARKER)
+    player_marks = brd.values_at(*line).count(X_MARKER)
 
-    if !brd.values_at(*line).index(' ').nil? && (player_makrs == 2)
+    if !brd.values_at(*line).index(' ').nil? && (player_marks == 2)
       empty_sq_index = brd.values_at(*line).index(' ')
       square_defense = line[empty_sq_index]
     end
@@ -93,14 +93,38 @@ def player_close_win?(brd)
   !!computer_defense(brd)
 end
 
+def free_oposite_corner(player_position, brd, elem)
+  if player_position == 1 && brd[9] == ' '
+    square_attack = 9
+  elsif player_position == 3 && brd[7] == ' '
+    square_attack = 7
+  elsif player_position == 7 && brd[3] == ' '
+    square_attack = 3
+  elsif player_position == 9 && brd[1] == ' '
+    square_attack = 1
+  end
+end
+
+def minimax(brd, line)
+  square_attack = nil
+  brd.values_at(*line).each_with_index do |elem|
+    if !!(elem.index(X_MARKER))
+      player_position = line[elem.index(X_MARKER)]
+      square_attack   = free_oposite_corner(player_position, brd, elem)
+    end
+  end
+  square_attack
+end
+
 def computer_attack(brd)
   square_attack = nil
 
   WINNING_LINES.any? do |line|
-    player_makrs = brd.values_at(*line).count(O_MARKER)
+    computer_marks = brd.values_at(*line).count(O_MARKER)
+    player_marks   = brd.values_at(*line).count(X_MARKER)
     if brd[5] == ' '
       square_attack = 5
-    elsif !brd.values_at(*line).index(' ').nil? && (player_makrs == 2)
+    elsif !brd.values_at(*line).index(' ').nil? && (computer_marks == 2)
       empty_sq_index = brd.values_at(*line).index(' ')
       square_attack = line[empty_sq_index]
     end
@@ -112,14 +136,21 @@ def computer_close_win?(brd)
   !!computer_attack(brd)
 end
 
+def minimax_corners?(brd, line)
+  !!minimax(brd, line)
+end
+
 def computer_places_piece!(brd)
-  square = if computer_close_win?(brd)
-             computer_attack(brd)
-           elsif player_close_win?(brd)
-             computer_defense(brd)
-           else
-             empty_squares(brd).sample
-           end
+    square = if computer_close_win?(brd)
+              computer_attack(brd)
+            elsif player_close_win?(brd)
+              computer_defense(brd)
+            elsif WINNING_LINES.any? { |line|  minimax_corners?(brd, line) }
+              minimax = WINNING_LINES.map { |line| minimax(brd, line) }# WIP
+              minimax.select{|a| a.class == Integer }.first
+            else
+              empty_squares(brd).sample
+            end
   brd[square] = O_MARKER
 end
 
