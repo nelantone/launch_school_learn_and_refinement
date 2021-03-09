@@ -4,11 +4,11 @@ INIT_MARKER    = ' '
 O_MARKER       = 'O'
 X_MARKER       = 'X'
 WINNING_LINES  = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
-                  [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
-                  [[1, 5, 9], [3, 5, 7]]              # diagonals
+                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
+                 [[1, 5, 9], [3, 5, 7]]              # diagonals
 PLAYER1        = 'Player'
 PLAYER2        = 'Computer'
-MOVE_FIRST     = { PLAYER1 => 1, PLAYER2 => 2}
+MOVE_FIRST     = { PLAYER1 => 1, PLAYER2 => 2 }
 FINAL_WIN_NUM  = 5
 total          = { score_com: 0, score_usr: 0, ties: 0, games: 0 }
 
@@ -165,28 +165,28 @@ def output_totals(total)
 end
 
 def display_final_winner(total)
-  if total[:score_usr] == FINAL_WIN_NUM
-    final_winner = PLAYER1
-  else
-    final_winner = PLAYER2
-  end
+  final_winner = if total[:score_usr] == FINAL_WIN_NUM
+                   PLAYER1
+                 else
+                   PLAYER2
+                 end
 
   puts '=' * 15
   puts "The final winner is the #{final_winner}!"
   puts '=' * 15
 end
 
-def reset_total_result(total)
+def reset_total_result
   { score_com: 0, score_usr: 0, ties: 0, games: 0 }
 end
 
 loop do
   board = initialize_board
-  if start_player_selection == 1
-    current_player = PLAYER1
-  else
-    current_player = PLAYER2
-  end
+  current_player = if start_player_selection == 1
+                     PLAYER1
+                   else
+                     PLAYER2
+                   end
   loop do
     display_board(board)
 
@@ -212,7 +212,7 @@ loop do
 
   if total[:score_usr] == FINAL_WIN_NUM || total[:score_com] == FINAL_WIN_NUM
     display_final_winner(total)
-    total = reset_total_result(total)
+    total = reset_total_result
   end
 
   prompt('Play again? (y or n)')
