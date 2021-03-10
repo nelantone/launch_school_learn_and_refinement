@@ -93,24 +93,23 @@ def player_close_win?(brd)
   !!computer_defense(brd)
 end
 
-def free_oposite_corner(player_position, brd, elem)
-  if player_position == 1 && brd[9] == ' '
-    square_attack = 9
-  elsif player_position == 3 && brd[7] == ' '
-    square_attack = 7
-  elsif player_position == 7 && brd[3] == ' '
-    square_attack = 3
-  elsif player_position == 9 && brd[1] == ' '
-    square_attack = 1
+# rubocop:disable Metrics/CyclomaticComplexity
+def free_oposite_corner(player_position, brd)
+  case player_position
+  when 1 && brd[9] == ' ' then 9 # I'm not sure is working as expected
+  when 3 && brd[7] == ' ' then 7
+  when 7 && brd[3] == ' ' then 3
+  when 9 && brd[1] == ' ' then 1
   end
 end
+# rubocop:enable Metrics/CyclomaticComplexity
 
 def minimax(brd, line)
   square_attack = nil
-  brd.values_at(*line).each_with_index do |elem|
+  brd.values_at(*line).each do |elem|
     if !!(elem.index(X_MARKER))
       player_position = line[elem.index(X_MARKER)]
-      square_attack   = free_oposite_corner(player_position, brd, elem)
+      square_attack   = free_oposite_corner(player_position, brd)
     end
   end
   square_attack
@@ -121,7 +120,6 @@ def computer_attack(brd)
 
   WINNING_LINES.any? do |line|
     computer_marks = brd.values_at(*line).count(O_MARKER)
-    player_marks   = brd.values_at(*line).count(X_MARKER)
     if brd[5] == ' '
       square_attack = 5
     elsif !brd.values_at(*line).index(' ').nil? && (computer_marks == 2)
@@ -141,16 +139,16 @@ def minimax_corners?(brd, line)
 end
 
 def computer_places_piece!(brd)
-    square = if computer_close_win?(brd)
-              computer_attack(brd)
-            elsif player_close_win?(brd)
-              computer_defense(brd)
-            elsif WINNING_LINES.any? { |line|  minimax_corners?(brd, line) }
-              minimax = WINNING_LINES.map { |line| minimax(brd, line) }# WIP
-              minimax.select{|a| a.class == Integer }.first
-            else
-              empty_squares(brd).sample
-            end
+  square = if computer_close_win?(brd)
+             computer_attack(brd)
+           elsif player_close_win?(brd)
+             computer_defense(brd)
+           elsif WINNING_LINES.any? { |line| minimax_corners?(brd, line) }
+             minimax = WINNING_LINES.map { |line| minimax(brd, line) } # WIP
+             minimax.select { |a| a.instance_of?(Integer) }.first
+           else
+             empty_squares(brd).sample
+           end
   brd[square] = O_MARKER
 end
 
@@ -252,3 +250,13 @@ loop do
 end
 
 prompt "Thanks for playing Tic Tac Toe! Good Bye!"
+
+=begin
+Also WIP:
+- Bigger board:
+  What happens if the board is 5x5 instead of 3x3? What about a 9x9 board?
+- More players
+  When you have a bigger board, you can perhaps add more than 2 players.
+  Would it be interesting to play against 2 computers? What about 2 human
+  players against a computer?
+=end
