@@ -51,7 +51,6 @@ PEDAC
 
 # (hearts, diamonds, clubs, and spades): :h, :d, c:, s:
 # heart cards
-
 suits = [:h, :d, :c, :s]
 special_c = [:j, :k, :q, :a]
 cards = {}
@@ -67,15 +66,37 @@ suits.each do |suit|
 end
 
 DECK = cards
+PLAY = { player: 'Player', dealer: 'Dealer' }
+OPTIONS = { '1' => 'Hit', '2' => 'Stay' }
+player_cards = []
+dealer_cards = []
+current_gambler = 'Dealer'
+turn = 0
 
 def prompt(msg)
   puts "=> #{msg}"
 end
 
-def intro
-  puts "Welcome to 21"
-  puts "prese enter to start"
+def stop_and_continue
+  puts "press enter to continue"
   gets.chomp
+end
+
+def intro
+  puts
+  puts "=*" * 8
+  puts "Welcome to 21".upcase.center(15)
+  puts "=*" * 8
+  puts
+  stop_and_continue
+end
+
+def turn(gambler)
+  if gambler == 'Player'
+    PLAY[:dealer]
+  else
+    PLAY[:player]
+  end
 end
 
 def as_card_present?(cards)
@@ -97,7 +118,7 @@ def as_cards_values(cards)
     as_cards_front(cards).each do |as_card|
       no_as_card_values = cards_without_as_values(cards)
 
-      as_card_values << if (as_card_values + no_as_card_values).sum < 10
+      as_card_values << if (as_card_values + no_as_card_values).sum <= 10
                           DECK[as_card][1]
                         else
                           DECK[as_card][0]
@@ -118,37 +139,128 @@ end
 
 def cards_without_as_values(cards)
   no_ases_cards = cards_without_as(cards)
-  card_vals(no_ases_cards) # refactor
+  card_vals(no_ases_cards)
 end
 
-def your_cards
-  [:d_a, :h_a] # << DECK.keys.sample ##debug]
+def get_first_two_each(player_cards, dealer_cards)
+  player_cards.concat([DECK.keys.sample, DECK.keys.sample])
+  dealer_cards.concat([DECK.keys.sample, DECK.keys.sample])
 end
 
-def show_your_cards(cards)
-  all_cards = card_vals(cards)
-  las_card_val = all_cards.last # refactor
-  cards_vals_whitout_last = all_cards[0, all_cards.size - 1] # refactor
+# rubocop:disable Metrics/AbcSize
+def full_game_display(player_cards, dealer_cards, gambler)
+  player_card_vals = card_vals(player_cards)
+  player_show_card = player_card_vals.first
+  dealer_show_card = card_vals(dealer_cards).first
+  cards_player_val_no_last = player_card_vals[1, player_card_vals.size]
 
-  prompt "your shown card: #{cards.last} [#{las_card_val}]"
+  prompt "Right now turn is: #{gambler.upcase}"
+  puts
+  puts '-- CARDS --'
+  prompt "Dealer show: #{dealer_cards.last} [#{dealer_show_card}]"
+  prompt "Player show: #{player_cards.last} [#{player_show_card}]"
+  puts
   puts '=' * 10
-  prompt "your hidden card/s: #{cards[0]} #{cards_vals_whitout_last}"
+  prompt "your hidden cards: #{player_cards[0]} #{cards_player_val_no_last}"
+  puts '=' * 10
 end
+# rubocop:enable Metrics/AbcSize
 
-# def dealer_cards
+# def player(player_cards)
 # end
 
-def display_your_total(cards)
-  prompt "Your cards: #{cards.join(', ')} "
-  prompt "Your card values: #{card_vals(cards).join(', ')}"
+# def dealer(dealer_cards)
+# end
+
+def display_player_total(cards)
+  # prompt "Your cards: #{cards.join(', ')} "
+  # prompt "Your card values: #{card_vals(cards).join(', ')}"
   prompt "Your total so far: #{card_vals(cards).sum}"
+end
+
+def player_decision(gambler)
+  if gambler == 'Player'
+    loop do
+      puts
+      prompt "What do you want to do?"
+      puts
+      puts "Type and press enter:"
+      OPTIONS.each do |key, val|
+        puts "'#{key}' for #{val}"
+      end
+      selection = gets.chomp
+      break if OPTIONS.keys.include?(selection)
+    end
+  end
+  stop_and_continue
+  system 'clear'
+end
+
+def busted(player_cards, dealer_cards)
+  if card_vals(player_cards).sum > 21
+    puts "#{PLAY[:player]} 'bust' #{PLAY[:dealer]}(computer) win!"
+  elsif card_vals(dealer_cards).sum > 21
+    puts "#{PLAY[:dealer]}(computer) 'bust' #{PLAY[:player]} win!"
+  end
+end
+
+def someone_busted?(player_cards, dealer_cards)
+  !!busted(player_cards, dealer_cards)
+end
+
+def choose_winner(total_cards)
+  result_player = card_vals(total_cards[0]).sum
+  result_dealer = card_vals(total_cards[1]).sum
+
+  if result_player >= result_dealer && result_player < 21
+    PLAY[:player]
+  elsif result_dealer >= result_player && result_dealer < 21
+    PLAY[:dealer]
+  else
+    "It's a tie! There is no winner"
+  end
+end
+
+def display_winner(total_cards)
+  winner = choose_winner(total_cards)
+  puts '=' * 10
+  prompt "the winner is #{winner}!".upcase
+  puts '=' * 10
+end
+
+def display_final_result(player_cards, dealer_cards)
+  total_cards = [player_cards, dealer_cards]
+
+  total_cards.each_with_index do |cards, idx|
+    puts "--- #{PLAY.values[idx].upcase} ---"
+    prompt "Cards: #{cards}"
+    prompt "Result: #{card_vals(cards).sum}"
+    puts
+  end
+  display_winner(total_cards)
 end
 
 # start game
 intro
-cards = your_cards
-show_your_cards(cards)
+get_first_two_each(player_cards, dealer_cards)
+
+loop do
+  current_gambler = turn(current_gambler)
+  full_game_display(player_cards, dealer_cards, current_gambler)
+  puts
+  puts '-' * 10
+  display_player_total(player_cards)
+  puts '-' * 10
+  turn += 1
+  break if someone_busted?(player_cards, dealer_cards)
+  player_decision(current_gambler)
+  break if turn == 2
+end
+
+puts "=" * 10
+puts "Result of the game".upcase
+puts "-" * 10
 puts
-puts '-' * 10
-display_your_total(cards)
-puts '-' * 10
+display_final_result(player_cards, dealer_cards)
+puts
+prompt "Bye, thanks for playing Twenty one!"
