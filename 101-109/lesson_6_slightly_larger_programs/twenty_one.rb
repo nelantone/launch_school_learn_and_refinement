@@ -72,6 +72,7 @@ player_cards = []
 dealer_cards = []
 current_gambler = 'Dealer'
 turn = 0
+total_cards = [player_cards, dealer_cards]
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -82,7 +83,7 @@ def stop_and_continue
   gets.chomp
 end
 
-def intro
+def start_game
   puts
   puts "=*" * 8
   puts "Welcome to 21".upcase.center(15)
@@ -142,7 +143,7 @@ def cards_without_as_values(cards)
   card_vals(no_ases_cards)
 end
 
-def get_first_two_each(player_cards, dealer_cards)
+def get_first_each_two(player_cards, dealer_cards)
   player_cards.concat([DECK.keys.sample, DECK.keys.sample])
   dealer_cards.concat([DECK.keys.sample, DECK.keys.sample])
 end
@@ -166,16 +167,11 @@ def full_game_display(player_cards, dealer_cards, gambler)
 end
 # rubocop:enable Metrics/AbcSize
 
-# def player(player_cards)
-# end
-
-# def dealer(dealer_cards)
-# end
-
 def display_player_total(cards)
-  # prompt "Your cards: #{cards.join(', ')} "
-  # prompt "Your card values: #{card_vals(cards).join(', ')}"
+  puts
+  puts '-' * 10
   prompt "Your total so far: #{card_vals(cards).sum}"
+  puts '-' * 10
 end
 
 def player_decision(gambler)
@@ -192,7 +188,6 @@ def player_decision(gambler)
       break if OPTIONS.keys.include?(selection)
     end
   end
-  stop_and_continue
   system 'clear'
 end
 
@@ -226,10 +221,14 @@ def display_winner(total_cards)
   puts '=' * 10
   prompt "the winner is #{winner}!".upcase
   puts '=' * 10
+  puts
 end
 
-def display_final_result(player_cards, dealer_cards)
-  total_cards = [player_cards, dealer_cards]
+def display_final_result(total_cards)
+  puts "=" * 10
+  puts "Result of the game".upcase
+  puts "-" * 10
+  puts
 
   total_cards.each_with_index do |cards, idx|
     puts "--- #{PLAY.values[idx].upcase} ---"
@@ -237,30 +236,25 @@ def display_final_result(player_cards, dealer_cards)
     prompt "Result: #{card_vals(cards).sum}"
     puts
   end
-  display_winner(total_cards)
 end
 
-# start game
-intro
-get_first_two_each(player_cards, dealer_cards)
+def end_game
+  prompt "Bye, thanks for playing Twenty one!"
+end
+
+start_game
+get_first_each_two(player_cards, dealer_cards)
 
 loop do
   current_gambler = turn(current_gambler)
   full_game_display(player_cards, dealer_cards, current_gambler)
-  puts
-  puts '-' * 10
   display_player_total(player_cards)
-  puts '-' * 10
-  turn += 1
   break if someone_busted?(player_cards, dealer_cards)
   player_decision(current_gambler)
+  turn += 1
   break if turn == 2
 end
 
-puts "=" * 10
-puts "Result of the game".upcase
-puts "-" * 10
-puts
-display_final_result(player_cards, dealer_cards)
-puts
-prompt "Bye, thanks for playing Twenty one!"
+display_final_result(total_cards)
+display_winner(total_cards)
+end_game
