@@ -162,7 +162,7 @@ def full_game_display(player_cards, dealer_cards, gambler)
   prompt "Player show: #{player_cards.last} [#{player_show_card}]"
   puts
   puts '=' * 10
-  prompt "your hidden cards: #{player_cards[0]} #{cards_player_val_no_last}"
+  prompt "your hidden cards: #{player_cards[1..-1]} #{cards_player_val_no_last}"
   puts '=' * 10
 end
 # rubocop:enable Metrics/AbcSize
@@ -174,21 +174,50 @@ def display_player_total(cards)
   puts '-' * 10
 end
 
+def hit(gambler, total_cards, current_player_cards)
+  puts "#{gambler} decided to hit"
+  current_player_cards << DECK.keys.sample
+  gambler = gambler == PLAY[:dealer] ? PLAY[:player] : PLAY[:dealer]
+  play(total_cards, gambler) # then we will not switch of player
+end
+
+def stay(gambler)
+  system 'clear'
+  prompt "#{gambler} decided to stay"
+  true if gambler == PLAY[:dealer]
+end
+
+def dealer_stays?(gambler)
+  !!stay(gambler)
+end
+
 def player_selection(gambler, player_cards, total_cards, selection)
   if OPTIONS[selection] == 'Hit'
-    player_cards << DECK.keys.sample
-    gambler = PLAY[:dealer] # then it will switch again to player
-    play(total_cards, gambler)
+    hit(gambler, total_cards, player_cards)
   else
-    system 'clear'
-    prompt "You decided to stay"
+    stay(gambler)
+  end
+end
+
+def computer_decision(gambler, dealer_cards, total_cards)
+  if gambler == PLAY[:dealer]
+    shown_player_c = card_vals([total_cards[0].first])
+    dealer_sum = card_vals(dealer_cards).sum
+
+    if dealer_sum <= 10
+      hit(gambler, total_cards, dealer_cards)
+    elsif [11..14].include?(dealer_sum) && [9..11].include?(shown_player_c)
+      hit(gambler, total_cards, dealer_cards)
+    else
+      stay(gambler)
+    end
   end
 end
 
 def player_decision(gambler, player_cards, total_cards)
   selection = ''
 
-  if gambler == 'Player'
+  if gambler == PLAY[:player]
     loop do
       prompt "What do you want to do?"
       puts
@@ -218,6 +247,9 @@ def play(total_cards, current_gambler)
     full_game_display(player_cards, dealer_cards, current_gambler)
     display_player_total(player_cards)
     player_decision(current_gambler, player_cards, total_cards)
+    computer_decision(current_gambler, dealer_cards, total_cards)
+
+    break if dealer_stays?(current_gambler)
   end
 end
 
