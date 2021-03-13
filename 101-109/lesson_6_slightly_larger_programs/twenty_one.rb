@@ -71,7 +71,6 @@ OPTIONS = { '1' => 'Hit', '2' => 'Stay' }
 player_cards = []
 dealer_cards = []
 current_gambler = 'Dealer'
-turn = 0
 total_cards = [player_cards, dealer_cards]
 
 def prompt(msg)
@@ -84,6 +83,7 @@ def stop_and_continue
 end
 
 def start_game
+  system 'clear'
   puts
   puts "=*" * 8
   puts "Welcome to 21".upcase.center(15)
@@ -155,7 +155,7 @@ def full_game_display(player_cards, dealer_cards, gambler)
   dealer_show_card = card_vals(dealer_cards).first
   cards_player_val_no_last = player_card_vals[1, player_card_vals.size]
 
-  prompt "Right now turn is: #{gambler.upcase}"
+  prompt "Right now is #{gambler.upcase} turn"
   puts
   puts '-- CARDS --'
   prompt "Dealer show: #{dealer_cards.last} [#{dealer_show_card}]"
@@ -174,10 +174,22 @@ def display_player_total(cards)
   puts '-' * 10
 end
 
-def player_decision(gambler)
+def player_selection(gambler, player_cards, total_cards, selection)
+  if OPTIONS[selection] == 'Hit'
+    player_cards << DECK.keys.sample
+    gambler = PLAY[:dealer] # then it will switch again to player
+    play(total_cards, gambler)
+  else
+    system 'clear'
+    prompt "You decided to stay"
+  end
+end
+
+def player_decision(gambler, player_cards, total_cards)
+  selection = ''
+
   if gambler == 'Player'
     loop do
-      puts
       prompt "What do you want to do?"
       puts
       puts "Type and press enter:"
@@ -187,32 +199,42 @@ def player_decision(gambler)
       selection = gets.chomp
       break if OPTIONS.keys.include?(selection)
     end
-  end
-  system 'clear'
-end
-
-def busted(player_cards, dealer_cards)
-  if card_vals(player_cards).sum > 21
-    puts "#{PLAY[:player]} 'bust' #{PLAY[:dealer]}(computer) win!"
-  elsif card_vals(dealer_cards).sum > 21
-    puts "#{PLAY[:dealer]}(computer) 'bust' #{PLAY[:player]} win!"
+    player_selection(gambler, player_cards, total_cards, selection)
   end
 end
 
-def someone_busted?(player_cards, dealer_cards)
-  !!busted(player_cards, dealer_cards)
+def someone_busted?(total_cards)
+  total_cards.any? { |cards| card_vals(cards).sum > 21 }
+end
+
+def play(total_cards, current_gambler)
+  player_cards = total_cards[0]
+  dealer_cards = total_cards[1]
+
+  loop do
+    break if someone_busted?(total_cards)
+    current_gambler = turn(current_gambler)
+
+    full_game_display(player_cards, dealer_cards, current_gambler)
+    display_player_total(player_cards)
+    player_decision(current_gambler, player_cards, total_cards)
+  end
 end
 
 def choose_winner(total_cards)
   result_player = card_vals(total_cards[0]).sum
   result_dealer = card_vals(total_cards[1]).sum
 
-  if result_player >= result_dealer && result_player < 21
+  if result_player > 21
+    "#{PLAY[:dealer]} because #{PLAY[:player]} is busted"
+  elsif result_dealer > 21
+    "#{PLAY[:player]} because #{PLAY[:dealer]} is busted"
+  elsif result_player >= result_dealer
     PLAY[:player]
-  elsif result_dealer >= result_player && result_dealer < 21
+  elsif result_player <= result_dealer
     PLAY[:dealer]
   else
-    "It's a tie! There is no winner"
+    "no one! Because is a tie!"
   end
 end
 
@@ -244,17 +266,7 @@ end
 
 start_game
 get_first_each_two(player_cards, dealer_cards)
-
-loop do
-  current_gambler = turn(current_gambler)
-  full_game_display(player_cards, dealer_cards, current_gambler)
-  display_player_total(player_cards)
-  break if someone_busted?(player_cards, dealer_cards)
-  player_decision(current_gambler)
-  turn += 1
-  break if turn == 2
-end
-
+play(total_cards, current_gambler)
 display_final_result(total_cards)
 display_winner(total_cards)
 end_game
