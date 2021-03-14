@@ -12,5 +12,5 @@ def fizzbuzz(from, to)
            end
   end
   puts arr.join(', ')
- end
+end
 fizzbuzz(1, 15)

@@ -9,7 +9,7 @@
 def show_multiplicative_average(array)
   result = format('%.3f', (array.inject(:*) / array.size.to_f))
 
-  "The result is " + result
+  "The result is #{result}"
 end
 
 show_multiplicative_average([3, 5])                # => The result is 7.500

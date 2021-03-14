@@ -34,7 +34,7 @@ loop do
 end
 prompt(MSG[@lang]['write_name'])
 name = Kernel.gets().chomp()
-prompt(MSG[@lang]['greeting'] + ' ' + name)
+prompt("#{MSG[@lang]['greeting']} #{name}")
 
 def operation(first_operator, second_operator, operation)
   case operation

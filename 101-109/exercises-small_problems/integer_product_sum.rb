@@ -9,10 +9,11 @@ integer = gets.chomp.to_i
 puts "Enter 's' to compute the sum, 'p' to compute the product."
 choice = gets.chomp
 
-if choice == 's'
+case choice
+when 's'
   sum_int = (1..integer).sum
   puts "The product of the integers between 1 and #{integer} is #{sum_int}"
-elsif choice == 'p'
+when 'p'
   prod_int = (1..integer).inject(:*)
   puts "The product of the integers between 1 and #{integer} is #{prod_int}"
 else

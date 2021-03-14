@@ -61,9 +61,9 @@ end
 def print_row(stars_ary)
   stars_ary.each do |stars|
     left_side = ' ' * ((stars_ary.size - stars) / 2)
-    right_side_outline = stars > 1 ? (' ' * (stars - 2) + '*') : ''
+    right_side_outline = stars > 1 ? ("#{' ' * (stars - 2)}*") : ''
 
-    puts left_side + '*' + right_side_outline
+    puts "#{left_side}*#{right_side_outline}"
   end
 end
 
