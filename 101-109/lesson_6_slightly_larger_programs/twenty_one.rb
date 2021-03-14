@@ -51,7 +51,7 @@ PEDAC
 
 # (hearts, diamonds, clubs, and spades): :h, :d, c:, s:
 # heart cards
-suits = [:h, :d, :c, :s]
+suits = [:♥, :♦, :♣, :♠]
 special_c = [:j, :k, :q, :a]
 cards = {}
 suits.each do |suit|
@@ -67,7 +67,7 @@ end
 
 DECK = cards
 PLAY = { player: 'Player', dealer: 'Dealer' }
-OPTIONS = { '1' => 'Hit', '2' => 'Stay' }
+OPTIONS = { 'h' => 'Hit', 's' => 'Stay' }
 player_cards = []
 dealer_cards = []
 current_gambler = 'Dealer'
@@ -104,7 +104,7 @@ def as_card_present?(cards)
   cards.any? { |card| card.end_with?('a') }
 end
 
-def as_cards_front(cards)
+def as_cards(cards)
   cards.select { |card| card.end_with? 'a' }
 end
 
@@ -112,11 +112,23 @@ def cards_without_as(cards)
   cards.select { |card| !(card.end_with? 'a') }
 end
 
+def values_of(cards)
+  no_as_card_vals = cards_without_as(cards).map { |card| DECK[card] }
+  as_card_vals = as_cards_values(cards)
+
+  as_card_present?(cards) ? (no_as_card_vals + as_card_vals) : no_as_card_vals
+end
+
+def cards_without_as_values(cards)
+  no_ases_cards = cards_without_as(cards)
+  values_of(no_ases_cards)
+end
+
 def as_cards_values(cards)
   if as_card_present?(cards)
     as_card_values = []
 
-    as_cards_front(cards).each do |as_card|
+    as_cards(cards).each do |as_card|
       no_as_card_values = cards_without_as_values(cards)
 
       as_card_values << if (as_card_values + no_as_card_values).sum <= 10
@@ -131,18 +143,6 @@ def as_cards_values(cards)
   end
 end
 
-def card_vals(cards)
-  no_as_card_vals = cards_without_as(cards).map { |card| DECK[card] }
-  as_card_vals = as_cards_values(cards)
-
-  as_card_present?(cards) ? (no_as_card_vals + as_card_vals) : no_as_card_vals
-end
-
-def cards_without_as_values(cards)
-  no_ases_cards = cards_without_as(cards)
-  card_vals(no_ases_cards)
-end
-
 def get_first_each_two(player_cards, dealer_cards)
   player_cards.concat([DECK.keys.sample, DECK.keys.sample])
   dealer_cards.concat([DECK.keys.sample, DECK.keys.sample])
@@ -150,19 +150,19 @@ end
 
 # rubocop:disable Metrics/AbcSize
 def full_game_display(player_cards, dealer_cards, gambler)
-  player_card_vals = card_vals(player_cards)
-  player_show_card = player_card_vals.first
-  dealer_show_card = card_vals(dealer_cards).first
-  cards_player_val_no_last = player_card_vals[1, player_card_vals.size]
+  player_card_vals    = values_of(player_cards)
+  player_show_card    = player_card_vals.first
+  dealer_show_card    = values_of(dealer_cards).first
+  hidden_player_cards = player_card_vals[1, player_card_vals.size]
 
   prompt "Right now is #{gambler.upcase} turn"
   puts
   puts '-- CARDS --'
-  prompt "Dealer show: #{dealer_cards.last} [#{dealer_show_card}]"
-  prompt "Player show: #{player_cards.last} [#{player_show_card}]"
+  prompt "Dealer show: #{dealer_cards.first} [#{dealer_show_card}]"
+  prompt "Player show: #{player_cards.first} [#{player_show_card}]"
   puts
   puts '=' * 10
-  prompt "your hidden cards: #{player_cards[1..-1]} #{cards_player_val_no_last}"
+  prompt "your hidden cards: #{player_cards[1..-1]} #{hidden_player_cards}"
   puts '=' * 10
 end
 # rubocop:enable Metrics/AbcSize
@@ -170,20 +170,23 @@ end
 def display_player_total(cards)
   puts
   puts '-' * 10
-  prompt "Your total so far: #{card_vals(cards).sum}"
+  prompt "Your total so far: #{values_of(cards).sum}"
   puts '-' * 10
+end
+
+def dont_switch_player_turn(gambler, total_cards)
+  gambler = gambler == PLAY[:dealer] ? PLAY[:player] : PLAY[:dealer]
+  play(total_cards, gambler)
 end
 
 def hit(gambler, total_cards, current_player_cards)
   puts "#{gambler} decided to hit"
   current_player_cards << DECK.keys.sample
-  gambler = gambler == PLAY[:dealer] ? PLAY[:player] : PLAY[:dealer]
-  play(total_cards, gambler) # then we will not switch of player
+  dont_switch_player_turn(gambler, total_cards)
 end
 
 def stay(gambler)
   system 'clear'
-  prompt "#{gambler} decided to stay"
   true if gambler == PLAY[:dealer]
 end
 
@@ -195,20 +198,22 @@ def player_selection(gambler, player_cards, total_cards, selection)
   if OPTIONS[selection] == 'Hit'
     hit(gambler, total_cards, player_cards)
   else
+    prompt "#{gambler} decided to stay"
     stay(gambler)
   end
 end
 
 def computer_decision(gambler, dealer_cards, total_cards)
   if gambler == PLAY[:dealer]
-    shown_player_c = card_vals([total_cards[0].first])
-    dealer_sum = card_vals(dealer_cards).sum
+    shown_player_c = values_of([total_cards[0].first])
+    dealer_sum     = values_of(dealer_cards).sum
 
     if dealer_sum <= 10
       hit(gambler, total_cards, dealer_cards)
     elsif [11..14].include?(dealer_sum) && [9..11].include?(shown_player_c)
       hit(gambler, total_cards, dealer_cards)
     else
+      prompt "#{gambler} decided to stay"
       stay(gambler)
     end
   end
@@ -233,7 +238,7 @@ def player_decision(gambler, player_cards, total_cards)
 end
 
 def someone_busted?(total_cards)
-  total_cards.any? { |cards| card_vals(cards).sum > 21 }
+  total_cards.any? { |cards| values_of(cards).sum > 21 }
 end
 
 def play(total_cards, current_gambler)
@@ -254,8 +259,8 @@ def play(total_cards, current_gambler)
 end
 
 def choose_winner(total_cards)
-  result_player = card_vals(total_cards[0]).sum
-  result_dealer = card_vals(total_cards[1]).sum
+  result_player = values_of(total_cards[0]).sum
+  result_dealer = values_of(total_cards[1]).sum
 
   if result_player > 21
     "#{PLAY[:dealer]} because #{PLAY[:player]} is busted"
@@ -287,7 +292,7 @@ def display_final_result(total_cards)
   total_cards.each_with_index do |cards, idx|
     puts "--- #{PLAY.values[idx].upcase} ---"
     prompt "Cards: #{cards}"
-    prompt "Result: #{card_vals(cards).sum}"
+    prompt "Result: #{values_of(cards).sum}"
     puts
   end
 end
