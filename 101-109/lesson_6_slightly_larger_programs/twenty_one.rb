@@ -68,10 +68,9 @@ end
 DECK = cards
 PLAY = { player: 'Player', dealer: 'Dealer' }
 OPTIONS = { 'h' => 'Hit', 's' => 'Stay' }
-player_cards = []
-dealer_cards = []
 current_gambler = 'Dealer'
-total_cards = [player_cards, dealer_cards]
+count_rounds = { player: 0, dealer: 0, tie: 0, rounds: 0 }
+MAX_OF_ROUNDS = 5
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -82,7 +81,7 @@ def stop_and_continue
   gets.chomp
 end
 
-def start_game
+def display_welcome
   system 'clear'
   puts
   puts "=*" * 8
@@ -180,6 +179,7 @@ def dont_switch_player_turn(gambler, total_cards)
 end
 
 def hit(gambler, total_cards, current_player_cards)
+  system 'clear'
   puts "#{gambler} decided to hit"
   current_player_cards << DECK.keys.sample
   dont_switch_player_turn(gambler, total_cards)
@@ -258,37 +258,34 @@ def play(total_cards, current_gambler)
   end
 end
 
-def choose_winner(total_cards)
+def winner_and_busted_player(result_player)
+  if result_player > 21
+    puts "#{PLAY[:dealer]} because #{PLAY[:player]} is busted"
+    PLAY[:dealer]
+  else
+    puts "#{PLAY[:player]} because #{PLAY[:dealer]} is busted"
+    PLAY[:player]
+  end
+end
+
+def choose_winner(total_cards, count_rounds)
   result_player = values_of(total_cards[0]).sum
   result_dealer = values_of(total_cards[1]).sum
 
-  if result_player > 21
-    "#{PLAY[:dealer]} because #{PLAY[:player]} is busted"
-  elsif result_dealer > 21
-    "#{PLAY[:player]} because #{PLAY[:dealer]} is busted"
+  if result_player > 21 || result_dealer > 21
+    winner_and_busted_player(result_player)
+  elsif result_player == result_dealer
+    count_rounds[:tie] += 1
+    "no one! Because is a tie!"
   elsif result_player >= result_dealer
     PLAY[:player]
   elsif result_player <= result_dealer
     PLAY[:dealer]
-  else
-    "no one! Because is a tie!"
   end
 end
 
-def display_winner(total_cards)
-  winner = choose_winner(total_cards)
-  puts '=' * 10
-  prompt "the winner is #{winner}!".upcase
-  puts '=' * 10
+def total_cards_display(total_cards)
   puts
-end
-
-def display_final_result(total_cards)
-  puts "=" * 10
-  puts "Result of the game".upcase
-  puts "-" * 10
-  puts
-
   total_cards.each_with_index do |cards, idx|
     puts "--- #{PLAY.values[idx].upcase} ---"
     prompt "Cards: #{cards}"
@@ -297,13 +294,98 @@ def display_final_result(total_cards)
   end
 end
 
+def display_round_winner(total_cards, count_rounds)
+  winner = choose_winner(total_cards, count_rounds)
+  prompt "The round winner is #{winner}!"
+  puts
+end
+
+def round_count_winner(count_rounds, total_cards)
+  winner = choose_winner(total_cards, count_rounds)
+  if winner == PLAY[:player]
+    count_rounds[:player] += 1
+  elsif winner == PLAY[:dealer]
+    count_rounds[:dealer] += 1
+  end
+end
+
+def display_total_rounds_info(count_rounds)
+  puts '-' * 10
+  puts "Total rounds wins:"
+  puts "By Player: #{count_rounds[:player]}"
+  puts "By Dealer: #{count_rounds[:dealer]}"
+  puts "Number of ties: #{count_rounds[:tie]}"
+  puts '-' * 10
+end
+
+def display_round_results_so_far(total_cards, count_rounds)
+  count_rounds[:rounds] += 1
+  puts "Result of this round"
+  total_cards_display(total_cards)
+  puts "There are #{count_rounds[:rounds]} rounds played so far"
+  display_total_rounds_info(count_rounds)
+end
+
+def display_final_winner(total_cards, count_rounds)
+  winner = choose_winner(total_cards, count_rounds)
+  puts '=' * 10
+  prompt "The final Winner of #{MAX_OF_ROUNDS} rounds".upcase
+  prompt "is #{winner}!".upcase
+  puts '=' * 10
+  puts
+end
+
+def display_final_result(count_rounds)
+  puts "=" * 10
+  puts "Result of the game".upcase
+  puts "-" * 10
+  puts "On #{count_rounds[:rounds]} played"
+  display_total_rounds_info(count_rounds)
+end
+
 def end_game
   prompt "Bye, thanks for playing Twenty one!"
 end
 
-start_game
-get_first_each_two(player_cards, dealer_cards)
-play(total_cards, current_gambler)
-display_final_result(total_cards)
-display_winner(total_cards)
+def stop_playing_rounds?(count_rounds, total_cards)
+  prompt "Do you want to pay again? "
+  puts "Type 'y' or 'yes' and Enter. Or another combination to stop the game"
+  answer = gets.chomp
+  system 'clear'
+  if count_rounds[:rounds] > MAX_OF_ROUNDS
+    display_final_result(count_rounds)
+    display_final_winner(total_cards, count_rounds)
+  elsif answer.downcase.start_with?('y')
+    false
+  else
+    true
+  end
+end
+
+display_welcome
+
+loop do
+  player_cards = []
+  dealer_cards = []
+
+  get_first_each_two(player_cards, dealer_cards)
+
+  total_cards = [player_cards, dealer_cards]
+  play(total_cards, current_gambler)
+  round_count_winner(count_rounds, total_cards)
+  display_round_results_so_far(total_cards, count_rounds)
+  display_round_winner(total_cards, count_rounds)
+  break if stop_playing_rounds?(count_rounds, total_cards)
+end
+
 end_game
+
+=begin
+Pending:
+- What if we wanted to change this game to Thirty-One, and the dealer hits
+  until 27? Or what if our game should be Forty-One? Or Fifty-One? In other
+  words, the two major values right now -- 21 and 17 -- are quite arbitrary.
+  We can store them as constants and refer to the constants throughout
+  the program. If we wanted to change the game to Whatever-One,
+  it's just a matter of updating those constants.
+=end
