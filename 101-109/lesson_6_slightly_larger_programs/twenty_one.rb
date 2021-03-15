@@ -70,7 +70,7 @@ PLAY = { player: 'Player', dealer: 'Dealer' }
 OPTIONS = { 'h' => 'Hit', 's' => 'Stay' }
 current_gambler = 'Dealer'
 count_rounds = { player: 0, dealer: 0, tie: 0, rounds: 0 }
-MAX_OF_ROUNDS = 5
+WINNING_ROUNDS = 5
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -149,10 +149,11 @@ end
 
 # rubocop:disable Metrics/AbcSize
 def full_game_display(player_cards, dealer_cards, gambler)
-  player_card_vals    = values_of(player_cards)
-  player_show_card    = player_card_vals.first
-  dealer_show_card    = values_of(dealer_cards).first
-  hidden_player_cards = player_card_vals[1, player_card_vals.size]
+  player_card_vals      = values_of(player_cards)
+  player_show_card      = player_card_vals.first
+  dealer_show_card      = values_of(dealer_cards).first
+  hidden_player_c_vals  = player_card_vals[1, player_card_vals.size]
+  hidden_player_c_front = player_cards[1..-1].join(', ')
 
   prompt "Right now is #{gambler.upcase} turn"
   puts
@@ -161,7 +162,7 @@ def full_game_display(player_cards, dealer_cards, gambler)
   prompt "Player show: #{player_cards.first} [#{player_show_card}]"
   puts
   puts '=' * 10
-  prompt "your hidden cards: #{player_cards[1..-1]} #{hidden_player_cards}"
+  prompt "your hidden cards: #{hidden_player_c_front} #{hidden_player_c_vals}"
   puts '=' * 10
 end
 # rubocop:enable Metrics/AbcSize
@@ -173,16 +174,16 @@ def display_player_total(cards)
   puts '-' * 10
 end
 
-def dont_switch_player_turn(gambler, total_cards)
+def dont_switch_player_turn(gambler, all_cards)
   gambler = gambler == PLAY[:dealer] ? PLAY[:player] : PLAY[:dealer]
-  play(total_cards, gambler)
+  play(all_cards, gambler)
 end
 
-def hit(gambler, total_cards, current_player_cards)
+def hit(gambler, all_cards, current_player_cards)
   system 'clear'
   puts "#{gambler} decided to hit"
   current_player_cards << DECK.keys.sample
-  dont_switch_player_turn(gambler, total_cards)
+  dont_switch_player_turn(gambler, all_cards)
 end
 
 def stay(gambler)
@@ -194,24 +195,24 @@ def dealer_stays?(gambler)
   !!stay(gambler)
 end
 
-def player_selection(gambler, player_cards, total_cards, selection)
+def player_selection(gambler, player_cards, all_cards, selection)
   if OPTIONS[selection] == 'Hit'
-    hit(gambler, total_cards, player_cards)
+    hit(gambler, all_cards, player_cards)
   else
     prompt "#{gambler} decided to stay"
     stay(gambler)
   end
 end
 
-def computer_decision(gambler, dealer_cards, total_cards)
+def computer_decision(gambler, dealer_cards, all_cards)
   if gambler == PLAY[:dealer]
-    shown_player_c = values_of([total_cards[0].first])
+    shown_player_c = values_of([all_cards[0].first])
     dealer_sum     = values_of(dealer_cards).sum
 
     if dealer_sum <= 10
-      hit(gambler, total_cards, dealer_cards)
+      hit(gambler, all_cards, dealer_cards)
     elsif [11..14].include?(dealer_sum) && [9..11].include?(shown_player_c)
-      hit(gambler, total_cards, dealer_cards)
+      hit(gambler, all_cards, dealer_cards)
     else
       prompt "#{gambler} decided to stay"
       stay(gambler)
@@ -219,7 +220,7 @@ def computer_decision(gambler, dealer_cards, total_cards)
   end
 end
 
-def player_decision(gambler, player_cards, total_cards)
+def player_decision(gambler, player_cards, all_cards)
   selection = ''
 
   if gambler == PLAY[:player]
@@ -233,26 +234,26 @@ def player_decision(gambler, player_cards, total_cards)
       selection = gets.chomp
       break if OPTIONS.keys.include?(selection)
     end
-    player_selection(gambler, player_cards, total_cards, selection)
+    player_selection(gambler, player_cards, all_cards, selection)
   end
 end
 
-def someone_busted?(total_cards)
-  total_cards.any? { |cards| values_of(cards).sum > 21 }
+def someone_busted?(all_cards)
+  all_cards.any? { |cards| values_of(cards).sum > 21 }
 end
 
-def play(total_cards, current_gambler)
-  player_cards = total_cards[0]
-  dealer_cards = total_cards[1]
+def play(all_cards, current_gambler)
+  player_cards = all_cards[0]
+  dealer_cards = all_cards[1]
 
   loop do
-    break if someone_busted?(total_cards)
+    break if someone_busted?(all_cards)
     current_gambler = turn(current_gambler)
 
     full_game_display(player_cards, dealer_cards, current_gambler)
     display_player_total(player_cards)
-    player_decision(current_gambler, player_cards, total_cards)
-    computer_decision(current_gambler, dealer_cards, total_cards)
+    player_decision(current_gambler, player_cards, all_cards)
+    computer_decision(current_gambler, dealer_cards, all_cards)
 
     break if dealer_stays?(current_gambler)
   end
@@ -260,17 +261,17 @@ end
 
 def winner_and_busted_player(result_player)
   if result_player > 21
-    puts "#{PLAY[:dealer]} because #{PLAY[:player]} is busted"
+    puts "#{PLAY[:player]} is busted"
     PLAY[:dealer]
   else
-    puts "#{PLAY[:player]} because #{PLAY[:dealer]} is busted"
+    puts "#{PLAY[:dealer]} is busted"
     PLAY[:player]
   end
 end
 
-def choose_winner(total_cards, count_rounds)
-  result_player = values_of(total_cards[0]).sum
-  result_dealer = values_of(total_cards[1]).sum
+def choose_winner(all_cards, count_rounds)
+  result_player = values_of(all_cards[0]).sum
+  result_dealer = values_of(all_cards[1]).sum
 
   if result_player > 21 || result_dealer > 21
     winner_and_busted_player(result_player)
@@ -284,9 +285,9 @@ def choose_winner(total_cards, count_rounds)
   end
 end
 
-def total_cards_display(total_cards)
+def all_cards_display(all_cards)
   puts
-  total_cards.each_with_index do |cards, idx|
+  all_cards.each_with_index do |cards, idx|
     puts "--- #{PLAY.values[idx].upcase} ---"
     prompt "Cards: #{cards}"
     prompt "Result: #{values_of(cards).sum}"
@@ -294,14 +295,14 @@ def total_cards_display(total_cards)
   end
 end
 
-def display_round_winner(total_cards, count_rounds)
-  winner = choose_winner(total_cards, count_rounds)
+def display_round_winner(all_cards, count_rounds)
+  winner = choose_winner(all_cards, count_rounds)
   prompt "The round winner is #{winner}!"
   puts
 end
 
-def round_count_winner(count_rounds, total_cards)
-  winner = choose_winner(total_cards, count_rounds)
+def round_count_winner(count_rounds, all_cards)
+  winner = choose_winner(all_cards, count_rounds)
   if winner == PLAY[:player]
     count_rounds[:player] += 1
   elsif winner == PLAY[:dealer]
@@ -310,56 +311,71 @@ def round_count_winner(count_rounds, total_cards)
 end
 
 def display_total_rounds_info(count_rounds)
-  puts '-' * 10
-  puts "Total rounds wins:"
+  puts '=' * 15
+  puts "Total round wins:"
+  puts '-' * 15
   puts "By Player: #{count_rounds[:player]}"
   puts "By Dealer: #{count_rounds[:dealer]}"
   puts "Number of ties: #{count_rounds[:tie]}"
-  puts '-' * 10
+  puts '=' * 15
 end
 
-def display_round_results_so_far(total_cards, count_rounds)
+def display_round_results_so_far(all_cards, count_rounds)
   count_rounds[:rounds] += 1
   puts "Result of this round"
-  total_cards_display(total_cards)
-  puts "There are #{count_rounds[:rounds]} rounds played so far"
+  all_cards_display(all_cards)
+  prompt "There are #{count_rounds[:rounds]} rounds played so far"
+  puts
+  puts '-' * 15
+  puts "* The final winner needs to win #{WINNING_ROUNDS} rounds"
   display_total_rounds_info(count_rounds)
 end
 
-def display_final_winner(total_cards, count_rounds)
-  winner = choose_winner(total_cards, count_rounds)
-  puts '=' * 10
-  prompt "The final Winner of #{MAX_OF_ROUNDS} rounds".upcase
-  prompt "is #{winner}!".upcase
-  puts '=' * 10
+def display_final_winner(all_cards, count_rounds)
+  winner = choose_winner(all_cards, count_rounds)
+  puts
+  puts
+  puts '=' * 15
+  prompt "The final Winner who has won #{WINNING_ROUNDS} rounds is:".upcase
+  prompt winner.upcase
+  puts '=' * 15
   puts
 end
 
 def display_final_result(count_rounds)
   puts "=" * 10
   puts "Result of the game".upcase
-  puts "-" * 10
-  puts "On #{count_rounds[:rounds]} played"
+  puts "-" * 15
+  puts "Later #{count_rounds[:rounds]} rounds played"
   display_total_rounds_info(count_rounds)
 end
 
-def end_game
+def display_goodbye
   prompt "Bye, thanks for playing Twenty one!"
 end
 
-def stop_playing_rounds?(count_rounds, total_cards)
+def result_final_winner(count_rounds, all_cards)
+  total_win_rounds = [count_rounds[:player], count_rounds[:dealer]]
+
+  if total_win_rounds.any? { |each_wins| each_wins >= WINNING_ROUNDS }
+    system 'clear'
+    display_final_result(count_rounds)
+    display_final_winner(all_cards, count_rounds)
+    puts
+    true
+  end
+end
+
+def final_winner?(count_rounds, all_cards)
+  !!result_final_winner(count_rounds, all_cards)
+end
+
+def stop_game?
   prompt "Do you want to pay again? "
   puts "Type 'y' or 'yes' and Enter. Or another combination to stop the game"
   answer = gets.chomp
-  system 'clear'
-  if count_rounds[:rounds] > MAX_OF_ROUNDS
-    display_final_result(count_rounds)
-    display_final_winner(total_cards, count_rounds)
-  elsif answer.downcase.start_with?('y')
-    false
-  else
-    true
-  end
+
+  answer.downcase.start_with?('y') ? false : true
 end
 
 display_welcome
@@ -367,18 +383,21 @@ display_welcome
 loop do
   player_cards = []
   dealer_cards = []
+  all_cards = [player_cards, dealer_cards]
 
   get_first_each_two(player_cards, dealer_cards)
+  play(all_cards, current_gambler)
+  round_count_winner(count_rounds, all_cards)
+  display_round_results_so_far(all_cards, count_rounds)
+  display_round_winner(all_cards, count_rounds)
 
-  total_cards = [player_cards, dealer_cards]
-  play(total_cards, current_gambler)
-  round_count_winner(count_rounds, total_cards)
-  display_round_results_so_far(total_cards, count_rounds)
-  display_round_winner(total_cards, count_rounds)
-  break if stop_playing_rounds?(count_rounds, total_cards)
+  if final_winner?(count_rounds, all_cards)
+    result_final_winner(count_rounds, all_cards)
+  end
+  break if stop_game?
 end
 
-end_game
+display_goodbye
 
 =begin
 Pending:
