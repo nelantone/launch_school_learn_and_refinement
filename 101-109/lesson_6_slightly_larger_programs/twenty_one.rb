@@ -65,12 +65,19 @@ suits.each do |suit|
   end
 end
 
-DECK = cards
-PLAY = { player: 'Player', dealer: 'Dealer' }
-OPTIONS = { 'h' => 'Hit', 's' => 'Stay' }
+DECK            = cards
+WINNING_NUM     = 21
+SUM_HIT_N       = 10
+# when DEAL_RANGE and PLYR_RANGE(shown card) value numbers are included in that
+# range it will return a sample decision for the computer between hit or stay.
+DEAL_RANGE      = [11..17] # All cards dealer result is included in this range
+PLYR_RANGE      = [9..11]  # The shown player card is included in this range
+
+PLAY            = { player: 'Player', dealer: 'Dealer' }
+OPTIONS         = { 'h' => 'Hit', 's' => 'Stay' }
 current_gambler = 'Dealer'
-count_rounds = { player: 0, dealer: 0, tie: 0, rounds: 0 }
-WINNING_ROUNDS = 5
+count_rounds    = { player: 0, dealer: 0, tie: 0, rounds: 0 }
+WINNING_ROUNDS  = 5
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -85,7 +92,7 @@ def display_welcome
   system 'clear'
   puts
   puts "=*" * 8
-  puts "Welcome to 21".upcase.center(15)
+  puts "Welcome to #{WINNING_NUM}".upcase.center(15)
   puts "=*" * 8
   puts
   stop_and_continue
@@ -130,7 +137,7 @@ def as_cards_values(cards)
     as_cards(cards).each do |as_card|
       no_as_card_values = cards_without_as_values(cards)
 
-      as_card_values << if (as_card_values + no_as_card_values).sum <= 10
+      as_card_values << if (as_card_values + no_as_card_values).sum <= SUM_HIT_N
                           DECK[as_card][1]
                         else
                           DECK[as_card][0]
@@ -209,9 +216,9 @@ def computer_decision(gambler, dealer_cards, all_cards)
     shown_player_c = values_of([all_cards[0].first])
     dealer_sum     = values_of(dealer_cards).sum
 
-    if dealer_sum <= 10
+    if dealer_sum <= SUM_HIT_N
       hit(gambler, all_cards, dealer_cards)
-    elsif [11..14].include?(dealer_sum) && [9..11].include?(shown_player_c)
+    elsif DEAL_RANGE.include?(dealer_sum) && PLYR_RANGE.include?(shown_player_c)
       hit(gambler, all_cards, dealer_cards)
     else
       prompt "#{gambler} decided to stay"
@@ -239,7 +246,7 @@ def player_decision(gambler, player_cards, all_cards)
 end
 
 def someone_busted?(all_cards)
-  all_cards.any? { |cards| values_of(cards).sum > 21 }
+  all_cards.any? { |cards| values_of(cards).sum > WINNING_NUM }
 end
 
 def play(all_cards, current_gambler)
@@ -260,7 +267,7 @@ def play(all_cards, current_gambler)
 end
 
 def winner_and_busted_player(result_player)
-  if result_player > 21
+  if result_player > WINNING_NUM
     puts "#{PLAY[:player]} is busted"
     PLAY[:dealer]
   else
@@ -273,7 +280,7 @@ def choose_winner(all_cards, count_rounds)
   result_player = values_of(all_cards[0]).sum
   result_dealer = values_of(all_cards[1]).sum
 
-  if result_player > 21 || result_dealer > 21
+  if result_player > WINNING_NUM || result_dealer > WINNING_NUM
     winner_and_busted_player(result_player)
   elsif result_player == result_dealer
     count_rounds[:tie] += 1
@@ -401,10 +408,5 @@ display_goodbye
 
 =begin
 Pending:
-- What if we wanted to change this game to Thirty-One, and the dealer hits
-  until 27? Or what if our game should be Forty-One? Or Fifty-One? In other
-  words, the two major values right now -- 21 and 17 -- are quite arbitrary.
-  We can store them as constants and refer to the constants throughout
-  the program. If we wanted to change the game to Whatever-One,
-  it's just a matter of updating those constants.
+- Start with more shown cards? (in case WINNING_NUMBER is bigger than 21)
 =end
