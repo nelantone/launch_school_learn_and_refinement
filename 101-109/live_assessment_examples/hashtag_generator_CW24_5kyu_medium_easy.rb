@@ -18,9 +18,8 @@ Examples
 =end
 
 def no_spaces_str(str)
-  str.chars.select {|char| char != ' '}.join
+  str.chars.select { |char| char != ' ' }.join
 end
-
 
 def generateHashtag(str)
   strip_string = str.strip
@@ -36,7 +35,7 @@ p generateHashtag("") == false
 p generateHashtag(" " * 200) == false
 p generateHashtag("Do We have A Hashtag") == "#DoWeHaveAHashtag"
 p generateHashtag("Codewars") == "#Codewars"
-p generateHashtag("Codewars Is Nice") ==  "#CodewarsIsNice"
+p generateHashtag("Codewars Is Nice") == "#CodewarsIsNice"
 p generateHashtag("Codewars is nice") == "#CodewarsIsNice"
 p generateHashtag("code" + " " * 140 + "wars") == "#CodeWars"
 p generateHashtag("Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong Cat") == false

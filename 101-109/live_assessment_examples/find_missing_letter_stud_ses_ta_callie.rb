@@ -1,4 +1,4 @@
- # Find the missing letter:
+# Find the missing letter:
 
 # Write a method that takes an array of consecutive (increasing) letters as input and that returns the missing letter in the array.
 
@@ -54,15 +54,15 @@ def find_missing_letter(missing_letter_ary)
   (full_ary_letters - missing_letter_ary)[0]
 end
 
-#alternative solution
+# alternative solution
 def find_missing_letter(ary)
   full_ary_letters = (ary[0]..ary[-1]).to_a
 
   full_ary_letters.to_a.each { |char| return char unless ary.include?(char) }
 end
 
-p find_missing_letter(["a","b","c","d","f"]) == "e"
-p find_missing_letter(["O","Q","R","S"]) == "P"
-p find_missing_letter(["b","d"]) == "c"
-p find_missing_letter(["a","b","d"]) == "c"
-p find_missing_letter(["b","d","e"]) == "c"
+p find_missing_letter(["a", "b", "c", "d", "f"]) == "e"
+p find_missing_letter(["O", "Q", "R", "S"]) == "P"
+p find_missing_letter(["b", "d"]) == "c"
+p find_missing_letter(["a", "b", "d"]) == "c"
+p find_missing_letter(["b", "d", "e"]) == "c"
