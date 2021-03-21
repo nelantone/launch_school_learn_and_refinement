@@ -339,6 +339,617 @@ puts b
 
 </br>
 
+*1. The following code return/output:*
+
+On `line 9` we call the method `puts` and passing in a local variable `a` to it as an argument. Using `puts` the return value is always nil, the output is `4`.
+
+On `line 10` we call the method `puts` and passing in a local variable `b` to it as an argument. Using `puts` the return value is always nil, the output is `2`.
+
+*2. The concept we demostrate here is **Variable Shadowing**:*
+When we initialize a local variable and we use the same name in a block parameter, the local variable will be protected
+and the block parameter will only have inner scope and it will not be possible to reassign or change the localvariable
+inside the block.
+
+*3. Explanation about the concept (why?):*
+
+On `line 4` we are calling the method `times` on integer 2 and we pass as an argument a `do..end` block with a block
+parameter with the same name as our local variable `on line 1` `a` so this variable will not be the same as `a`
+`on line 5-6` and block parameter `a` it will be only accessed inside the block (as explained befor in the variable shadowing concept)
+
+
+</br>
+</details>
+</br>
+
+
+2. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+n = 10
+
+1.times do |n|
+  n = 11
+end
+
+puts n
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. The following code return/output:*
+
+On `line 7` we call the method `puts` and passing in a local variable `n` to it as an argument. Using `puts` the return value is always `nil`, the output is `10`.
+
+
+*2. The concept we demostrate here is **Variable Shadowing**:*
+When we initialize a local variable and we use the same name in a block parameter( int his case `n`), the local variable will be protected and the block parameter will only have inner scope and it will not be possible to reassign or change the local variable `on line 3-5` where is the block.
+
+*3. Explanation about the concept (why?):*
+
+On `line 3` we are calling the method `times` on integer 1 and we pass as an argument a `do..end` block, with a block
+parameter with the same name as our local variable `on line 1` `n` so this variable will not be the same as `n`
+`on line 4` and it will be only accessed inside the block (as explained befor in the variable shadowing concept).
+
+
+</br>
+</details>
+</br>
+
+
+3. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+animal = "dog"
+
+loop do |animal|
+  animal = "cat"
+  break
+end
+
+puts animal
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. The following code return/output:*
+
+On `line 8` we call the method `puts` and passing in a local variable `animal` to it as an argument. Using `puts` the return value is always `nil`, the output is `dog`.
+
+
+*2. The concept we demostrate here is **Variable Shadowing**:*
+When we initialize a local variable and we use the same name in a block parameter( int his case `animal`), the local variable will be protected and the block parameter will only have inner scope and it will not be possible to reassign or change the local variable `on line 3-6` where is the block.
+
+*3. Explanation about the concept (why?):*
+
+On `line 3` we are calling the method `loop` on integer 1 and we pass as an argument a `do..end` block, with a block
+parameter with the same name as our local variable `on line 1` `animal` so this variable will not be the same as `animal`
+block variable `on line 3-4` and it will be only accessed inside the block (as explained before in the variable
+shadowing concept).
+
+
+</br>
+</details>
+</br>
+
+
+#### Object Passing/Variables As Pointers
+1. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What are a and b?**
+```ruby .numberLines
+a = "hi there"
+b = a
+a = "not here"
+```
+
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What are a and b?*
+  `a` and `b` are variables pointing or refering to a specific object in memory.
+
+
+*2. The concept we demostrate here is **Variables as pointers**:*
+
+*3. Explanation about the concept (why?):*
+
+On `line 1` we are initializing a local variable `a` assigned to an string object with value `hi there` to it.
+
+on `line 2` we are initializing the local variable `b` to an integer object that the local variable `a` is referencing.  Currently, both of these local variables are **pointing to the same object**.
+
+On `line 3` we reassign the variable `a` to a new string object with value `not here` but variable `b` still pointing
+to string object` hi there`. **From this moment variable `a` and `b`  stop referring to the same object**.
+
+</br>
+</details>
+</br>
+
+
+2. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What are a and b?**
+```ruby .numberLines
+a = "hi there"
+b = a
+a << ", Bob"
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What are a and b?*
+  `a` and `b` are variables pointing or refering to a specific object in memory.
+
+
+*2. The concept we demostrate here is **Variables as pointers**:*
+
+*3. Explanation about the concept (why?):*
+
+On `line 1` we are initializing a local variable `a` assigned to an string object with value `hi there` to it.
+
+on `line 2` we are initializing the local variable `b` to an integer object that the local variable `a` is referencing.  Currently, both of these local variables are **pointing to the same object**.
+
+On `line 3` we  have the destructive method `<<` on the variable `a`. And an object string `, Bob` passed as an argoument. **Method `<<` will concatenate the object string `, Bob` and will mutate the string object `hi there` as is
+a destructive method it will modify the string object pointing to `a` and `b` and both variables will reference the same object with the string `hi there, Bob`**.
+
+</br>
+</details>
+</br>
+
+
+3. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What are a, b, and c? What if the last line was `c = a.uniq!`?**
+```ruby .numberLines
+a = [1, 2, 3, 3]
+b = a
+c = a.uniq
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What are a, b and c?*
+  `a` is pointing to the array collection `[1, 2, 3, 3]` with inetgers as elements
+  `b` is initialized and assigned to the object variable `a` is referencing
+  string object `[1, 2, 3, 3]`
+  `c` is initialized pointing to a new object as:
+  `On line 3` we have the non destructive method `uniq` on variable `a` referencing the object
+  `[1, 2, 3, 3]`. Method `uniq` will create a new array with the uniq elements on the collection
+  in this case the new object that variable `c` will be  assigned it will be the array `[1, 2, 3]`
+
+
+*2. What if the last line was `c = a.uniq!`?*
+  in this case the method `on line 3` would be the destructuive method `uniq!` variables `a, b and c` will be referencing
+  the same mutated object. Method `uniq!` will mutate the array object and will return the uniq elements on the collection in this case the mutated object `a,b and c` will be  assigned it will be the array `[1, 2, 3]`
+
+*2. The concept we demostrate here is **Variables as pointers**:*
+
+*3. Explanation about the concept (why?):* (explained on 1.)
+
+*** It took me 3 more min than expected
+</br>
+</details>
+</br>
+
+
+4. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What is `a`? What if we called `map!` instead of `map`?**
+
+```ruby .numberLines
+def test(b)
+  b.map {|letter| "I like the letter: #{letter}"}
+end
+
+a = ['a', 'b', 'c']
+test(a)
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What is `a`?*
+On `line 1`  we have a method `test` definition passing `b` as parameter
+On `line 2` we have `map` non-destructive method on `b` then we are sure the argument we
+we pass and will reference to the same object (`a` will reference to `b` in this case) will make
+`a` to still pointing to the array collection with sting objects `['a', 'b', 'c']`
+
+
+*2.  What if we called `map!` instead of `map`?*
+In this case on `line 2` we will have `map!` destructive method on `b` then we are sure the argument we
+we pass and will reference to the same object (`a` will reference to `b` in this case) will make
+`a` to mutate with the transformation of the return value of the block. In this case `a` will reference to the same
+mutated array object with the string collection `["I like the letter: a", "I like the letter: b", "I like the letter: c"]` as the block is transforming each element using string-interpolation on each element like `"I like the letter: #{letter}"`.
+`a` will still pointing to the array collection object but this time with mutated sting objects `["I like the letter: a", "I like the letter: b", "I like the letter: c"]`
+
+*2. The concept we demostrate here is **Variables as pointers**:*
+
+*3. Explanation about the concept (why?):* (explained on 1.)
+
+*** I used 4 min more than expected
+</br>
+</details>
+</br>
+
+
+5. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What is `a` and `b`? Why?**
+```ruby .numberLines
+a = 5.2
+b = 7.3
+
+a = b
+
+b += 1.1
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What is `a`  and `b`? Why?*
+`a` is assigned to the float object `7.3`
+`b` is assigned to the float object `8.4`
+
+
+On `line 1` we are initializing a local variable `a` assigned to an float object with value `7.3` to it.
+On `line 2` we are initializing a local variable `b` assigned to an float object with value `8.4` to it.
+
+On `line 4` we reassign the local variable `a` to an float object that the local variable `b` . **From this moment variable `a` and `b`  stop referring to the same object**.
+
+on `line 6` we use the non destructive method `+=`  on  variable `b` who is pointing to the float object `7.3` and we pass a float object `1.1` as argument.
+The non destructive method `+=` is equivalent to `b = b + 1.1` then we are reasiginig and **from that moment variable `a`
+and variable `b` are pointing/referencing to a different object.**
+
+*2. The concept we demostrate here is **Variables as pointers**:*
+
+*3. Explanation about the concept (why?):* (explained on 1.)
+
+** Toook 2 more minutes as expected
+</br>
+</details>
+</br>
+
+
+6. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+def test(str)
+  str  += '!'
+  str.downcase!
+end
+
+test_str = 'Written Assessment'
+test(test_str)
+
+puts test_str
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What is `a`  and `b`? Why?*
+`a` is assigned to the float object `7.3`
+`b` is assigned to the float object `8.4`
+
+
+On `line 1` we are initializing a local variable `a` assigned to an float object with value `7.3` to it.
+On `line 2` we are initializing a local variable `b` assigned to an float object with value `8.4` to it.
+
+On `line 4` we reassign the local variable `a` to an float object that the local variable `b` . **From this moment variable `a` and `b`  stop referring to the same object**.
+
+on `line 6` we use the non destructive method `+=`  on  variable `b` who is pointing to the float object `7.3` and we pass a float object `1.1` as argument.
+The non destructive method `+=` is equivalent to `b = b + 1.1` then we are reasiginig and **from that moment variable `a`
+and variable `b` are pointing/referencing to a different object.**
+
+*2. The concept we demostrate here is **Variables as pointers**:*
+
+*3. Explanation about the concept (why?):* (explained on 1.)
+
+** Toook 2 more minutes as expected
+</br>
+</details>
+</br>
+
+
+7. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+def plus(x, y)
+  x = x + y
+end
+
+a = 3
+b = plus(a, 2)
+
+puts a
+puts b
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. The following code return/output:*
+On `line 8` we call the method `puts` and passing in a local variable `a` to it as an argument.
+It will return `nil` and outputs `3`
+
+On `line 9` we call the method `puts` and passing in a local variable `a` to it as an argument.
+It will return `nil` and outputs `5`
+
+*2. The concept we demostrate here is **Variables as pointers and object passing as argument by value**:*
+
+*3. Explanation about the concept (why?):*
+On lines `1-3` we are defining the method `plus` which takes 2 parameters `x` and `y`.
+
+On `line 5` we are initializing a local variable `a` assigned to an integer object with value `3` to it.
+On `line 6` we are initializing a local variable `b` assigned  the return value of the calling the method `plus` and passing in the integers `2` (as variable `a` object is refering)  and object integer `2` as an arguments to it.
+
+On `line 1` variable `a` as an argument is refering to the same object as `x`
+On `line 2` variable `x` as an argument is reassigned to variable `x + 2` as `y` is refering to the object integer 2.
+From this moment will stop pointing to the same object, also because on the same time the integer objects are inmmutable.
+
+** Toook 4 more minutes as expected
+
+</br>
+</details>
+</br>
+
+
+8. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+def increment(x)
+  x << 'b'
+end
+
+y = 'a'
+increment(y)
+
+puts y
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. The following code return/output:*
+
+On `line 8` we call the method `puts` and passing in a local variable `y` to it as an argument.
+It returns `nil` and output `ab`
+
+*2. The concept we demostrate here is **Variables as pointers and object passing as argument by reference**:*
+
+*3. Explanation about the concept (why?):* 
+
+On lines `1-3` we are defining the method `increment` which takes 1 parameter `x`.
+On line `2` inside the method we have the destructive method `<<` on `x`
+
+On `line 5` we are initializing a local variable `y` assigned to an string object `a` to it.
+On `line 6` we are calling the method `increment` and passing as argument in the variable `y` who is referencing the string object `a` from this moment. `x` and `y` are refering to the same string object `a`.
+
+On line `2` we use the concatenating destructive method `<<` the object will be mutated and we will concatenate 'b' inside the same object. inner scope variable `x` and local variable `y` will reference to the same string object `ab`.
+
+** Toook 2 more minutes as expected
+</br>
+</details>
+</br>
+
+
+9. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**does this reassignment change the object outside the method?**
+
+```ruby .numberLines
+def change_name(name)
+  name = 'bob'
+end
+
+name = 'jim'
+change_name(name)
+puts name
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+*0. Does this reassignment change the object outside the method?*
+
+No, it does not change the object outside the method
+
+*1. The following code return/output:*
+
+On `line 7` we call the method `puts` and passing in a local variable `y` to it as an argument.
+It returns `nil` and output `ab`
+
+*2. The concept we demostrate here is **Variables as pointers and object passing as argument by value**:*
+
+*3. Explanation about the concept (why?):*
+
+On lines `1-3` we are defining the method `change_name` which takes 1 parameter `name`.
+On line `2` inside the method we reassign `name` to a new string object `bob`
+
+On `line 5` we are initializing a local variable `name` assigned to an string object `jim` to it.
+On `line 6` we are calling the method `change_name` and passing as argument in the variable `name` who is referencing the string object `jim` from this moment. `name` and `name as the block parameter` are refering to the same string object `jim`.
+
+On line `2` as we reassign, inner scope variable `name` and local variable `name` will reference to a different string object. inner sope `name` is reassigned to the string object `bob` and local variable `name` will still point to the
+same string object `jim`.
+
+
+** Toook 2 more minutes as expected
+</br>
+</details>
+</br>
+
+
+10. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**does this affect the object outside the method?**
+
+```ruby .numberLines
+def cap(str)
+  str.capitalize!
+end
+
+name = "jim"
+cap(name)
+puts name
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*0. Does this reassignment change the object outside the method?*
+Yes, it does, on the method `cap` we are passing `name` object argument by reference and mutating
+the object referenced.
+
+*1. The following code return/output:*
+
+On `line 7` we call the method `puts` and passing in a local variable `name` to it as an argument.
+It returns `nil` and output `Jim`.
+
+*2. The concept we demostrate here is **Variables as pointers and object passing as argument by reference**:*
+
+*3. Explanation about the concept (why?):*
+
+On lines `1-3` we are defining the method `cap` which takes 1 parameter `str`.
+On line `2` inside the method we use the destructive method `capitalize!` on `str` variable.
+
+On `line 5` we are initializing a local variable `name` assigned to an string object `jim` to it.
+On `line 6` we are calling the method `cap` and passing as argument in the variable `name` who is referencing the string object `jim` from this moment. `name` and `str` the block parameter are refering to the same string object `jim`.
+
+On line `2` as we use the destructive method `capitalize!` the object referenced by variable `str` and `name` will be
+mutated.  object string `jim` will be capitalized as `Jim` and we will still have the same initial object.
+
+** Toook 1 more minute as expected
+</br>
+</details>
+</br>
+
+
+11. **What is `arr`? Why? What concept does it demonstrate?**
+```ruby .numberLines
+a = [1, 3]
+b = [2]
+arr = [a, b]
+arr
+
+a[1] = 5
+arr
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*0. What is `arr`?*
+`arr` is a  nested array of 2 arrays with integers as objects.
+On `line 7` `arr` variable will return the refered object mutated as `[[1, 5],[2]]`
+
+*1. Why?*
+On `line 1` we are initializing a local variable `a` assigned to an array with integer elements `[1, 2]` to it.
+On `line 2` we are initializing a local variable `b` assigned to an array with integer element `[2]` to it.
+
+on `line 3` we are initializing the local variable `arr` to an array object that the local variable that includes inside variable `a` and `b` array refering objects.
+
+on `line 4` we do an index reassigment `=[]` destructive method form variable `a` at `index 1` and we reassign the object integer `5`.
+
+on `line 5` as the index reassigment is a mutation, variable `a` will point now to the same object but will be mutated
+to the array collection `[1, 5]` and as `arr` nested array it's stil referencing to the same object `a` because is `[a, b]` it will be also mutated and will have the same `arr` object `a` so as, explained before. will return.
+`[[1, 5],[2]]`
+
+*** 5 min more as expected
+
+*2. The concept we demostrate here is **Variables as pointers and how works index reassigment in a nested array**:*
+
+</br>
+</details>
+</br>
+
+
+12.  What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby  .numberLines
+arr1 = ["a", "b", "c"]
+arr2 = arr1.dup
+arr2.map! do |char|
+  char.upcase
+end
+
+puts arr1
+puts arr2
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. The following code return/output:*
+
+On `line 7` we call the method `puts` and passing in a local variable `arr1` to it as an argument.
+It returns `nil` and output `a \n b n\ c`.
+
+On `line 8` we call the method `puts` and passing in a local variable `arr2` to it as an argument.
+It returns `nil` and output `A \n B n\ C`.
+
+*2. The concept we demostrate here is **Variables as pointers and `dup` method creating shallow copyes of an object**:*
+
+*3. Explanation about the concept (why?):*
+
+On `line 1` we are initializing a local variable `arr1` assigned to an array object collection with string elements `["a", "b", "c"]` to it.
+On `line 2` we are initializing a local variable `arr2` assigned to the method `dup` on `arr1` referencing the arry object `["a", "b", "c"]`. `dup` will create a shallow copy(a new object) copy of the object `arr1`.
+
+On `line 3` we are calling the `map!` destructive method on local variable `arr2` who is refering to the aray object `["a", "b", "c"]` and passing in the `do..end` block as an argument with one block parameter `char`.
+
+On `line 4` inside the block, we use the method `upcase` on each element passed. and as `map~` uses the return value of the block, ans we are using the destructive version shown as `!` with the `bang` operator it will mutate `arr2` object.
+
+* The reasons is not mutating arr1 is because arr2 is a shallow copy
+* `\n` are jumping lines in the ouput.
+
+**** 8 minutes more as expected!!!
+</br>
+</details>
+</br>
+
+### Object Mutability/Mutating Methods
+
+1. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What values do `s` and `t` have? Why?**
+
+```ruby .numberLines
+def fix(value)
+  value.upcase!
+  value.concat('!')
+  value
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What values do `s` and `t` have? Why?*
+
+*2. The concept we demostrate here is ****:*
+
+*3. Explanation about the concept (why?):*
+
 </br>
 </details>
 </br>

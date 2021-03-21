@@ -9,9 +9,9 @@
   - Output:
 
   - Rules:
-    - Implicit:
-
     - Explicit:
+
+    - Implicit:
 
   - Questions:
 
