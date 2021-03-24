@@ -946,10 +946,249 @@ t = fix(s)
 
 *1. What values do `s` and `t` have? Why?*
 
-*2. The concept we demostrate here is ****:*
+On `line 7` the variable `s` is initialized and assigned to the string object `hello`
+On `line 8` we call the method `fix` and we pass variable `s` as an argument
+As the method is defined `on line 1-5` we can see that block parameter `value` has
+2 destructive methods on, `upcase!` who upcases each character inside the string
+and `concat`(also destructive) who concatenate in this case the string object `!`
+inside the string object. As `value` and `s` in this case always point to the same
+object and the return value is  of the method`value`.
+`on line 8` variables `t` and `s` will point to the same string object 'HELLO!'
+
+*2. The concept we demostrate here is **Variables as pointers and pass a argument by reference**:*
+
+*** 2 and half extra min from 7!
+
+</br>
+</details>
+</br>
+
+2. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What values do `s` and `t` have? Why?**
+
+```ruby .numberLines
+def fix(value)
+  value = value.upcase
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What values do `s` and `t` have? Why?*
+
+On `line 6` the variable `s` is initialized and assigned to the string object `hello`
+On `line 7` we call the method `fix` and we pass variable `s` as an argument
+As the method is defined `on line 1-5`.
+
+On `line 2` we can see that we reassign the variable `value` to the same object but upcased with a non destructive metod `upcase` on variable `value` to the reference string object `hello`, thn we will have a new string object `HELLO` assigned to value  , `upcase` who upcases each character inside the string.
+**From this point the local variabe `s` and `value` are refferencing to a different object**
+On `line 3` even `concat` that is destructive, concatenate in this case the string object `!` but only to inner scope object referenced by `value`.
+
+inside the string object. As `value` and `s` in this case stop pointing to the same
+object and the return value is different.
+
+`on line 8` variables `t` is pointing to the string object `HELLO!` and `s` keeps
+pointing to the string object `hello`
+
+*2. The concept we demostrate here is **Variables as pointers and pass a argument by value**:*
+
+*** 2 and half extra min from 7!
+
+</br>
+</details>
+</br>
+
+3. What does the following code return? What does it output? Why? What concept does it demonstrate?
+**What values do `s` and `t` have? Why?**
+
+```ruby .numberLines
+def fix(value)
+  value << 'xyz'
+  value = value.upcase
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What values do `s` and `t` have? Why?*
+
+On `line 7` the variable `s` is initialized and assigned to the string object `hello`
+On `line 8` we call the method `fix` and we pass variable `s` as an argument
+As the method is defined `on line 1-5`.
+
+Variable `s` will be assigned to the string object `helloxyz`
+Variable `t` will be pointing to the string object `HELLOXYZ!`
+The main reason is the reassigment `on line 3`. And from this point variable `s` will stop pointing to the same object of `value`.
+
+On `line 2` variable `s` and `value` block parameter are still pointing to the same string object `hello` an we mutate the object concatenating `<<` on `s` variable
+and the object is, at this point `helloxyz`
+
+On `line 3` we can see that we reassign the variable `value` to the same object but upcased with a non destructive metod `upcase` on variable `value` to the reference string object `hello`, thn we will have a new string object `HELLO` assigned to value  , `upcase` who upcases each character inside the string.
+
+On `line 4` even `concat` that is destructive, concatenate in this case the string object `!` but only to inner scope object referenced by `value`.
+
+inside the string object. As `value` and `s` in this case stop pointing to the same
+object and the return value is different.
+
+`on line 8` variables `t` is pointing to the string object `HELLO!` and `s` keeps
+pointing to the string object `hello`
+
+*2. The concept we demostrate here is **Variables as pointers and pass a argument by reference**:*
+
+*** 2 and half extra min from 7!
+
+</br>
+</details>
+</br>
+
+4. What does the following code return? What does it output? Why? What concept does it
+demostrate?
+**What values do `s` and `t` have? Why?**
+
+```ruby .numberLines
+def fix(value)
+  value = value.upcase!
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What values do `s` and `t` have? Why?*
+
+On `line 6` the variable `s` is initialized to the string object `hello`
+On `line 7` we initialize variable `t` to the return value of the method `fix` and pass variable `s` as an argument
+As the method is defined `on line 1-4`.
+
+Variable `s` will be assigned to the string object `HELLO!` and variable `t` will be pointing to the string object `HELLO!`
+
+The reason is the reassigment `on line 3` nrmally variable `s` will stop pointing to the same object of `value` but in this case, the reassgiment is refrencing to the
+destructive method `upcase!` on `s` pointing to the same string object `hello` that
+at this point still the same the object.
+
+On `line 4` we have the method `concat` that is destructive, on the object referenced by `s` and `value`, we will concatenate in this case the string object `!` and t object will be mutated as the same string object `HELLO!`
+
+`on line 8` variables `s` and `t` is pointing to the same string object `HELLO!`.
+
+*2. The concept we demostrate here is **Variables as pointers and pass a argument by reference**:*
+
+* the method returns the last expression inside the method definition(evaluated).
+
+</br>
+</details>
+</br>
+
+
+5. What does the following code return? What does it output? Why? What concept does it demostrate?
+**What values do `s` and `t` have? Why?**
+
+```ruby .numberLines
+def fix(value)
+ value[1] = 'x'
+ value
+end
+
+s = 'abc'
+t = fix(s)
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1. What values do `s` and `t` have? Why?*
+
+On `line 6` the variable `s` is initialized and assigned to the string object `abc`
+On `line 8` we call the method `fix` and we pass variable `s` as an argument
+As the method is defined `on line 1-4`. Variable `s` will be assigned to the string object `axc` and variable `t` will be pointing to the same string object `axc`
+
+The reason is the destructive method index reassigment `on line 2`, `s` pointing to the same string object `abc` that at this point still the same the object referenced by `value`. We only mutate the string object `at index 1` in this case we change
+the character `b` to `x` then `value` and `s` are still pointing to the same object.
+
+`on line 8` variables `s` and `t` is pointing to the same string object `axc``.
+
+* the return value of a method is the last line, in this case `value` who's pointing to the same string object `axc`
+
+*2. The concept we demostrate here is **Variables as pointers and pass a argument by reference**:*
+
+*** 2 and half extra min from 7!
+
+</br>
+</details>
+</br>
+
+
+6. What does the following code return? What does it output? Why? What concept does it
+demostrate?
+
+```ruby .numberLines
+def a_method(string)
+  string << ' world'
+end
+
+a = 'hello'
+a_method(a)
+
+p a
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+<!-- 
+On `line 7` the variable `s` is initialized and assigned to the string object `hello`
+On `line 8` we call the method `fix` and we pass variable `s` as an argument
+As the method is defined `on line 1-4`.
+
+Variable `s` will be assigned to the string object `HELLO!` and variable `t` will be pointing to the string object `HELLO!`
+
+The reason is the reassigment `on line 3` nrmally variable `s` will stop pointing to the same object of `value` but in this case, the reassgiment is refrencing to the
+destructive method `upcase!` on `s` pointing to the same string object `hello` that
+at this point still the same the object referenced by `value`.
+
+On `line 4` we have the method `concat` that is destructive, on the object referenced by `s` and `value`, we will concatenate in this case the string object `!` and t object will be mutated as the same string object `HELLO!`
+
+`on line 8` variables `s` and `t` is pointing to the same string object `HELLO!`. -->
+
+*2. The concept we demostrate here is **Variables as pointers and pass a argument by reference**:*
+
 
 *3. Explanation about the concept (why?):*
 
 </br>
 </details>
 </br>
+
+
+###### *** Questions.
+###### How can I describe better the connection with the bock parameter an the arguent passed?
+
+on the definition `a_method(string)` the variable `string` used as parameter is referencing to the same object string as the variable `a`.
+
+both variable `a` and `str` paramer are both pointing to the string osbject `hello`, beasue `<<` is a desturctive methdod
+
+since reassigment it not mutating now var `a` and `string` local variable inside the method stop referencing.
