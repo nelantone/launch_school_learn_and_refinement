@@ -7,6 +7,8 @@ puts a
 puts b
 ```
 
+######hello
+
 <details>
 <summary>Answer</summary>
 
@@ -153,10 +155,10 @@ On line `3 to 7` we call a block. *
 
 On `line 4` we call the method `puts` and passing in a local variable `str` to it as an argument.
 
-On line `5` inside the block, we reassign variable `i` to itself as 
+On line `5` inside the block, we reassign variable `i` to itself as
 `i -= 1` is equivalent to `i = i - 1`
 
-On line `6` inside the block, we reassign variable `i` to itself as 
+On line `6` inside the block, we reassign variable `i` to itself as
 `i -= 1` is equivalent to `i = i - 1`
 
 On `line 6` we are **breaking out the loop by using the keyword** `break` if the **value of the object that local variable** `i` is **referencing is equal to** 0**.**
@@ -733,7 +735,7 @@ It returns `nil` and output `ab`
 
 *2. The concept we demostrate here is **Variables as pointers and object passing as argument by reference**:*
 
-*3. Explanation about the concept (why?):* 
+*3. Explanation about the concept (why?):*
 
 On lines `1-3` we are defining the method `increment` which takes 1 parameter `x`.
 On line `2` inside the method we have the destructive method `<<` on `x`
@@ -1159,25 +1161,449 @@ p a
 </br>
 
 *1.  What does the following code return? What does it output?*
-<!-- 
-On `line 7` the variable `s` is initialized and assigned to the string object `hello`
-On `line 8` we call the method `fix` and we pass variable `s` as an argument
-As the method is defined `on line 1-4`.
 
-Variable `s` will be assigned to the string object `HELLO!` and variable `t` will be pointing to the string object `HELLO!`
+on `line 8` value `a` will return and output `hello world`
 
-The reason is the reassigment `on line 3` nrmally variable `s` will stop pointing to the same object of `value` but in this case, the reassgiment is refrencing to the
-destructive method `upcase!` on `s` pointing to the same string object `hello` that
-at this point still the same the object referenced by `value`.
-
-On `line 4` we have the method `concat` that is destructive, on the object referenced by `s` and `value`, we will concatenate in this case the string object `!` and t object will be mutated as the same string object `HELLO!`
-
-`on line 8` variables `s` and `t` is pointing to the same string object `HELLO!`. -->
 
 *2. The concept we demostrate here is **Variables as pointers and pass a argument by reference**:*
 
 
 *3. Explanation about the concept (why?):*
+on line `1-3` we define `a_method` and we pass the parameter `string`
+on line `2` we use the destructive method `<<` on  local variable `string`
+passing a the string object ` world` on it.
+With concatenate method `<<` we add in the end of the string the ` world` mutating the object.
+
+on `line 5` we initialize the object string `hello`
+on `line 6` we call the method `a_method` and we pass as an argument `a`. From this  moment variable `a` and  variable `string` are referencing to the same object.
+As we use a destructive method `a` and `string` will be pointing to the same object until the end.
+
+</br>
+</details>
+</br>
+
+
+7. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+num = 3
+
+num = 2 * num
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 3` the variable `num` will be pointing to the inmutable object integer `6`
+
+*2. The concept we demostrate here is **Variables as pointers in inmmutable objects**:*
+
+
+*3. Explanation about the concept (why?):*
+on `line 1` we initialize the variable `num` to integer `3`
+on `line 3` we reassign `num` variable to the return value of the method `*` on
+integer 2 passing as an argument the variable `num` on that moment referencing to  integer  object `3`.
+multiplication method will return the product of integer `2` multiplied by `3` and will return the object `6`. all integers in ruby are inmmutable. It means that we can't change the object id and will
+each of the integers will always point to the same object in memory that will allways be different to each other.
+</br>
+</details>
+</br>
+
+
+
+8. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+a = %w(a b c)
+a[1] = '-'
+p a
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+
+On `line 3` we call `p` method and we pass as an argument the variable `a` that refers to the array
+object. In this case the output/return is `['a', '_', 'c']`
+
+*2. The concept we demostrate here is **Variables as pointers and object mutation with index assigment**:*
+
+
+*3. Explanation about the concept (why?):*
+On `line 1` we are initializing a local variable `a` assigned to an array collection with object integers with values `a` `b` and `c` on it.
+as we use the destructive method of `index assigment`(`[]=`) we mutate the array elemtn at `index[1]`
+`b` in this case and we reassign it to `_`. the object assigned to `a` will still be the same.
+
+</br>
+</details>
+</br>
+
+
+
+9. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+def add_name(arr, name)
+  arr = arr + [name]
+end
+
+names = ['bob', 'kim']
+add_name(names, 'jim')
+puts names
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On line `6` we are calling the method `add_name` and passing in the variable `names` and the
+object integer `jim`  as an argument to it. As we do inside the method a reassigment and we use
+a non destructive method `+` we know it will not mutate any og the passing arguments.
+The return value is.`['bob', 'jim', 'kim']`
+
+On `line 7` we call the method `puts` and passing in a local variable `names` to it as an argument.
+the retun value is `nil` and the output is `'bob' \n 'kim'`
+
+*2. The concept we demostrate here is **method calling with arguments and pass an argument by value**:*
+
+*3. Explanation about the concept (why?):*
+On lines `1-3` we are defining the method `add_name` which takes 2 parameters.
+On `line 2` we reassign the local variable `arr` to itself adding the secong parameter as an array.
+We can deduce by the variable name and composition that the first param will be an array anmd the second a string with a name.
+
+</br>
+</details>
+</br>
+
+
+10. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+def add_name(arr, name)
+  arr = arr << name
+end
+
+names = ['bob', 'kim']
+add_name(names, 'jim')
+puts names
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output? why?*
+On line `6` we are calling the method `add_name` and passing in the variable `names` and the
+object integer `jim`  as an argument to it. As we do inside the method a reassigment and we use
+a the destructive method `<<` on `arr` Array object passing as an argument `name` variable. concatenate `['bob', 'kim']` with `'jim'` mutating the array.
+The return value is.`['bob', 'jim', 'kim']`
+
+On `line 7` we call the method `puts` and passing in a local variable `names` to it as an argument.
+the retun value is `nil` and the output is `'bob' \n 'kim' \n 'jim'` as we mutate the array and
+even we reassign `arr` on `line 2` this reassigment is to the same object mutated. So then we are still reffering to the same object.
+
+*2. The concept we demostrate here is **method calling with arguments and pass an argument by reference**:*
+
+</br>
+</details>
+</br>
+
+#### Each, Map, Select
+1. What does the following code return? What does it output? Why? What concept does it 	demonstrate?
+```ruby .numberLines
+array = [1, 2, 3, 4, 5]
+
+array.select do |num|
+   puts num if num.odd?
+end
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+The return value in this case will be on `line 5` there the block ends and it will
+be a new empty `array` object `[]` as we use puts method and each element returns
+`nil`
+
+*2. The concept we demostrate here is **how works select method and thruthiness**:*
+
+*3. Explanation about the concept (why?):*
+On `line 5` we have the end of the block passed as an argument to `select` method.
+This returns a new array object. Each of the elements of `array` variable on `select`
+are passed inside the block as `num` and the return value `truthiness`, in case the
+return value evaluates to`true` the value of the element is selected and passed to the new array.
+
+* In ruby everything is `truthy` (evaluates to `true`) except `false` and `nil`.
+
+*** I used 3 extra min than the expected!
+</br>
+</details>
+</br>
+
+2. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+arr.select { |n| n.odd? }
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+The return value in this case will be on `line 3` there the block ends  with `}` and it returns a new  `array` object `[1, 3, 5, 7, 9]`.
+
+*2. The concept we demostrate here is **how works select method and thruthiness**:*
+
+*3. Explanation about the concept (why?):*
+On `line 3` we have the end of the block passed as an argument to `select` method.
+This returns a new array object. Each of the elements of `array` variable on `select`
+are passed inside the block as `num` and the return value `truthiness`, in case the
+return value evaluates to`true` the value of the element is selected and passed to the new array. In this case we use `odd?` method on each of the integers and it will return
+`true` for the odd integers and include the elements on the new returned array.
+
+* In ruby everything is `truthy` (evaluates to `true`) except `false` and `nil`.
+
+*** I used 3 extra min than the expected!
+</br>
+</details>
+</br>
+
+
+3. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.select do |n| 
+  n + 1
+end
+p new_array
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+The return value in this case will be on `line 5` when we use the method `p` it ouput and returns a new `array` object  with the identical elements as the previus array `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`.
+
+*2. The concept we demostrate here is **how works select method and thruthiness**:*
+
+*3. Explanation about the concept (why?):*
+On `line 5` we have the end of the block passed as an argument to `select` method.
+This returns a new array object. Each of the elements of `array` variable on `select`
+are passed inside the block as `num` and the return value `truthiness`, in case the
+return value evaluates to`true` the value of the element is selected and passed to the new array. In this case we use `odd?` method on each of the integers and it will return
+`true` for the odd integers and include the elements on the new returned array.
+
+In this case `on line` the return value of each of the elements is evaluating to `true`
+this is why all elements are selected and passed to the new array.
+
+* In ruby everything is `truthy` (evaluates to `true`) except `false` and `nil`.
+
+</br>
+</details>
+</br>
+
+4. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.select do |n| 
+  n + 1
+  puts n
+end
+p new_array
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+The return value in this case will be on `line 7` when we use the method `p` it ouput and returns a new `array` object `[]`.
+
+*2. The concept we demostrate here is **how works select method and thruthiness**:*
+
+*3. Explanation about the concept (why?):*
+On `line 6` we have the end of the block passed as an argument to `select` method.
+This returns a new array object. Each of the elements of `array` variable on `select`
+are passed inside the block as `num` and the return value `truthiness`, in case the
+return value evaluates to`true` the value of the element is selected and passed to the new array.
+
+In this case `on line 5` as we call the `puts` method and we pass as an argument each
+of the elements represented by `n` and the return value is `nil` for each of the elements all evaluate to `false`, so any of the elements will be selected and it 
+will return a new empty array.
+
+* In ruby everything is `truthy` (evaluates to `true`) except `false` and `nil`.
+
+</br>
+</details>
+</br>
+
+5. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+words = %w(jump trip laugh run talk)
+
+new_array = words.map do |word|
+  word.start_with?("t")
+end
+
+p new_array
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 7` we call the method `p` this method inspects the object passed as an argument
+in this case `new_array` that references an array object and output and returns `[false, true, false, false, true]`
+
+*2. The concept we demostrate here is **how works the method `map` and how a new array is created with map transformation**:*
+
+*3. Explanation about the concept (why?):*
+On `line 3` we initialize `new_array` to the return value of the method `map` on the variable `words` that references
+to an array collection with string elements. On the same time, we pass as an argument a `do..end` block with `word`
+as block parameter.
+On `line 4` isnide the block we use the method `start_with?` on `word` passing the objec string `'t'` as argument.
+It will return `true` when the first character of the string is the letter `t` and false otherwise. `map` transforms
+each of the elements returning the return value of the block and creating anew array with the same size of the original array.
+
+*** I took 2 extra minutes more than expected.
+
+
+</br>
+</details>
+</br>
+
+
+6. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+arr.each { |n| puts n }
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 3` it returns the original array passed as caller `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`
+
+*2. The concept we demostrate here is **how works the method `each` and how it ignores the return value of the block**:*
+
+*3. Explanation about the concept (why?):*
+On `line 1` we initialize the local variable `arr` and we assign it to an array collection of integers from 1 to 10.
+On `line 3` we call `each` method on `arr` and we pass a block `{..}` with `n` as block parameter and we call
+the `puts` method passing as argument `n` the method `each` iterates each alement passing it intio the block, the block will return `nil` in each iteration, but `each` method ignores the return value of the block and it will always return
+the original array.
+
+</br>
+</details>
+</br>
+
+
+7. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+incremented = arr.map do |n| 
+            n + 1
+            end
+p incremented
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+
+On `line 6` we call the method `p` ans we pass as an argument `incremented` variable that references an array.
+the pethod `p` inspect the object passed as an agrument and  it returns and on the same time ouputs `[ 2, 3, 4, 5, 6, 7, 8, 9, 11]`
+
+
+*2. The concept we demostrate here is **how works the method `map` and how it returns and can tranform the return value of the block into a new array**:*
+
+*3. Explanation about the concept (why?):*
+On `line 3` we initialize the value `incremented` and we assign it to the return value of the method map on `arr`
+with a `do..end` block  as an argument. On the same line but nside the block we initialize a block parameter `n`.
+On `line 4` we use `+` operator on `n` passing as an argument the integer `1` and we transform the block with the return value passing each of the elements as `n` and creating a new array with this retrun value.
+
+</br>
+</details>
+</br>
+
+8. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.map do |n|
+  n > 1
+end
+p new_array
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 6` we call the method `p` and we pass as an argument the local variable `new_array`
+that is refering to the an array collection.
+`p` method `inspect` the passed object as an argument and output/return the object itself, in this case
+`[false, true, true, true, true, true, true, true, true, true, true ]`
+
+*2. The concept we demostrate here is **how works the method `map` and how it returns and can tranform the return value of the block into a new array**:*
+
+*3. Explanation about the concept (why?):*
+On `line 3` we initialize the local variable `new_array` to the return value of the method `map` on the variable `arr`
+assigned to an array object with elements as integers `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. on the same line we pass as an argument a `do..end` block with block parameter `n`.
+On `line 4` we call the conditioal operator `>` on `n` and we pass as an argument the integer `1`.
+This will return a boolean, eeach of the elements of the collection bigger than `1` will return `true` otherwiase `false`. The return value is a collection of booleans. `map` takes the return value of the block from each element and creates a new array from it.
+
+</br>
+</details>
+</br>
+
+9. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.map do |n| 
+  n > 1
+  puts n
+end
+p new_array
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+
+
+*2. The concept we demostrate here is **how works the method `map` and how it returns and can tranform the return value of the block into a new array**:*
+
+*3. Explanation about the concept (why?):*
+
 
 </br>
 </details>
@@ -1192,3 +1618,6 @@ on the definition `a_method(string)` the variable `string` used as parameter is 
 both variable `a` and `str` paramer are both pointing to the string osbject `hello`, beasue `<<` is a desturctive methdod
 
 since reassigment it not mutating now var `a` and `string` local variable inside the method stop referencing.
+
+
+
