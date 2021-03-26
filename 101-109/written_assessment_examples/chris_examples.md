@@ -1382,7 +1382,7 @@ return value evaluates to`true` the value of the element is selected and passed 
 ```ruby .numberLines
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-new_array = arr.select do |n| 
+new_array = arr.select do |n|
   n + 1
 end
 p new_array
@@ -1418,7 +1418,7 @@ this is why all elements are selected and passed to the new array.
 ```ruby .numberLines
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-new_array = arr.select do |n| 
+new_array = arr.select do |n|
   n + 1
   puts n
 end
@@ -1441,7 +1441,7 @@ are passed inside the block as `num` and the return value `truthiness`, in case 
 return value evaluates to`true` the value of the element is selected and passed to the new array.
 
 In this case `on line 5` as we call the `puts` method and we pass as an argument each
-of the elements represented by `n` and the return value is `nil` for each of the elements all evaluate to `false`, so any of the elements will be selected and it 
+of the elements represented by `n` and the return value is `nil` for each of the elements all evaluate to `false`, so any of the elements will be selected and it
 will return a new empty array.
 
 * In ruby everything is `truthy` (evaluates to `true`) except `false` and `nil`.
@@ -1521,7 +1521,7 @@ the original array.
 ```ruby .numberLines
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-incremented = arr.map do |n| 
+incremented = arr.map do |n|
             n + 1
             end
 p incremented
@@ -1585,7 +1585,7 @@ This will return a boolean, eeach of the elements of the collection bigger than 
 ```ruby .numberLines
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-new_array = arr.map do |n| 
+new_array = arr.map do |n|
   n > 1
   puts n
 end
@@ -1598,26 +1598,207 @@ p new_array
 </br>
 
 *1.  What does the following code return? What does it output?*
-
+On `line 3`  we initialize `new_array` to the return value of the method `map` on the object collection that variable `arr` is assigned `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. On the same line we pass as an argument a `do..end` block with block parameter `n`.
+on `line 5` inside the block we call the method `puts` and we pass as an argument `n`.
+As `map`is called on the array object and it returns a new array object populated with the return values of the block in each iteration.  The method `map` transforms the original array based on the return value of the block in each iteration.
+For this reason `line 7` as we use `p` method that inspects the object passed as argument, in this case `new_array`
+value that references to the array collection, it outputs and returns `[nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]`.
 
 *2. The concept we demostrate here is **how works the method `map` and how it returns and can tranform the return value of the block into a new array**:*
-
-*3. Explanation about the concept (why?):*
 
 
 </br>
 </details>
 </br>
 
+10. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+a = "hello"
 
-###### *** Questions.
-###### How can I describe better the connection with the bock parameter an the arguent passed?
+[1, 2, 3].map { |num| a }
+```
 
-on the definition `a_method(string)` the variable `string` used as parameter is referencing to the same object string as the variable `a`.
+<details>
+<summary>Answer</summary>
 
-both variable `a` and `str` paramer are both pointing to the string osbject `hello`, beasue `<<` is a desturctive methdod
+</br>
 
-since reassigment it not mutating now var `a` and `string` local variable inside the method stop referencing.
+*1.  What does the following code return? What does it output?*
+On `line 1` we initialize the variable `a` to `"hello"`
+
+On `line 3` we call the method `map` on an array collection of integers from `1 to 3` and we pass as an argument
+a `{}` block with `num` as block parameter. Inside the block we pass the variable `a` who is pointing to the object `"hello"`, fot this reason the return value it will be a new array `['hello', 'hello', 'hello']`
+
+*2. The concept we demostrate here is **how works the method `map`, and also that the lucal variable initialized outside the block can be accesed inside (but not biceversa) how it returns and can tranform the return value of the block into a new array**:*
+
+*** just 6 min!
+</br>
+</details>
+</br>
+
+<!-- Example 10
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+
+Example 11
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+ -->
+
+11. What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby .numberLines
+[1, 2, 3].each do |num|
+  puts num
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `each` on the array collection `[1,2,3]` passing a `do..end` block as an argument. Inside the block we defined a block parameter `num` and we call puts method passing `num` as an argument.
+The method `each` iterates on each of the elements and return the object caller `[1, 2, 3]` ignoring the return value of the block and outputs each of the elements as `1 \n 2 \n 3` where `\n` are the jumping lines in between.
+
+*2. The concept we demostrate here is **how works the method `each` how returns the caller and ignores the return value of the block***
+
+*** just 6 min!
+</br>
+</details>
+</br>
+
+
+#### Other Collection Methods
+1. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+[1, 2, 3].any? do |num|
+  num > 2
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `any?` on the array collection `[1, 2, 3]` and we pass as an argument a `do..end` block with the block parameter `num`.
+
+On `line 2` inside the block we use the operator (greater than) `>` comparing each of the passing elements `1,2` and `3`
+to `2` .
+The method `any?` evaluates to true/false the return value of the block and it returns `true` and stops evaluating if any  of the elements returns `true`.
+In this case the last element `3` is greater than 2, then the return value of the block will be `true`.
+
+*2. The concept we demostrate here is **how works the method `any?` and  always returns a boolean if any of the return values of the block returns evaluates to `true`*
+
+</br>
+</details>
+</br>
+
+2. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+{ a: "ant", b: "bear", c: "cat" }.any? do |key, value|
+  value.size > 4
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `any?` on a hash collection `{ a: "ant", b: "bear", c: "cat" }.` and we pass as an argument a `do..end` block with the block parameters `key` and `value`.
+
+On `line 2` inside the block we use the operator (greater than) `>` calling the method `size` on each of the `values` that will return the size as an integer to comper it to `4`.
+
+The method `any?` evaluates to true/false the return value of the block and it returns `true` and stops evaluating if any  of the elements returns `true`.
+In this case no any of the size values return a number greater than `4`, then the return value of the block will be `false`.
+
+*2. The concept we demostrate here is **how works the method `any?` and  always returns a boolean if any of the return values of the block returns evaluates to `true`*
+
+</br>
+</details>
+</br>
+
+3. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+[1, 2, 3].all? do |num|
+  num > 2
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `all?` on the array collection `[1, 2, 3]` passing as an argument a `do..end` block
+with block parameter `num`.
+On `line 2` we call the operator (greater than) `>` comparing each of the caracters to the integer `2`.
+`all?` method evaluate to true/false the return value of the block. And returns true only if all of the elements return `true`, otherwise will return `false`.
+In this case the last element `1` is not greater than `2` then `all?` will stop evaluating and for this reason it will return `false`.
+
+*2. The concept we demostrate here is **how works the method `all?` and  always returns a boolean if all of the return values of the block returns evaluates to `true`*
+
+</br>
+</details>
+</br>
+
+4. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+{ a: "ant", b: "bear", c: "cat" }.all? do |key, value|
+  value.length >= 3
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `all?` on the hash collection `{ a: "ant", b: "bear", c: "cat" }` passing as an argument a `do..end` block with block parameters `key` and `value` representing each `keys` and `values` of the collection.
+On `line 2` we call the operator (greater equal than) `>=` calling the method `length` on each value) and compare it to the integer `3`.
+
+`all?` method evaluate to true/false the return value of the block. And returns true only if all of the elements return `true`, otherwise will return `false`.
+In this case all value sizes are greater equal than 3 then `all?` and all the return values of the block will return `true`. For this reason `all?` method will return `true`.
+
+*2. The concept we demostrate here is **how works the method `all?` and  always returns a boolean if all of the return values of the block returns evaluates to `true`*
+
+</br>
+</details>
+</br>
+
+
+5. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+[1, 2, 3].each_with_index do |num, index|
+  puts "The index of #{num} is #{index}."
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+
+
+*2. The concept we demostrate here is **how works the method `each_with_index`*
+
+</br>
+</details>
+</br>
+
 
 
 
