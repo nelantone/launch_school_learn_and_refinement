@@ -18,8 +18,15 @@
 * Examples:
 
 * Data Structure:
-
+  Inputs
+    -
+  Rules
 * Algorithm:
+- Main Algorithm
+
+- Ideas
+
+- Higher Level Algorithm(helper methods)
 
 * Code:
 =end
