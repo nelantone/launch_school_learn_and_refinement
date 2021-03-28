@@ -1791,14 +1791,184 @@ end
 </br>
 
 *1.  What does the following code return? What does it output?*
+On `line 1` we call the method `each_with_index` on an array collection of integers `[1, 2, 3]` passing as an argument
+a `do..end` block with  `num` and `index` as parameters.
 
+On `line 2` we call the method `puts` passing as an argument a string `with` num and `index` using string interpolation.
 
-*2. The concept we demostrate here is **how works the method `each_with_index`*
+As `each_with_index` is using `each` method but on the same time `index` the first block parameter will be each element
+of the array iteration and the second parameter `index` it will be the index each element is at. `each_with_index` ignores the return value of the block and int always returns the object caller.
+For this reason the output will be:
+`The index of 1 is 0.`
+`The index of 2 is 1.`
+`The index of 3 is 2.`
+And the will return `[1, 2, 3]`
+
+*2. The concept we demostrate here is: **how works the method `each_with_index` and how ignores the return value of the block an returns the caller object***
 
 </br>
 </details>
 </br>
 
 
+6.  What does the following code return? What does it output? Why? What concept does it demonstrate?
 
 
+```ruby .numberLines
+{ a: "ant", b: "bear", c: "cat" }.each_with_object([]) do |pair, array|
+  array << pair.last
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `each_with_object` on an hash collection of integers `{ a: "ant", b: "bear", c: "cat" }` passing as an argument an empty array `[]` and a `do..end` block with  `pair` and `array` as block parameters.
+where `pair` is each value-pair of the collection and `array` is the empty initialized array.
+What method `each_with_object` does is taking the first parameter initialized as the last block parameter (`array` in this case)
+and return this new object.
+
+On `line 2` we call the method `last` taking the last value of the pair (in this case are each value of each element) and with the destructive method `<<` we concatenate each of the elements into the initialized array obejct.
+For this reason, the return value of `each_with_object` is `["ant", "bear", "cat"]`
+
+*2. The concept we demostrate here is: **how works the method `each_with_object` and how ignores the return value of the block an returns the new object initialized as first agrument***
+
+** 1 minute and half more as expected.
+
+</br>
+</details>
+</br>
+
+
+7. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+{ a: "ant", b: "bear", c: "cat" }.each_with_object({}) do |(key, value), hash|
+  hash[value] = key
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we call the method `each_with_object` on an hash collection of integers `{ a: "ant", b: "bear", c: "cat" }` passing as an argument an empty hash `{}` and a `do..end` block with  `key`, `value` and `hash` as block parameters.
+where ``key`, `value`` are each value-pair of the collection and `hash` is the empty initialized hash.
+What method `each_with_object` does is taking the first parameter initialized as the last block parameter (`hash` in this case) and return this new object.
+
+On `line 2` we call the index reassigment method `=[]` passing each value as index and returning and assign it to the each specific key.
+For this reason, the return value of `each_with_object` is `{ a: "ant", b: "bear", c: "cat" }`
+
+*2. The concept we demostrate here is: **how works the method `each_with_object` and how ignores the return value of the block an returns the new object initialized as first agrument***
+
+** 1 minute more as expected.
+</br>
+</details>
+</br>
+
+8. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+odd, even, other= [0,1, 2, 3].partition do |num|
+  num.odd?
+end
+
+p odd
+p even
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+On `line 1` we initialize on one line the variables `odd` and `even` to
+the return value of the merthod `partiton` on  an array `[1, 2, 3]` passing
+as argument a `do..end` block with `num` as block parameter.
+The metod `partition` returns 2 new arrays, the first one with the block returns
+that evaluate to `true` and the second with the rest of values(the ones that evaluates to `false`).
+On `line 2` we call the method `odd?` on `num` that represents each element of the iteration. In case the number is odd it will be placed on the first variable `odd`
+who's pointing to a new array object, otherwise will be placed in the new array object assigned to variable `even`.
+
+For this reason we have as return and ouput(as we us `p` method that inspects the object passed as argument and it return/outputs the result)
+On `line 5` return/output: `[1,3]`
+On `line 6` return/outout: `[2]`
+
+*2. The concept we demostrate here is: **how works the method `partition` creating 2 news arrays, the first with the `truthy` return values of the block and the secon with the `falsey` return values of the block.***
+
+** 3 minutes more as expected!
+</br>
+</details>
+</br>
+
+Truthiness
+1. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+a = "Hello"
+
+if a
+  puts "Hello is truthy"
+else
+  puts "Hello is falsey"
+end
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+*1.  What does the following code return? What does it output?*
+
+*2. The concept we demostrate here is: **..***
+
+</br>
+</details>
+</br>
+
+
+#### Bonus problems
+
+
+1. What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby .numberLines
+def test(b)
+  b.map {|letter| "I like the letter: #{letter}"}
+end
+
+a = ['a', 'b', 'c']
+test(a)
+
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+On `line 5` we initialize variable `a` to an array collection of integers `['a', 'b', 'c']`.
+
+On `line 6` we call the method test and we pass as an argument the variable a that references to an array object.
+
+On `line 1-3` we have the method definition. On `line 1` we define `test` method and we pass as parameter the variable `b`. As variable `a` is passed as an argument, in this moment, variable `a` and `b` point to the same object.
+
+On `line 2` we call map non-destructive method on `b` passing as parameter a `{}` block as an argument and as a block parameter `letter`. On the same line we have a string object with `letter` as string interpolation, each element will be passed as "I like the letter: `a`, `b`, `c` respectively. We don't have an output. As `map` is the last line inside the method, it will be the return value and it returns a new array object with the block return value of each iteration:
+For this reason the return value `on line 6` is:
+`["I like the letter: a", "I like the letter: b", "I like the letter: c"]`
+
+We demonstrate the next concepts:
+* How we need to define a parameter to pass a local variable to a method.
+* How it works `map` and how always returns a new array without mutating the object.
+* The return value of a method call is the last line that can be returned inside the method.
+
+</br>
+</details>
+</br>

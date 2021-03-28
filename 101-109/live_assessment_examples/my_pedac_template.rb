@@ -22,11 +22,11 @@
     -
   Rules
 * Algorithm:
-- Main Algorithm
+  - Main Algorithm:
 
-- Ideas
+  - Ideas:
 
-- Higher Level Algorithm(helper methods)
+  - Higher Level Algorithm(helper methods):
 
 * Code:
 =end
