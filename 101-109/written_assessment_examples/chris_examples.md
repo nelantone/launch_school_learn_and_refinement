@@ -1772,6 +1772,17 @@ In this case all value sizes are greater equal than 3 then `all?` and all the re
 
 *2. The concept we demostrate here is **how works the method `all?` and  always returns a boolean if all of the return values of the block returns evaluates to `true`*
 
+##### Last and more accurate answer
+On `line 1` we call `all?` method on a hash collection `{ a: "ant", b: "bear", c: "cat" }` and passing as an argument a `do..end` block with the block parameters `key` `value`.
+On `line 2` we call the method `length` on `value` that points to each value element
+and we use `>=` operator to comare it to the interger 3.
+  
+all? method evaluates the truthiness of theb return value of the block. When all return values are evaluating to true, it returns true, otherwise will returns false.acts_like?
+
+In this case, the return value of the `all` method is `true` because all elements are greater equal than 4. We don't have an output.
+
+And the concept that we demostrate is thruthiness (everything in ruby evaluates to true exceopt nil and false).
+
 </br>
 </details>
 </br>
@@ -1907,7 +1918,7 @@ On `line 6` return/outout: `[2]`
 </details>
 </br>
 
-Truthiness
+###Truthiness
 1. What does the following code return? What does it output? Why? What concept does it demonstrate?
 
 ```ruby .numberLines
@@ -1926,27 +1937,34 @@ end
 </br>
 
 *1.  What does the following code return? What does it output?*
+On `line 1` we initialize local variable `a` to `"hello"`.
+On `line 3-7` we have an `if`, `else` conditional operators.
+On `line 3` we have an `if` condition evaluating the variable `a` that points to `"hello"`.
+As in **Ruby everything is truthy except `false` and `nil`** this condition is evaluated and it returns `true`.
+On `line 4` we call the `puts` method and we pass as an argument `"Hello is trurhy"`
+For this reason the output will be:
+`"Hello is truthy"` and the return value will be `nil`.
 
-*2. The concept we demostrate here is: **..***
+*2. The concept we demostrate here is: **Truthiness***
 
 </br>
 </details>
 </br>
 
 
-#### Bonus problems
-
-
-1. What does the following code return? What does it output? Why? What concept does it demonstrate?
-
+2. What does the following code return? What does it output? Why? What concept does it demonstrate?
 ```ruby .numberLines
-def test(b)
-  b.map {|letter| "I like the letter: #{letter}"}
+def test
+  puts "written assessment"
 end
 
-a = ['a', 'b', 'c']
-test(a)
+var = test
 
+if var
+  puts "written assessment"
+else
+  puts "interview"
+end
 ```
 
 <details>
@@ -1954,20 +1972,30 @@ test(a)
 
 </br>
 
-On `line 5` we initialize variable `a` to an array collection of integers `['a', 'b', 'c']`.
+*1.  What does the following code return? What does it output?*
+On `line 5` we initialize local variable `var` to the return value of the method `test`
 
-On `line 6` we call the method test and we pass as an argument the variable a that references to an array object.
+On `line 1-3` we have the method `test` definition.
+On `line 2` we call the method `puts` and we pass as an argument `"written assessment"`. The return value is `nil` and the output is `written assessment`. As is the last line isndie the method this `nil` is the return value of the method `test`.
+For this reason `on line 5` `var` will be assigned to `nil`.
 
-On `line 1-3` we have the method definition. On `line 1` we define `test` method and we pass as parameter the variable `b`. As variable `a` is passed as an argument, in this moment, variable `a` and `b` point to the same object.
+On line `7 to 11` we have conditional operators `if` and `else`.
+For the concept of truthiness all in Ruby **evaluates** to `true` except `false` and `nil`.
+As in this case `on line 7` we have `if` conditional of fariable `var` and vare points to `nil` it will return false
+and  it calls `puts` method passing as an argument `"interview"`.
+for this reason the output value is `interview` and the retun value is `nil`.
 
-On `line 2` we call map non-destructive method on `b` passing as parameter a `{}` block as an argument and as a block parameter `letter`. On the same line we have a string object with `letter` as string interpolation, each element will be passed as "I like the letter: `a`, `b`, `c` respectively. We don't have an output. As `map` is the last line inside the method, it will be the return value and it returns a new array object with the block return value of each iteration:
-For this reason the return value `on line 6` is:
-`["I like the letter: a", "I like the letter: b", "I like the letter: c"]`
+* Method `puts` always return `nil`.
 
-We demonstrate the next concepts:
-* How we need to define a parameter to pass a local variable to a method.
-* How it works `map` and how always returns a new array without mutating the object.
-* The return value of a method call is the last line that can be returned inside the method.
+** 2 more minutes as expected.
+
+On `line 3` we have an `if` condition evaluating the variable `a` that points to `"hello"`.
+As in **Ruby everything is truthy except `false` and `nil`** this condition is evaluated and it returns `true`.
+On `line 4` we call the `puts` method and we pass as an argument `"Hello is trurhy"`
+For this reason the output will be:
+`"Hello is truthy"` and the return value will be `nil`.
+
+*2. The concept we demostrate here is: **Truthiness***
 
 </br>
 </details>
