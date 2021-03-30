@@ -135,6 +135,42 @@ On `line 7`: `5`
 </details>
 </br>
 
+6. What does this output and return, and what concept does this demonstrate?
+```ruby .numberLines
+arr = ['10', '11', '9', '7', '8']
+sorted =  arr.sort do |a,b|
+  a.to_i <=> b.to_i
+end
+p sorted
+```
+
+<details>
+<summary>Answer</summary>
+
+</br>
+On `line 1` we initialize the variable `arr` to an array collection `['10', '11', '9', '7', '8']`.
+
+On `line 2` we initialize the variable `sorted` to the return method of the method `sort` on `arr` assigned to `['10', '11', '9', '7', '8']`, that, on the same line we pass a `do..end` block with two block parameters `a` and `b`.
+
+On `line 3` within the block, we use the spaceship operator `<=>` on the call `to_i` method on `b` and passing as an argument the call method `to_i` on `a` (convertin both objects into integers).
+When we compare with sort we compare as example and first iteration.
+`10` <=> `11` as `10` is smallet than `11`, the retun value of the block is `-1`
+and as `b` is before `a` we will sort it from greater to smaller.
+
+On `line 6` we call the method `p` that returns and outputs the inspect version os the object. For this reason the output and return value of `sorted` is
+`["11", "10", "9", "8", "7"]`.
+
+The concept that demostrates is how method `sort` works and how `<=>` compares and returns `-1` when the left object is smaller, `0` when both are equal, and `1` when the left object is greater.
+
+*** 3 more minutes as expected! (10min)
+
+* It is imporant to mention that `sort` returns an array containing the same items sorted (double check this).
+</br>
+</details>
+</br>
+
+
+
 ######Rewritte!
 we call the method length on each stirng object that the value references/assigns to. # as an argument inside the block not as parameter#
 
