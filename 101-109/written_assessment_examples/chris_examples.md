@@ -14,23 +14,24 @@ puts b
 
 </br>
 
+On `line 1` we initialize a variable `a` to `"Hello"`.
+
+On `line 2` we initialize a variable `b` to  `a` pointing to `"Hello"`.
+
+On `line 3` we reassign the variable `a` to the new object `“Goodbye”`.
+
 *1. The following code return/output:*
 
 On `line 4` we call the method `puts` and we pass as an argument variable `a`. It will return `nil` and output `Goodbye`
 
 On `line 5` we call the method `puts` and we pass as an argument variable `b` . It will return `nil` and output `Hello`
 
-*2. The concept we demostrate here are **variables as pointers**.*
-
-*3. Explanation about the concept (why?):*
-
-On `line 1` we initialize a variable `a` and we we assign to an object `Hello` string.
-
-On `line 2` we initialize a variable `b` to the first one variable `a` who reference `Hello` object.
-
-On `line 3` we reassign the variable `a` and then as we reassign to a new object and a string object is mutable.
-
 Variable `a` and variable `b` stop pointing to the same object and have different object_id, changes on variable `a` assigned to a specific object will not affect variable `b` assigned to another object.
+
+The concept we demostrate here is **Variables as Pointers**.*
+Variables are essentially labels we create to refer to some physical memory address in our computer.
+
+Some operations mutate the address space in memory, but others simply change the variable to point to a different address space like this example. When we reassign a variable a we reassign to completely different address in memory, is now pointing to an entirely new string.
 
 </details>
 </br>
@@ -54,22 +55,21 @@ puts b
 
 </br>
 
-*1. The following code return/output:*
-On `line 9` we call the method `puts` and passing in a local variable `a` to it as an argument. The return value is nil and the output is `5`.
-
-On `line 10` we call the method `puts` and passing in a local variable `a` to it as an argument. We raise an exception as return value `undefined variable or method #b`.
-
-*2. The concept we demostrate here is **variable scope**.*
-
-*3. Explanation about the concept (why?):*
-As initialized variables in the outer scope can be accessed inside a block.
-but initialized variables inside a block(as inner scope) can not be accessed.
-
 On `line 1` we are initializing a local variable `a` assigned to an integer object with value `4` to it.
 
 On `line 4` we reassign variable `a` to an integer object with value `5` to it.
 
 On `line 5` we initialize a local variable inside the block scope.
+
+*1. The following code return/output:*
+
+On `line 9`  we call the method `puts` which outputs the string version of the passed object as argument that `a` points at. The output is `"5"` and returns `nil`.
+
+On `line 10` we call the method `puts` and passing in a local variable `b` to it as an argument. We raise an exception stopping the normal execution and Ruby prints `undefined variable or method #b`.
+
+*2. The concept we demostrate here is **variable scope**.*
+Variables initialized in an outer scope can be acceessed in an inner scope, but no biceversa
+
 
 </details>
 </br>
@@ -94,21 +94,31 @@ puts b
 
 </br>
 
-*1. The following code return/output:*
+On `line 1` we initialize a variable `a` to  `4`.
 
-On `line 10` we call the method `puts` and we pass as an argument variable `a`. It will return `nil` and output `3`
+On `line 2` we initialize a variable `b` to  `2`.
 
-On `line 11` we call the method `puts` and we pass as an argument variable `b` . It will return `nil` and output `2`
+On `line 4` we call the loop method passing in the `do..end` block as an argument.
 
-*2. The concept we demostrate here are **variables as pointers**.*
+On `line 5` we initialize a variable `c` to `3`.
 
-*3. Explanation about the concept (why?):*
+On `line 6` we reassign the local variable `a` to `c` that points at `3`. At this point Variable `a` and `c` are **pointing to the same object**.
 
-On `line 1` we initialize a variable `a` and we we assign to an object `Hello` string.
+On **`line 10`**  we call the method `puts` passing `a` as an argument. **It outputs `3` and returns `nil`.**
 
-On `line 5` we initialize a variable `c` to an integer object `3`.
+On **`line 11`**  we call the method `puts` passing `b` as an argument. **It outputs `2` and returns `nil`.**
 
-on `line 6` we are initializing the local variable `a` to an integer object that the local variable `c` is referencing. In this case variable `c` is pointing to the object integer `3`. variable `a` and `c` are **pointing to the same object**.
+*2. The concepts we demostrate are :
+
+* **variables as pointers**.*
+Variables are essentially labels we create to refer to some physical memory address in our computer.
+Some operations mutate the address space in memory, but others simply change the variable to point to a different address space like this example. When we reassign a variable a we reassign to completely different address in memory, is now pointing to an entirely new object .
+
+* **Variable Scope**
+Variables initialized in an outer scope can be acceessed in an
+inner scope, but no biceversa.
+
+* The method `puts` always outputs the string version of the passed object as argument and always return `nil`
 
 </br>
 </details>
@@ -134,26 +144,24 @@ example('hello')
 
 *1. The following code return/output:*
 
-From `line 1-8` we define the method `example` with one parameter named `str` .
-
 On `line 10` we call the method `example` and we pass as an argument a string object `hello` .
+
+From `line 1-8` we define the method `example` with one parameter named `str` .
 
 It will return `nil` and output `hello` 3 times:
 `hello`
 `hello`
 `hello`
 
-*2. The concept we demostrate here is **method definition and method invocation and how loop method works**.*
-
 *3. Explanation about the concept (why?):*
 
-On line `2` we are initializing a local variable `i` assigned to an integer object with value `3` to it.
+On `line 2` within the method, we initialize a local variable `i` to `3`.
 
-On line `3` inside the loop, we call the loop method passing in the `do..end` block as an argument.
+On line `3` we call the `loop` method passing in a `do..end` block as an argument.
 
 On line `3 to 7` we call a block. *
 
-On `line 4` we call the method `puts` and passing in a local variable `str` to it as an argument.
+On `line 4` within the block, we call the method `puts` and passing in a local variable `str` to it as an argument.
 
 On line `5` inside the block, we reassign variable `i` to itself as
 `i -= 1` is equivalent to `i = i - 1`
@@ -162,6 +170,10 @@ On line `6` inside the block, we reassign variable `i` to itself as
 `i -= 1` is equivalent to `i = i - 1`
 
 On `line 6` we are **breaking out the loop by using the keyword** `break` if the **value of the object that local variable** `i` is **referencing is equal to** 0**.**
+*2. The concept we demostrate here is **method definition and method invocation and how loop method works**.*
+
+* The method `loop` iterates until we raise the break condition.
+* To pass a local variable inside a method we need to define a param on the method definition and pass an argument in the method invocation.
 </br>
 
 </br>
