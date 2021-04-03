@@ -200,22 +200,23 @@ greetings(word)
 
 *1. The following code return/output:*
 
+On `line 6` we are initializing a local variable `word` to `"Hello"`.
+
 From `line 1-3` we define the method `greetings` with one parameter named `str` .
 
-On `line 6` we are initializing a local variable `word` assigned to a string object with value `Hello` to it.
+On `line 8` we call the method `greetings` and we pass `word` as argument. As we pass `word` local variable is the argument and, in the method definition `str` is the parameter,from this moment word` and `str` are pointing to the same object.
 
-On `line 8` we call the method `greetings` and we pass `word` as argument
+On `line 2`  we call the method `puts` which outputs the string version of the passed object as argument that `str` and `word` points at. The output is `"hello"` and returns `nil`.
 
-It will return `nil` and output:
-`hello`
-`goodbye`
+On `line 3` we call the method `puts` which outputs the string `"Goodbye"` and returns `nil`
 
-*2. The concept we demostrate here is **method definiticion, method invocation and passing a local variable as argument**.*
+The concepts we demostrate here are **method definition, method invocation and passing a local variable as argument**.*
 
-*3. Explanation about the concept (why?):*
 
-On `line 8` when we pass `word` local variable as an argument, we can see the method definition and the paramater `str`.
-From this moment on, `word` and `str` are pointing to the same object.
+To take in count:
+
+* The method `puts` always outputs the string version of the passed object as argument and always return `nil`
+
 </br>
 </details>
 </br>

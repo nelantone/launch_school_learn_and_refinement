@@ -169,11 +169,239 @@ The concept that demostrates is how method `sort` works and how `<=>` compares a
 </details>
 </br>
 
+7. What would output be here for arr1 and arr2? And why?
+```ruby .numberLines
+arr1 = ["a", "b", "c"]
+arr2 = []
+arr1.each {|x| arr2 << x.dup}
+arr2.map! do |char|
+  char.upcase
+end
+
+puts arr1
+puts arr2
+
+```
+<details>
+<summary>Answer</summary>
+
+On `line 1` we initialize the local variable `arr1` to an array collection`["A", "b", "c"]`.
+On `line 2` we initialize the local variable `arr2` to an empty array `[]`.
+
+On `line 3` we call the method `each` on `arr1` referencing the object `["A", "b", "c"]` passing a `{..}` block as an argument. Inside the block we defined a block parameter `x` and we call puts method passing `x` pointing to each string object that the value references to. On the same line within the block we have the method `dup` that produces a shallow copy the object, the instance variables of obj are copied, but not the objects they reference.
+
+On `line 4` the destructive method `map!` is called on the array object and it returns the same object populated with the return values of the block in each iteration. The method `map` transforms mutating the original array based on the return value of the block in each iteration. In this case we upcase each element with the method  `upcase`.
+
+For this reason the output is:
+
+- On `line 6`  we call the method `puts` passing **`arr1`** as argument, which **outputs the string `"a"  "b" "c"`** and returns `nil`
+- On `line 7`  we call the method `puts` passing **`arr2`** as argument, which **outputs the string `"A" "B" "C"`** and returns `nil`
 
 
-######Rewritte!
-we call the method length on each stirng object that the value references/assigns to. # as an argument inside the block not as parameter#
+</br>
 
 
-<!-- Enumerable#all?
-all? functions in a similar way to any?. It also looks at the truthiness of the block's return value, but the method only returns true if the block's return value in every iteration is truthy (that is, not false or nil). -->
+
+</br>
+</details>
+</br>
+
+8. What return value of both of these iteration methods?
+```ruby .numberLines
+
+[1, 2, 3].any? do |num|
+  num > 2
+end
+
+[1, 2, 3].all? do |num|
+  num > 2
+end
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+On `line 1` we call the method `any?` on the array collection `[1, 2, 3]` and we pass as an argument a `do..end` block with the block parameter `num`.
+
+On `line 2` inside the block we use the operator (greater than) `>` comparing each of the passing elements that `num` is pointing (`1,2` and `3`) to `2` .
+looks at the truthiness of the block's return value in order to determine what the method's return value will be.
+
+If the block returns a *"truthy"* value for any element in the collection, then the method `any?` returns `true` otherwise returns `false`.
+In this case the last element `3` is greater than `2`, the return value of the block will be `true`, for this reason and in this case, **the method `any?` return value is `true`**
+
+The concept we demostrate here is **how works the method `any?` and  always returns a boolean if any of the return values of the block returns evaluates to `true`*
+
+On `line 1` we call the method `all?` on the array collection `[1, 2, 3]` passing as an argument a `do..end` block
+with block parameter `num`.
+
+On `line 2` we call the operator (greater than) `>` comparing each of the caracters to the integer `2`.
+`all?` method evaluate to true/false the return value of the block. And returns true only if all of the elements return `true`, otherwise will return `false`.
+
+In this case the last element `1` is not greater than `2` then `all?` will stop evaluating and for this reason, the **return value of `all?` is `false`.**
+
+The concept we demostrate here is **how works the method `all?` and  always returns a boolean if all of the return values of the block evaluates to `true`*
+
+
+</br>
+</details>
+</br>
+
+
+9. What does this output and why?
+
+```ruby .numberLines
+name = 'MF Doom'
+
+loop do |name|
+   name = 'Madlib'
+   break
+end
+puts name
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+On `line 1` we initialize the local variable `name` to `'MF Doom'`.
+
+On `line 3` we call the loop method passing in the `do..end` block as an argument with a block parameter
+`name`.
+
+On `line 4` we initialize another local variable `name` to `'Madlib'`.
+
+When we had a variable named in the outer scope(n) as  the block parameter |n| as in this case `name`.
+
+We'd essentially have two local variables in the inner scope with the same name.
+
+Ruby variable shadowing prevents us from making changes to the outer scoped `name`.
+On the same time we can access num inner scope variable inside.
+
+**We want to avoid variable shadowing**, as it's almost never what you intended to do.
+
+On `line 6` we call the method `puts` which outputs the string version of the passed object as argument that `name` points at. For this reason the **output is `"MF Doom"`** and returns `nil`.
+
+</br>
+</details>
+</br>
+
+10. What will the output be on line 7?
+```ruby .numberLines
+def add_name(arr, name)
+  arr = arr << name
+end
+
+names = ['bob', 'kim']
+add_name(names, 'jim')
+puts names
+```
+On `line 5`  we initialize the local variable `names` to an array collection `['bob', 'kim']`.
+
+On `line 1` we call the method `add_name` and we pass `names` and `'jim'`, name local variable as an argument on it. On the definition `add_name(arr, name)` the variable `arr` used as parameter is referencing to the same object string as the variable `names`.
+From this moment on, `arr` and `names` are pointing to the same object and `name` is pointing to `"jim"`.
+
+
+On `lines 1-3` we are defining the method `add_name` which takes 2 parameters.
+On `line 2`  we reassign `arr` to the return value of the destructive method push`<<` to concat an object as one element on the array collection `arr` passing as an argument the variable `'jim'`.
+Because we are pointing to the same object on in the return value, it does not matters the reassigment.
+
+On `line 7`  we call the method `puts` which outputs the string version of the passed object as argument that `names` points at. For this reason, the **output value is:**
+**`bob`**
+**`kim`**
+**`jim`.**
+And returns `nil`.
+
+
+The concept we demostrate here is **Variables as Pointers**.
+Variables are pointers to physical space in memory. In other words, variables are essentially labels we create to refer to some physical memory address in our computer.
+ Some operations mutate the address space in memory.  Ruby *acts like*
+`pass by reference` for *mutable objects*.
+
+* `\` are the jumping lines in the output.
+
+<details>
+<summary>Answer</summary>
+
+</br>
+
+
+</br>
+</details>
+</br>
+
+11. What will the output be on line 7?
+```ruby .numberLines
+ def fix(value)
+   value = value.upcase!
+   value.concat('!')
+ end
+
+ s = "n"
+ t = fix(s)
+```
+<details>
+<summary>Answer</summary>
+
+</br>
+
+On `line 6` we initialize the local variable `a` to `4`.
+
+On `line 7`  we initialize the local variable `t` to the return value of the method `fix` passing the string `s` as an argument to it. `s` and `value` are pointing to the same string object. On `lines 1-5` we are defining the method `fix` which takes 1 parameter `value`.
+
+On `line 2` the local variable `value` is reassigned to the return value of the destructive method `uppercase!` on `value`. Nevertheless, as we reassign the object `"n"` to itself and we are just mutating the object, `s` and `value` still pointing to the same object.
+
+On `line 8` call the destructive method push to append object as one element on the array collection `value` passing as an argument the variable `"!"`. Here also `s` and `value` are pointing to the again mutated object.
+
+The concept we demostrate here is **Variables as Pointers**.
+Variables are pointers to physical space in memory. In other words, variables are essentially labels we create to refer to some physical memory address in our computer.
+Some operations mutate the address space in memory.  Ruby acts like `pass by reference` for *mutable objects*.
+
+**For this reason the return value on `line 7` is `N!`**
+</br>
+</details>
+</br>
+
+
+12. Are `arr1` and `arr2` are referencing the same object? And each of the elements? Why?
+```ruby .numberLines
+arr1 = ["A", "b", "c"]
+arr2 = []
+arr1.each {|x| arr2 << x.dup}
+arr2.map! do |char|
+  char.upcase!
+end
+
+puts arr1
+puts arr2
+```
+
+<details>
+<summary>Answer</summary>
+On `line 1` we initialize the local variable `arr1` to `["A", "b", "c"]`.
+On `line 2` we initialize the local variable `arr2` to  an empty array `[]`.
+On `line 3` we are calling the `each` method on `arr1` and passing a `{..}` block as an argument with a block parameter `x`. Within the block we call the method `<<` on `arr2` pointing to `[]` and passing as an argument the method `dup` on `x` that points to each string object that the value references to.
+the method `dup` produces a shallow copy of the object, the instance variables of the object are copied, but not the objects they reference.**
+
+**For this reason the `arr1` and `arr2` are referencing to a different object and each element inside the collection is also referencing to a different object.**
+
+arr1.object_id # 740
+arr2.object_id # 760
+p arr1[0].object_id # 720
+p arr2[0].object_id # 700
+
+Also we can see on the las lines the different ouput we have and also how the destructive method `upcase` returns `nil` on the first element as `upcase!` does when the character is already upcased.
+# => nil
+`A`
+`b`
+`c`
+# => nil
+` ` # because is `nil`
+`B`
+`C`
+
+</br>
+</details>
+</br>
+
+
