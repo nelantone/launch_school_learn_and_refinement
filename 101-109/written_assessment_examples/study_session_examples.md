@@ -404,4 +404,70 @@ Also we can see on the las lines the different ouput we have and also how the de
 </details>
 </br>
 
+13. Are `arr1` and `arr2` are referencing the same object? And each of the elements? Why?
+```ruby .numberLines
+arr1 = ["a", "b", "c"]
+arr2 = arr1.dup
+
+arr2.map! do |char|
+  char.upcase
+end
+
+puts arr1
+puts arr2
+```
+
+<details>
+<summary>Answer</summary>
+
+On `line 1` we initialize the local variable `arr1` to an array collection `["A", "b", "c"]`.
+
+On `line 2` we initialize the local variable `arr2` to the return value of the method `dup` on `arr1` that points to `["A", "b", "c"]`. `dup` produces a shallow copy of the object, the instance variables of the object are copied, but not the objects they reference.
+
+On `line 4` the destructive method `map!` is called on the array object and it returns the mutated object with the return values of the block in each iteration. In this case we upcase each element with the non-destructive method  `upcase`.
+
+as `arr1` is a shallow copy of `arr2`, the instances inside are pointing to the same object but the variablies are pointing to a different array object.
+
+So, in this case `arr2` will point to a different array object with upcased string elements `['A', 'B', 'C']` and local variable `arr2` will point to the same non mutated array object `["a", "b", "c"]`.
+
+</br>
+</details>
+</br>
+
+14. Are `arr1` and `arr2` are referencing the same object? And each of the elements? Why?
+```ruby .numberLines
+arr1 = ["A", "b", "c"]
+arr2 = arr1.dup
+
+arr2.map do |char|
+  char.upcase!
+end  # => [nil, "B", "C"]
+
+
+
+puts arr1
+puts arr2  # => ["A", "B", "C"] ?
+```
+
+<details>
+<summary>Answer</summary>
+
+On `line 1` we initialize the local variable `arr1` to an array collection `["A", "b", "c"]`.
+
+On `line 2` we initialize the local variable `arr2` to the return value of the method `dup` on `arr1` that points to `["A", "b", "c"]`. `dup` produces a shallow copy of the object, the instance variables of the object are copied, but not the objects they reference.
+
+On `line 4` the method `map`is called on the array object and it returns a new array object populated with the return values of the block in each iteration.  The method `map` transforms the original array based on the return value of the block in each iteration. In this case we upcase each element with the destructive method  `upcase!`.
+
+For this reason **`arr1` and `arr2` are different objects, for the method `dup` definition, as have a different `object_id` and `arr1` is a shallow copy**.
+
+Nevertheless **each of the elements inside the `arr1` and `arr2` have the same object_id and will be pointing to the same array.
+again for the `dup` method definition.
+
+We can see it calling:
+arr2[0].object_id # => 360
+arr1[0].object_id # => 360
+
+</br>
+</details>
+</br>
 
