@@ -1,6 +1,6 @@
 =begin
 * Problem understanding:
-  - Promblem domain:
+  - Problem domain:
 
   - Mental model:
 
