@@ -1,4 +1,4 @@
-#### Written assesement consists in:
+## Written assesement:
 
 - **20 questions in 3 hours**
   - **max 9 min per question!**
@@ -28,7 +28,8 @@
 
 #### To take in count:
 
-######Grade	Meaning	Percent
+###### Grade	Meaning	Percent
+
 **A+	aced, perfect score	98-100
 A	  good, minor errors	93-97
 A-	some errors, but ok	90-92
