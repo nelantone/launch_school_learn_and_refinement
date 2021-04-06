@@ -44,18 +44,18 @@
     - Array of subarrays / hash?
 * Algorithm:
   - Main Algorithm:
-    - add validator. if the passed srtring is size is an odd number,
-      return false.
     - initialize a hash
     - divide string in two. use the result to divide the string x equal sizes.
       *(use index at and length to do it)
-        follwoing the path:
-        as `sub_size` is constant.
-        `str[0, sub_size] == str[sub_size, sub_size]`
-      - if both sizes are equal return true.
-      - else, continue
+      - then we want to calculate a multiplier(how many times the substrings
+        should be included inside? x-times from str.size divided the substring size)
+      - add a product of the substrings per the multiplier(substring_x_size * multiplier)
+      - this should be equal to the string as the string it shoud be a repatition of substrings.
+        - if the the product_subtring_per_multiplier is equal to the string return true
+        - else, continue
     - divide the string in x... re-check and repeat until the result divigin the
-      size is 2
+      size is 2.
+    - if we couldn't find any substring repertion inside the string, return false.
 
 
   - Ideas:
@@ -79,15 +79,34 @@ def repeated_substring_pattern(str)
 
   until sub_size <= 2
     sub_size = sub_size / 2
-    return true if str[0, sub_size] == str[sub_size, sub_size]
+    multiplier = str.size / sub_size
+
+    return true if  str[0, sub_size] * multiplier == str
   end
   false
 end
+
+
+# def substrings(str)
+#   substrings = []
+#   1.upto(str.size/ 2) do |length|
+#     substrings << str[0, length] if (str.size % length == 0)
+#   end
+#   substrings
+# end
+
+# def repeated_substring_pattern(str)
+#   substrings = substrings(str)
+
+#   substrings.each do |substring|
+#     multiplier = str.size / substring.size
+#     return true if substring * multiplier == str
+#   end
+#   false
+# end
 
 p repeated_substring_pattern("abab") == true
 p repeated_substring_pattern("aba") == false
 p repeated_substring_pattern("aabaaba") == false
 p repeated_substring_pattern("abaababaab") == true
 p repeated_substring_pattern("abcabcabcabc") == true
-
-# 35´ + 10´.
