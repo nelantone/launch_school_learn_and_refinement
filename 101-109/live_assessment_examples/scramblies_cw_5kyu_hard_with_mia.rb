@@ -46,14 +46,12 @@ ALGORITHM
   - repeat the process of checking char in str2 until the last char of str2 is reached
 =end
 
-
 =begin
 REGEX idea
-- each char of a string present at least once 
+- each char of a string present at least once
 - e.g., char A and char B and char C
 
 (?=.*w)(?=.*o)(?=.*r)(?=.*l)(?=.*d)
-
 
 =end
 
@@ -77,11 +75,11 @@ p scramble('hi', 'ih') == true
 p scramble('i', 'hi') == false
 p scramble('rkqodlw', 'world') == true
 p scramble('cedewaraaossoqqyt', 'codewars') == true
-p scramble('rkqodlw','world') == true
-p scramble('cedewaraaossoqqyt','codewars') == true
-p scramble('katas','steak') == false
-p scramble('scriptjava','javascript') == true
-p scramble('scriptingjava','javascript') == true
+p scramble('rkqodlw', 'world') == true
+p scramble('cedewaraaossoqqyt', 'codewars') == true
+p scramble('katas', 'steak') == false
+p scramble('scriptjava', 'javascript') == true
+p scramble('scriptingjava', 'javascript') == true
 
 # Try to make it more efficient
 # regular expressions?

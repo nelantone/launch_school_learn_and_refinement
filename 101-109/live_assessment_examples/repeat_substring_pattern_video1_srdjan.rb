@@ -57,7 +57,6 @@
       size is 2.
     - if we couldn't find any substring repertion inside the string, return false.
 
-
   - Ideas:
     - stplit and create a substrings of size 2.. 3...x
      from the substrings, start with the bigges number and see if are identical
@@ -78,14 +77,13 @@ def repeated_substring_pattern(str)
   sub_size = str.size
 
   until sub_size <= 2
-    sub_size = sub_size / 2
+    sub_size /= 2
     multiplier = str.size / sub_size
 
-    return true if  str[0, sub_size] * multiplier == str
+    return true if str[0, sub_size] * multiplier == str
   end
   false
 end
-
 
 # def substrings(str)
 #   substrings = []

@@ -57,7 +57,7 @@ end
 
 def selected_chars(tally_char_hash, all_common_chars)
   tally_char_hash.each do |char_hash|
-    char_hash.select! do |key, val|
+    char_hash.select! do |key, _val|
       all_common_chars.include? key
     end
   end
@@ -75,7 +75,7 @@ def common_chars(ary)
   result_hsh = {}
 
   selected_chars.each do |hsh|
-    hsh.each { |k,v| result_hsh[k] ? result_hsh[k] << v : result_hsh[k] = [v] }
+    hsh.each { |k, v| result_hsh[k] ? result_hsh[k] << v : result_hsh[k] = [v] }
   end
 
   result_hsh.map { |k, v| (k * v.min).split('') }.flatten
