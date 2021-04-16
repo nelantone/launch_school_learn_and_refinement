@@ -18,9 +18,8 @@
 * Examples:
 
 * Data Structure:
-  Inputs
     -
-  Rules
+
 * Algorithm:
   - Main Algorithm:
 

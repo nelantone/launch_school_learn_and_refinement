@@ -66,18 +66,18 @@ end
 # same as group by
 # def group_same_char_words(ary)
 #   ary.group_by { |str| str.chars.sort.join }
-  # results = {}
+# results = {}
 
-  # ary.select do |str|
-  #   sorted_char_str = str.chars.sort.join
+# ary.select do |str|
+#   sorted_char_str = str.chars.sort.join
 
-  #   if results[sorted_char_str].nil?
-  #     results[sorted_char_str] = [str]
-  #   else
-  #     results[sorted_char_str] << str
-  #   end
-  # end
-  # results
+#   if results[sorted_char_str].nil?
+#     results[sorted_char_str] = [str]
+#   else
+#     results[sorted_char_str] << str
+#   end
+# end
+# results
 # end
 
 def find_anagrams(hash_candidates)
@@ -101,4 +101,3 @@ group_anagrams(words2) == [["demo", "dome", "mode"], ["none", "neon"],
 # ["tied", "diet", "edit", "tide"]
 # ["evil", "live", "veil", "vile"]
 # ["fowl", "wolf", "flow"]
-

@@ -41,10 +41,9 @@
 =end
 
 def alphabetical?(str)
-  filtered_str = str.downcase.gsub(/[^a-z]/,'')
+  filtered_str = str.downcase.gsub(/[^a-z]/, '')
   filtered_str.chars.sort.join == filtered_str
 end
-
 
 p alphabetical?("abc") == true
 p alphabetical?("AbC") == true

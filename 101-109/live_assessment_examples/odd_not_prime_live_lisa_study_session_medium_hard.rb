@@ -7,14 +7,12 @@ require 'prime'
 # 1 is not prime, so the answer is 1
 
 # Example: 10 has five odd numbers (1,3,5,7,9) and only 1 and
-#9 are not prime, so the answer is 2
+# 9 are not prime, so the answer is 2
 
 # A prime number (or a prime) is a natural number greater than
-#1 that has no positive divisors other than 1 and itself.
+# 1 that has no positive divisors other than 1 and itself.
 
-#not prime: if I divide a number by other number(can't be 1 or the number itself), the remainder will be zero ---> If I find a number between 2 and the number before my number, and I can divide MYNUMBER by that number and the remainder is zero, 
-
-
+# not prime: if I divide a number by other number(can't be 1 or the number itself), the remainder will be zero ---> If I find a number between 2 and the number before my number, and I can divide MYNUMBER by that number and the remainder is zero,
 
 =begin
 * Problem understanding:
@@ -28,7 +26,7 @@ require 'prime'
   - Rules:
     - Explicit:
 
-      - If I find a number between 2 and the number before my number, and I can divide MYNUMBER by that number and the remainder is zero, 
+      - If I find a number between 2 and the number before my number, and I can divide MYNUMBER by that number and the remainder is zero,
     - Implicit:
       - reminder of the number should be zero
       - all numbers are positive
@@ -70,7 +68,6 @@ def not_prime(num)
   false
 end
 
-
 def odd_not_prime(target)
   odd_nums = odd_num_ary(target)
 
@@ -79,7 +76,6 @@ def odd_not_prime(target)
   end
   results_ary.size
 end
-
 
 # 15
 # 1 - not prime, 2- prime , 3, 4 5, 6, 7, 8,9, 10 , 11, 12, 13, 14, 15
@@ -91,10 +87,10 @@ end
 # 10 --> 2, 3, 4, 5, 6, 7,8
 # 10 % 2 == 0 --> prime
 
-#find all primes
-#iterate over a range from two to the number before my number
-#if I find a number that num % number == 0 - it's not prime
-#else prime
+# find all primes
+# iterate over a range from two to the number before my number
+# if I find a number that num % number == 0 - it's not prime
+# else prime
 
 p not_prime(1) == true
 p not_prime(5) == false
@@ -104,4 +100,3 @@ p odd_not_prime(5) == 1
 p odd_not_prime(15) == 3 # I found 3 odd but not prime numbers between 1 and 15
 p odd_not_prime(48) == 10
 p odd_not_prime(82) == 20
-

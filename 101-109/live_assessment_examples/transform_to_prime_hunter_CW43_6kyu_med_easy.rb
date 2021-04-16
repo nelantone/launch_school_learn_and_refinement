@@ -68,10 +68,8 @@ Since , the sum of the list's elements equal to (189) , the minimum number to be
         - when we have the number then we do
           (first_prime  - total_sum).
 
-
   - Higher Level Algorithm(helper methods):
     - maybe create the `prime?` method
-
 
 * Code:
 =end
@@ -88,8 +86,8 @@ def minimum_number(ary)
   total_sum = ary.sum
   next_prime = 0
 
- until is_prime(total_sum) # total_sum.prime? ## with ruby standard library
-    total_sum  += 1
+  until is_prime(total_sum) # total_sum.prime? ## with ruby standard library
+    total_sum += 1
     next_prime += 1
   end
   next_prime
@@ -108,9 +106,8 @@ end
 #   end
 # end
 
-
-p minimum_number([3,1,2]) == 1
-p minimum_number([5,2]) == 0
-p minimum_number([1,1,1]) == 0
-p minimum_number([2,12,8,4,6]) == 5
-p minimum_number([50,39,49,6,17,28]) == 2
+p minimum_number([3, 1, 2]) == 1
+p minimum_number([5, 2]) == 0
+p minimum_number([1, 1, 1]) == 0
+p minimum_number([2, 12, 8, 4, 6]) == 5
+p minimum_number([50, 39, 49, 6, 17, 28]) == 2
