@@ -1,3 +1,4 @@
+# LONG
 =begin
 * Problem understanding:
   - Problem domain:
@@ -28,4 +29,32 @@
   - Higher Level Algorithm(helper methods):
 
 * Code:
+=end
+
+
+# SHORT
+=begin
+* Problem:
+ - Mental model:
+
+- Questions:
+
+- Input:
+- Output:
+
+- Rules:
+  - Explicit:
+
+  - Implicit:
+
+*Examples:
+
+*Algorithm:
+  - Data structure:
+
+  - Apporach:
+
+  - Main Algorithm:
+
+*Code:
 =end
