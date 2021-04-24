@@ -11,12 +11,12 @@ def song_decoder(str)
   filter_with_extra_spaces = str.gsub('WUB', ' ').chars
 
   filter_with_extra_spaces.reject.with_index do |char, idx|
-    char ==' ' && filter_with_extra_spaces[idx+1] == ' '
+    char == ' ' && filter_with_extra_spaces[idx + 1] == ' '
   end.join.strip
 end
 
 p song_decoder("WUBHIWUBTHERE!") == "HI THERE!"
-p song_decoder("WUBWEWUBAREWUBWUBTHEWUBCHAMPIONSWUBMYWUBFRIENDWUB")  ==  "WE ARE THE CHAMPIONS MY FRIEND"
+p song_decoder("WUBWEWUBAREWUBWUBTHEWUBCHAMPIONSWUBMYWUBFRIENDWUB") == "WE ARE THE CHAMPIONS MY FRIEND"
 p song_decoder("AWUBBWUBC") == "A B C"
 p song_decoder("AWUBWUBWUBBWUBWUBWUBC") == "A B C"
 p song_decoder("WUBAWUBBWUBCWUB") == "A B C"

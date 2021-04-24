@@ -70,7 +70,7 @@ def next_bigger_num(int)
   return str_rev.reverse.to_i if int.to_s.size == 2
 
   (int.to_s.size - 1).downto(2).each do |index|
-    str_rev[index], str_rev[index-1] = str_rev[index-1], str_rev[index]
+    str_rev[index], str_rev[index - 1] = str_rev[index - 1], str_rev[index]
 
     if str_rev.to_i >= int
       return str_rev.to_i

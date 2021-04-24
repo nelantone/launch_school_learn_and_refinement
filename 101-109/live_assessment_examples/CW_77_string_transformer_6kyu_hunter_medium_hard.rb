@@ -6,9 +6,8 @@
 
 # For example:
 
-#"Example Input" ==> "iNPUT eXAMPLE"
-#You may assume the input only contain English alphabet and spaces.
-
+# "Example Input" ==> "iNPUT eXAMPLE"
+# You may assume the input only contain English alphabet and spaces.
 
 =begin
 * Problem understanding:
@@ -77,9 +76,9 @@ def string_transformer(string)
 
   words_reversed.each_char do |char|
     if upcased?(char)
-       change_cases << char.downcase
+      change_cases << char.downcase
     else
-      change_cases  << char.upcase
+      change_cases << char.upcase
     end
   end
   result = change_cases.join

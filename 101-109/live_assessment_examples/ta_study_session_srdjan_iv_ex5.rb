@@ -1,9 +1,9 @@
 # Given integer array nums, return the third maximum number in this array. If the third maximum does not exist, return the maximum number.
 # You are not allowed to sort the array
 
-p third_max([3,2,1]) == 1
-p third_max([1,2]) == 2
-p third_max([2,2,3,1]) == 1
+p third_max([3, 2, 1]) == 1
+p third_max([1, 2]) == 2
+p third_max([2, 2, 3, 1]) == 1
 p third_max([1, 3, 4, 2, 2, 5, 6]) == 4
 
 =begin
@@ -52,7 +52,7 @@ def third_max(ary)
   uniq_num_ary = ary.uniq
   result = 0
 
-  3.times do |count|
+  3.times do |_count|
     actual_max = uniq_num_ary.max
     result = actual_max
 

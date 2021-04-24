@@ -43,28 +43,26 @@
 =end
 
 def pig_latin(word)
-   append_char = word[0]
+  append_char = word[0]
 
-   word.gsub!(word[0], '')
-   word << append_char + 'ay'
+  word.gsub!(word[0], '')
+  word << "#{append_char}ay"
 end
 
 p pig_latin('tempora') == 'emporatay'
-
 
 def pig_it(str)
   result = []
   ary_of_words = str.split(' ')
 
-  ary_of_words. each do |word|
-     if (/[a-z]/i).match?(word)
-       pig_latin(word)
-     end
+  ary_of_words.each do |word|
+    if (/[a-z]/i).match?(word)
+      pig_latin(word)
+    end
     result << word
   end
   result.join(' ')
 end
-
 
 p pig_it("O tempora o mores !") == "Oay emporatay oay oresmay !"
 p pig_it('Hello world !') == 'elloHay orldway !'

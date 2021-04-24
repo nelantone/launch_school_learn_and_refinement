@@ -31,7 +31,6 @@
 * Code:
 =end
 
-
 # SHORT
 =begin
 * Problem:

@@ -31,7 +31,6 @@
       - it can't be more than 10 digits
       - The power of the number is the number of digits
 
-
     - Implicit:
       -  we sum all digits and result should be same as the given integer to be narcissistic
 
@@ -55,7 +54,6 @@
     - and we compare the total to the given argument
     - if i s true is narcissistic, otherwise false
 
-
   - Higher Level Algorithm(helper methods):
 
 * Code:
@@ -66,10 +64,10 @@ def narcissistic?(num)
   str_num = num.to_s
   power = str_num.size
 
-   return true if power == 1
+  return true if power == 1
 
   str_num.each_char do |char|
-    result_ary << char.to_i ** power
+    result_ary << char.to_i**power
   end
 
   result_ary.sum == num

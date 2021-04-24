@@ -46,7 +46,6 @@
 * Code:
 =end
 
-
 def nth_char(ary_words)
   result = ''
 
@@ -57,9 +56,8 @@ def nth_char(ary_words)
   result
 end
 
-
 p nth_char(['yoda', 'best', 'has']) == 'yes'
 p nth_char([]) == ''
 p nth_char(['X-ray']) == 'X'
 p nth_char(['No', 'No']) == 'No'
-p nth_char(['Chad', 'Morocco', 'India', 'Algeria', 'Botswana', 'Bahamas', 'Ecuador', 'Micronesia']) ==  'Codewars'
+p nth_char(['Chad', 'Morocco', 'India', 'Algeria', 'Botswana', 'Bahamas', 'Ecuador', 'Micronesia']) == 'Codewars'
