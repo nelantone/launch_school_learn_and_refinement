@@ -103,6 +103,78 @@ end
 #   false
 # end
 
+
+=begin
+
+Given a non-empty string, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
+You may assume the given string consists of lowercase English letters only.
+
+
+=end
+
+
+
+# LONG
+=begin
+* Problem understanding:
+  - Mental model:
+    return true if the string is created by multipe copies of substring otherwise return false
+
+  - Input: string
+
+  - Output: boolean
+
+  - Rules:
+    - Explicit:
+       -  lowercase English letters only.
+
+    - Implicit:
+      -  it can be the same letter reperated(one char as substring)
+
+* Examples:
+
+* Data Structure:
+    - array?
+
+* Algorithm:
+  - Main Algorithm:
+    - I want to create a substring from size 1 until the half of the sring( this is the max size of the substring).
+      - from the half iterate and tak in each iterationb one element
+      - Initialize candidates using helper method
+
+  - Ideas:
+    - create substrings strating from the biggest possible (the half size of the total substring).
+    - multiply from the candidate size*
+
+  - Higher Level Algorithm(helper methods):
+    - create substring candidates.
+    - iterate through candidates
+    - set a multiplier equal to dividing string size by current candidate
+      - If multiplier times candidate is equal to the argument one, return `true`
+      - otherwise return `false`
+
+* Code:
+=end
+
+def substring_cadidates(str)
+  candidates = []
+  max_substring_size = (str.size / 2)
+  max_substring_size.downto(1) do |size|
+    candidates << str[0, size]
+  end
+  candidates
+end
+
+def repeated_substring_pattern(str)
+  candidates = substring_cadidates(str)
+  candidates.each do |candidate|
+    multiplier =  str.size / candidate.size
+    return true if candidate * multiplier == str
+  end
+  false
+end
+
+
 p repeated_substring_pattern("abab") == true
 p repeated_substring_pattern("aba") == false
 p repeated_substring_pattern("aabaaba") == false
