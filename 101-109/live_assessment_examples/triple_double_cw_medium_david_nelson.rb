@@ -79,6 +79,18 @@ def triple_double(int1, int2)
   1
 end
 
+# def find_threes(int)
+#   unique_digits = int.digits.uniq
+
+#   results = unique_digits.select { |digit| int.digits.count(digit) == 3 }
+# end
+
+# def triple_double(int1, int2)
+#   threes = find_threes(int1) # returns array
+#   threes.any? { |three| int2.digits.count(three) == 2 } ? 1 : 0
+# end
+
+
 
 # p has_triple_d(666789) == 6
 # p has_triple_d(12345) == nil
