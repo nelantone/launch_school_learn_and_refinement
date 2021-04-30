@@ -65,3 +65,22 @@ p longest_substr("abcabcbb") == 3
 p longest_substr("bbbbb") == 1
 p longest_substr("pwwkew") == 3
 p longest_substr("") == 0
+
+# def longest_substr(str)
+#   return 0 if str.empty?
+
+#   poss = []
+#   counter = 1
+
+#   loop do
+#     str.chars.each_cons(counter){|sub_arr| poss << sub_arr}
+#     break if counter == str.length
+#     counter += 1
+#   end
+#   selected = poss.select do |sub_arr|
+#     sub_arr.sort == sub_arr.uniq.sort
+#   end
+
+#   selected.map{|sub_arr| sub_arr.length}
+# end
+
