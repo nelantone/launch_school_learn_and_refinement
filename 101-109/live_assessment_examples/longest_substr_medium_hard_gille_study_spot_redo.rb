@@ -42,24 +42,24 @@
 - Code:
 =end
 
-def longest_substr(str)
-  return 0 if str.empty?
-
+def substring_candidates(str)
   ary_accumulator = ''
   candidates      = []
-  max_size        = str.size
 
-  max_size.times do |idx|
+  str.size.times do |idx|
     if ary_accumulator.include? str[idx]
       candidates << ary_accumulator.size
       ary_accumulator = ''
     end
     ary_accumulator << str[idx]
   end
-
-  candidates.max
+  candidates
 end
 
+def longest_substr(str)
+  return 0 if str.empty?
+  substring_candidates(str).max
+end
 
 p longest_substr("abcabcbb") == 3
 p longest_substr("bbbbb") == 1
@@ -83,4 +83,3 @@ p longest_substr("") == 0
 
 #   selected.map{|sub_arr| sub_arr.length}
 # end
-
