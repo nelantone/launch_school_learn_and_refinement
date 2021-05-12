@@ -24,8 +24,8 @@ Example
 
   - Rules:
     - Explicit:
-      - return the eql number of the h-rank 
-      - otherwise find the closest h-r 
+      - return the eql number of the h-rank
+      - otherwise find the closest h-r
       - in case there are many smallest number
 
     - Implicit:

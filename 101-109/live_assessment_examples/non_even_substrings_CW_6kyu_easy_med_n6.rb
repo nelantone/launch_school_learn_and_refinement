@@ -53,16 +53,45 @@ solve("1341") = 7. See test cases for more examples.
 * Code:
 =end
 
-def solve(str_digits)
-  result = []
+# def solve(str_digits)
+#   result = []
 
-  1.upto(str_digits.size) do |sub_str_size|
-    str_digits.chars.each_cons(sub_str_size) do |comb|
-      result << comb.join if comb.join.to_i.odd?
+#   1.upto(str_digits.size) do |sub_str_size|
+#     str_digits.chars.each_cons(sub_str_size) do |comb|
+#       result << comb.join if comb.join.to_i.odd?
+#     end
+#   end
+#   result.size
+# end
+
+## My second try version (fancy methods and easy to read)
+
+def solve(str_digit)
+  odd_numbers = []
+
+  (1..str_digit.size).each do |size|
+    str_digit.chars.each_cons(size) do |con|
+      odd_numbers << con.join.to_i if con.join.to_i.odd?
     end
   end
-  result.size
+  odd_numbers.size
 end
+
+# def solve(str_num)
+#   substrings = get_all_substrings(str_num)
+#   substrings.select { |substring| substring.to_i.odd? }.count
+# end
+
+## Jenae version (pragmatic, creative and short)
+
+# def solve(string)
+#   odd_subs = 0
+#   string.chars.each_with_index do |char, index|
+#     odd_subs += index + 1 if char.to_i.odd?
+#   end
+#   odd_subs
+# end
+
 
 p solve("1341") == 7
 p solve("1357") == 10
@@ -72,5 +101,8 @@ p solve("1347231") == 20
 p solve("13472315") == 28
 
 # 30` JIT
+# 30` JIT too
+# ?
 # R1: 5-10` distractions (pendign to add few things in algorithm)
-# R2: find a solution without using `each_cons`
+# R2: almost same result.
+# R3: find a solution without using `each_cons`
