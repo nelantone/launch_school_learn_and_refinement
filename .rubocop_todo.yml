@@ -14,40 +14,6 @@ Layout/SpaceAroundOperators:
   Exclude:
     - '101-109/exercises-small_problems/5_1_ascii_str_val_5_2_and_5_3_after_midnight.rb'
 
-# Offense count: 27
-Lint/DuplicateMethods:
-  Enabled: false
-
-# Offense count: 1
-# Configuration parameters: AllowComments.
-Lint/EmptyFile:
-  Exclude:
-    - '101-109/exercises-small_problems/odd_nums_1_to_99.rb'
-
-# Offense count: 1
-Lint/FloatComparison:
-  Exclude:
-    - '101-109/exercises-small_problems/rooms_mtrs_to_feet.rb'
-
-# Offense count: 2
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - '101-109/exercises-small_problems/6_4_and_6_5_reversed_arrays.rb'
-    - '101-109/exercises-small_problems/ex4_5_multiples_4_6_running_total.rb'
-
-# Offense count: 6
-Lint/UselessAssignment:
-  Exclude:
-    - '101-109/exercises-small_problems/10_7_ word_to_digit.rb'
-    - '101-109/exercises-small_problems/5_8_alphabetical_numbers.rb'
-    - '101-109/exercises-small_problems/6_3_fibonacci_num_size_location.rb'
-    - '101-109/external_exercises_and_katas/ex1.rb'
-
-# Offense count: 288
-# Configuration parameters: CheckForMethodsWithNoSideEffects.
-Lint/Void:
-  Enabled: false
-
 # Offense count: 6
 # Configuration parameters: IgnoredMethods, CountRepeatedAttributes.
 Metrics/AbcSize:
