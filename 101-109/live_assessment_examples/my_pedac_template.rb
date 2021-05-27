@@ -26,6 +26,8 @@
 
   - Ideas:
 
+  - Apporach:
+
   - Higher Level Algorithm(helper methods):
 
 * Code:
