@@ -32,14 +32,71 @@ Algorithm
 =end
 
 # CODE
-def cakes(recipe, ingredients)
-  max_cakes = []
-  recipe.each_key do |key|
-    return 0 unless ingredients[key]
-    max_cakes << ingredients[key] / recipe[key]
-  end
-  max_cakes.min
+# def cakes(recipe, ingredients)
+#   max_cakes = []
+#   recipe.each_key do |key|
+#     return 0 unless ingredients[key]
+#     max_cakes << ingredients[key] / recipe[key]
+#   end
+#   max_cakes.min
+# end
+
+=begin
+* Problem understanding:
+  - Mental model:
+      - return the max numbers of cakes Pete can bake
+
+  - Input: hash
+
+  - Output: integer
+
+  - Rules:
+    - Explicit:
+      - ingredients not preset are 0
+      - are no units present
+
+    - Implicit:
+
+* Examples:
+
+* Data Structure:
+    - hash/array?
+
+* Algorithm:
+  - Main Algorithm:
+    - return 0 if there are not all ingredients present or the min requirement of the present ingredients is is smaller than the value
+    - from the rest divide the total amount of ingredients for the requirements
+    - from all the total return the min number
+
+  - Ideas:
+
+  - Apporach:
+    - helper method
+      - return 0 if not all keys are included and not all ingredients are equal greater 
+    - otherwise take each value(and only each value from the exising quantitiy keys) from the specific key and divide the second argument(sources) first argument(requirements) 
+    - return all the results (values)
+    - from the val return the min
+
+  - Higher Level Algorithm(helper methods):
+    - all ingedients present and enough?
+* Code:
+=end
+
+def ingredients_present?(ingredients, sources)
+  ingredients.keys.all? { |ingredient| sources.keys.include? ingredient }
 end
+
+def cakes(ingredients, sources)
+  return 0 unless ingredients_present?(ingredients, sources)
+  result = []
+  ingredients.each do |ingredient, value|
+    ingredient_source  = sources[ingredient]
+    max_possible_cakes = ingredient_source/value
+    result << max_possible_cakes
+  end
+  result.min
+end
+
 
 p cakes({ "flour" => 500, "sugar" => 200, "eggs" => 1 }, { "flour" => 1200, "sugar" => 1200, "eggs" => 5, "milk" => 200 }) == 2
 p cakes({ "cream" => 200, "flour" => 300, "sugar" => 150, "milk" => 100, "oil" => 100 }, { "sugar" => 1700, "flour" => 20000, "milk" => 20000, "oil" => 30000, "cream" => 5000 }) == 11
