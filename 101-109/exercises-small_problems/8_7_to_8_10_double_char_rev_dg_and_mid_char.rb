@@ -60,10 +60,16 @@ reversed_number(1) == 1
 
 # Examples:
 
-def center_of(str)
-  middle_val = str.size / 2
+# def center_of(str)
+#   middle_val = str.size / 2
 
-  str.size.odd? ? str[middle_val] : str[middle_val - 1, 2]
+#   str.size.odd? ? str[middle_val] : str[middle_val - 1, 2]
+# end
+
+def center_of(str)
+  mid_index = str_size / 2
+
+  str.size.odd? ? str[mid_index] :  str[mid_index-1] + str[mid_index]
 end
 
 center_of('I love ruby') == 'e'
