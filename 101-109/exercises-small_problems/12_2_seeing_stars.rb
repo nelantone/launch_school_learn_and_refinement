@@ -74,21 +74,31 @@ star(7)
 * Code:
 =end
 
-def lines(line, idx, middle_idx)
-  expand = idx - middle_idx
+def lines(line, idx, mid_idx)
+  expand = idx - mid_idx
 
   line.map.with_index do |_, idx|
-    idx == middle_idx - expand || idx == middle_idx || idx == middle_idx + expand ? '*' : ' '
+    if idx == mid_idx - expand || idx == mid_idx || idx == mid_idx + expand
+       '*'
+    else
+      ' '
+    end
   end.join
 end
 
 def star(size)
-  return p 'Size needs to be greater than 6 and an odd number' if (size < 7) || size.even?
-  middle_idx = (size - 1) / 2
-  line       = []
+  return p 'Add size >= 7 & odd' if (size < 7) || size.even?
+  middle_idx    = (size - 1) / 2
+  line          = (' ' * size).split('')
+  middle_line   = '*' * size
 
-  size.times      { line << ' ' }
-  line.each_index { |idx| puts idx == middle_idx ? '*' * size : lines(line, idx, middle_idx) }
+  line.each_index do |idx|
+    if idx == middle_idx
+      puts middle_line
+    else
+      puts lines(line, idx, middle_idx)
+    end
+  end
 end
 
 star(7) #== true
