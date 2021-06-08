@@ -47,7 +47,7 @@ p digital_root(942) == 6
 
   - Rules:
     - Explicit:
-      - sum the num until there is only one digit 
+      - sum the num until there is only one digit
 
     - Implicit:
 
@@ -87,25 +87,14 @@ digital_root(942)
       - otherwise repeat
 
   - Higher Level Algorithm(helper methods):
-    - add sum of digits 
+    - add sum of digits
     - root
-    
+
 * Code:
 =end
-# def sum_of_digits(num)
-#   num.to_s.chars.map(&:to_i).sum
-# end
-
-# def digital_root(num)
-#   until num.to_s.size == 1
-#     num = sum_of_digits(num)
-#   end
-#   num
-# end
-
 
 # def digital_root(input)
-#   loop do 
+#   loop do
 #     input = input.digits.sum
 
 #     break if input.to_s.size == 1
@@ -113,38 +102,35 @@ digital_root(942)
 #   input
 # end
 
-def digital_root(num)
-  return num if num.to_s.length <= 1 # base case
-  num = num.digits.sum
-  digital_root(num) # recursive case
-end
-
 # p sum_of_digits(16)
 
-num = 456
+## hunter solution *(very similar to recursion)
+# def digital_root(num)
+#   loop do
+#     return num if num.digits.size == 1
+#     num = num.digits.sum
+#   end
+# end
+
+## recursive case
+# def digital_root(num)
+#   return num if num.to_s.length <= 1
+#   num = num.digits.sum
+#   digital_root(num)
+# end
+
 
 def digital_root(num)
-  # loop do
-    return num if num.digits.size == 1
+  until num.to_s.size == 1
     num = num.digits.sum
-  # end
+  end
+  num
 end
 
-
-def digital_root(num)
-  return num if num.to_s.length <= 1 # base case
-  num = num.digits.sum
-#   digital_root(num) # recursive case
-end
-
-
+num = 456
 p digital_root(16) == 7
 p digital_root(num) == 6
 p digital_root(493193) == 2
 p digital_root(132189) == 6
 p digital_root(942) == 6
-
-p num
-
-# new zoom link: https://us02web.zoom.us/j/88394746486?pwd=bENZOWZpMFdaellOdXgyTHNRNjh0UT09
 
