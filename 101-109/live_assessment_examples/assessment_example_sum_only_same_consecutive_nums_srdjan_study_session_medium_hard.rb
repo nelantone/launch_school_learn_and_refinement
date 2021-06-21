@@ -71,3 +71,21 @@ p sum_consecutives([1,4,4,4,0,4,3,3,1, 1]) == [1,12,0,4,6,2]
 p sum_consecutives([1,1,7,7,3]) == [2,14,3]
 p sum_consecutives([-5,-5,7,7,12,0]) ==  [-10,14,12,0]
 
+def sum_consecutives(ary)
+  result          = []
+  current_sum_ary = [ary.first]
+  
+  1.upto(ary.size) do |idx|
+     if current_sum_ary.include? ary[idx]
+       current_sum_ary << ary[idx]
+      else
+       result << current_sum_ary.sum
+       current_sum_ary = [ary[idx]]
+     end
+  end
+  result
+end
+  
+p sum_consecutives([1,4,4,4,0,4,3,3,1,1]) == [1,12,0,4,6,2]
+p sum_consecutives([1,1,7,7,3]) == [2,14,3]
+p sum_consecutives([-5,-5,7,7,12,0]) ==  [-10,14,12,0]
