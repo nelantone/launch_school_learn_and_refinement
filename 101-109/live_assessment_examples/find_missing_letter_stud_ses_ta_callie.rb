@@ -66,3 +66,23 @@ p find_missing_letter(["O", "Q", "R", "S"]) == "P"
 p find_missing_letter(["b", "d"]) == "c"
 p find_missing_letter(["a", "b", "d"]) == "c"
 p find_missing_letter(["b", "d", "e"]) == "c"
+
+# - Main Algorithm:
+# - iterate on the given collection
+# - from the present element/char check if the next element is the next
+#   letter(upcase/downcase)
+# - in case the next element is not the next letter return the next letter and end
+#   the loop
+# - in case we are in the index before the last ndex, return the next letter from
+#   the present index (it means that is the last letter missig becasuse it always
+#   will be one missing letter)
+
+def find_missing_letter(ary)
+  ary.each_index { |idx| return ary[idx].next if ary[idx].next != ary[idx+1] || ary[idx] == ary.size-1 }
+end
+
+p find_missing_letter(["a", "b", "c", "d", "f"]) == "e"
+p find_missing_letter(["O", "Q", "R", "S"]) == "P"
+p find_missing_letter(["b", "d"]) == "c"
+p find_missing_letter(["a", "b", "d"]) == "c"
+p find_missing_letter(["b", "d", "e"]) == "c"
