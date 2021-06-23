@@ -50,17 +50,22 @@ x=begin
 
 * Code:
 =end
+def second_idx_with_same_num(ary, elem, index_at)
+  new_subary         = ary[(index_at+1)..-1]
+  new_idx_at         = new_subary.index(elem)
+  first_idx_counting = ary.size - new_subary.size
+
+  first_idx_counting + new_idx_at
+end
+
 def sum_finder(ary, num)
   index_result = []
   num_result = ary.combination(2).select {|subary| subary.sum == num  }
 
-  num_result.first.each do |elem|
+  num_result.first.map do |elem|
     index_at = ary.index(elem)
     if index_result.include? index_at
-      new_subary = ary[index_at...-1]
-      mid_index =  new_subary.index(elem)
-      index_at = (ary.size - new_subary.size+1) + mid_index+1
-      index_result << index_at
+      index_result << second_idx_with_same_num(ary, elem, index_at)
     else
       index_result << ary.index(elem)
     end
@@ -72,7 +77,7 @@ p sum_finder([8, 2, 11, 15, 7], 9) == [1, 4]
 p sum_finder([0, 1, 2, 3], 5) == [2, 3]
 p sum_finder([-3, 6], 3) == [0,1]
 p sum_finder([0, 1, 2, 3, 6], 5) == [2, 3]
-p sum_finder([9, 4, 1, 6, 4], 8) == [1, 4] # fix
+p sum_finder([9, 4, 1, 6, 4], 8) == [1, 4]
 p sum_finder([0, 4], 4) == [0, 1]
 p sum_finder([4, 3, 5], 8) ==  [1, 2]
 
@@ -88,38 +93,4 @@ def find_pair(arr, target)
   end
   p something
 end
-
 =end
-
-
-# def sum_finder(ary, num)
-#   index_result = []
-#   num_result = ary.combination(2).select {|subary| subary.sum == num  }
-
-#   num_result.first.each do |elem|
-#     index_at = ary.index(elem)
-#     if index_result.include? index_at
-#       p index_at
-#       new_subary = ary[index_at...-1].reverse
-#       mid_index  = new_subary.index(elem)
-
-#       p new_subary.index(elem)
-#       index_at   = index_at + mid_index + 1
-#       index_result << index_at
-#     else
-#       index_result << ary.index(elem)
-#     end
-#   end
-#   index_result
-# end
-
-# p sum_finder([8, 2, 11, 15, 7], 9) == [1, 4]
-# p sum_finder([0, 1, 2, 3], 5) == [2, 3]
-# p sum_finder([-3, 6], 3) == [0,1]
-# p sum_finder([0, 1, 2, 3, 6], 5) == [2, 3]
-#p sum_finder([9, 4, 1, 6, 4], 8) #== [1, 4] # fix
-# p sum_finder([0, 4], 4) == [0, 1]
-# p sum_finder([4, 3, 5], 8) ==  [1, 2]
-
-#new_ar = [9, 4, 1, 6, 4][1...-1]
-#p new_ar
