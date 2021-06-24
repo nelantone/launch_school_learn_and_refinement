@@ -64,26 +64,65 @@
 * Code:
 =end
 
-def find_palindromes(str)
-  palindromes = []
+# def find_palindromes(str)
+#   palindromes = []
 
-  (str.size).times do |size|
-    str.chars.each_cons(size+1) do |candidate_ary|
-      candidate = candidate_ary.join
-      palindromes << candidate if candidate == candidate.reverse
-    end
-  end
-  palindromes
-end
+#   (str.size).times do |size|
+#     str.chars.each_cons(size+1) do |candidate_ary|
+#       candidate = candidate_ary.join
+#       palindromes << candidate if candidate == candidate.reverse
+#     end
+#   end
+#   palindromes
+# end
 
-def longest_palindrome(str)
-  return 0 if str.empty?
-  find_palindromes(str).map(&:size).max
-end
+# def longest_palindrome(str)
+#   return 0 if str.empty?
+#   find_palindromes(str).map(&:size).max
+# end
 
 # p find_palindromes("a") == ["a"]
 # p find_palindromes("baabcd") == ["b", "baab"]
 # p find_palindromes("baab1232") == ["b", "baab", "2", "232"]
+
+#  second time solution
+# def longest_palindrome(str)
+#   (str.size-1).downto(0) do |substr_idx|
+#     substr_size = substr_idx + 1
+
+#     str.chars.each_cons(substr_size) do |con|
+#         return substr_size if (con == con.reverse)
+#      end
+#   end
+#   0
+# end
+
+# second time solution whithout each cons
+def each_cons(size, str)
+  result = []
+  count  = (str.size - size+1)
+  idx_at = 0
+
+  count.times do |idx|
+    result << str[idx_at, size]
+    idx_at += 1
+  end
+  result
+end
+
+# p each_cons(7,"I like racecars that go fast") #== ["baa", "bcd"]
+# p each_cons(2,"baa")
+
+def longest_palindrome(str)
+  (str.size-1).downto(0) do |substr_idx|
+    substr_size = substr_idx + 1
+    ary_cons    = each_cons(substr_size, str)
+
+    ary_cons.each { |con| return substr_size if (con == con.reverse) }
+  end
+  0
+end
+
 
 p longest_palindrome("") == 0
 p longest_palindrome("a") == 1
