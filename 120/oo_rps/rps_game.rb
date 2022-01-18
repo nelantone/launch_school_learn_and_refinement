@@ -114,7 +114,6 @@ class RPSGame
   def display_round_winner
     computer_move = computer.move
     human_move    = human.move
-
     if    human_move.wins(computer_move)
       puts "#{human.name} wins!"
       human.points.count += 1
@@ -149,7 +148,7 @@ class RPSGame
     puts '============================='
   end
 
-  def display_round_and_status
+  def display_rounds_and_status
     puts ''
     puts "number of rounds at the moment: #{@@count_rounds}"
     puts '====== current score: ======='
@@ -179,6 +178,7 @@ class RPSGame
       clear_rounds_and_scores
       stop_playing?
     else
+      display_rounds_and_status
       false
     end
   end
@@ -191,7 +191,6 @@ class RPSGame
       @computer_move = computer.choose
       display_players_moves
       display_round_winner
-      display_round_and_status
       break if final_winner
     end
     display_goodbye_message
