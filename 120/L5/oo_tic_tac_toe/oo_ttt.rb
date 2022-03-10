@@ -78,15 +78,27 @@ class Board
     reset
 	end
 
-  def reset
-    @squares = {}
-    @turn = nil
-		(1..9).each { |key| @squares[key] = Square.new }
+  def draw
+    puts	''
+		puts  just_spaces
+		puts  square_rows([1,2,3])
+		puts  just_spaces
+		puts	row_lines
+		puts  just_spaces
+		puts  square_rows([4,5,6])
+		puts  just_spaces
+		puts	row_lines
+		puts  just_spaces
+		puts  square_rows([7,8,9])
+		puts  just_spaces
+		puts	''
   end
 
-	def get_square_at(key)
-		 @squares[key]
-	end
+  def reset
+    @squares = {}
+    @turn = [:human, :computer].sample
+		(1..9).each { |key| @squares[key] = Square.new }
+  end
 
   def set_square_at(key, marker)
     @squares[key.to_i].marker = marker
@@ -100,10 +112,30 @@ class Board
     avaliable_keys.empty?
   end
 
-  def marked_nums
-    marker = (turn == :human ? TTTGame::HUMAN_MARKER : TTTGame::COMPUTER_MARKER )
-    self.squares.select { |_,val| val.marker == marker }.keys
+	def winner?
+    return false if ( marked_nums.nil? || marked_nums.size < 3)
+    WINNER_COMBINATIONS.any? { |combo| winning_combination?(combo) }
+	end
+
+  private
+
+  def get_square_at(key)
+    @squares[key]
   end
+
+  def just_spaces
+		puts  ' '*5 + '|' + ' '*5 + '|'
+	end
+
+	def row_lines
+		'-'*5 + '+' + '-'*5 + '+'+'-'*5
+	end
+
+	def square_rows(row_ary)
+		' '*2 + "#{get_square_at(row_ary[0])}" + ' '*2 + '|' +
+		' '*2 + "#{get_square_at(row_ary[1])}" + ' '*2 + '|' +
+		' '*2 + "#{get_square_at(row_ary[2])}" + ' '*2
+	end
 
   def winning_combination?(combo)
     combo.all? do |combo_num|
@@ -111,10 +143,10 @@ class Board
     end
   end
 
-	def winner?
-    return false if ( marked_nums.nil? || marked_nums.size < 3)
-    WINNER_COMBINATIONS.any? { |combo| winning_combination?(combo) }
-	end
+  def marked_nums
+    marker = (turn == :human ? TTTGame::HUMAN_MARKER : TTTGame::COMPUTER_MARKER )
+    self.squares.select { |_,val| val.marker == marker }.keys
+  end
 end
 
 class Square
@@ -160,6 +192,28 @@ class TTTGame
 		@computer = Computer.new(COMPUTER_MARKER)
 	end
 
+	def play
+		display_welcome
+    loop do
+      display_board
+      loop do
+        current_player
+        break if board.winner? || board.full?
+        clear_screen_and_display_board
+        switch_turn
+      end
+      display_result
+      break unless play_again?
+    end
+    display_goodbye
+  end
+
+  private
+
+  def clear_screen
+    system 'clear'
+  end
+
 	def display_welcome
 		puts 'welcome to Tic Tac Toe!'
 		puts ''
@@ -171,41 +225,17 @@ class TTTGame
     puts 'Goodbye!'
 	end
 
-	def just_spaces
-		puts  ' '*5 + '|' + ' '*5 + '|'
-	end
+  def clear_screen_and_display_board
+    clear_screen
+    display_board
+  end
 
-	def row_lines
-		'-'*5 + '+' + '-'*5 + '+'+'-'*5
-	end
-
-	def square_rows(row_ary)
-		' '*2 + "#{board.get_square_at(row_ary[0])}" + ' '*2 + '|' +
-		' '*2 + "#{board.get_square_at(row_ary[1])}" + ' '*2 + '|' +
-		' '*2 + "#{board.get_square_at(row_ary[2])}" + ' '*2
-	end
-
-	def display_board(clear= true)
-    system 'clear' if clear
-
+	def display_board
     puts "you are #{human.marker}, computer is #{computer.marker}"
-		puts	''
-		puts  just_spaces
-		puts  square_rows([1,2,3])
-		puts  just_spaces
-		puts	row_lines
-		puts  just_spaces
-		puts  square_rows([4,5,6])
-		puts  just_spaces
-		puts	row_lines
-		puts  just_spaces
-		puts  square_rows([7,8,9])
-		puts  just_spaces
-		puts	''
+    board.draw
 	end
 
 	def human_moves
-    board.turn = :human
     square = ''
 		loop do
 			puts 'Choose a square between 1-9: '
@@ -219,13 +249,16 @@ class TTTGame
   end
 
 	def computer_moves
-    board.turn = :computer
 		board.set_square_at(board.avaliable_keys.sample, computer.marker )
 	end
 
+  def current_player
+    board.turn == :human ? human_moves : computer_moves
+  end
+
   def display_result
 
-    display_board
+    clear_screen_and_display_board
     puts '='*20
     puts 'The final result :'.upcase
     puts '-'*20
@@ -237,6 +270,20 @@ class TTTGame
     puts '='*20
   end
 
+  def display_play_again_message
+    puts "Ok, let's play again!"
+    puts ''
+  end
+
+  def reset(answer)
+    if answer.downcase == 'y'
+      board.reset
+      clear_screen
+      display_play_again_message
+      true
+    end
+  end
+
   def play_again?
     answer = nil
     loop do
@@ -245,28 +292,13 @@ class TTTGame
       break if ['y','n'].include? answer
       puts "Not a valid option, pleae type 'y' or 'n'"
     end
-    if answer.downcase == 'y'
-      system 'clear'
-      puts "Ok, let's play again!"
-    end
+    reset(answer)
   end
 
-	def play
-		display_welcome
-    loop do
-      display_board(false)
-      loop do
-        human_moves
-        break if board.winner? || board.full?
-        computer_moves
-        break if board.winner? || board.full?
-        display_board
-      end
-      display_result
-      break unless play_again?
-    end
-    display_goodbye
+  def switch_turn
+    board.turn = ( board.turn == :human ? :computer : :human )
   end
+
 end
 
 game = TTTGame.new
