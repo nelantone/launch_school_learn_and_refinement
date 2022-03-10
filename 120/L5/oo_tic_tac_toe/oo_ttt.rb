@@ -67,6 +67,10 @@ class Board
                          [1, 5, 9], [3, 5, 7], # diagonals
                          [1, 4, 7], [2, 5, 8], [3, 6, 9]] # cols
 
+  MATRIX = [[1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]]
+
   attr_accessor :squares, :turn
 
   def initialize
@@ -75,17 +79,9 @@ class Board
 
   def draw
     puts	''
-    puts  just_spaces
-    puts  square_rows([1, 2, 3])
-    puts  just_spaces
-    puts	row_lines
-    puts  just_spaces
-    puts  square_rows([4, 5, 6])
-    puts  just_spaces
-    puts	row_lines
-    puts  just_spaces
-    puts  square_rows([7, 8, 9])
-    puts  just_spaces
+    just_spaces
+    main_draw
+    just_spaces
     puts	''
   end
 
@@ -99,12 +95,16 @@ class Board
     @squares[key.to_i].marker = marker
   end
 
-  def avaliable_keys
+  def display_available_keys
+    joinor(current_keys)
+  end
+
+  def current_keys
     @squares.keys.select { |key| @squares[key].unmarked? }
   end
 
   def full?
-    avaliable_keys.empty?
+    current_keys.empty?
   end
 
   def winner?
@@ -114,22 +114,44 @@ class Board
 
   private
 
+  def joinor(ary_nums, separate = ', ', last = 'or')
+    if ary_nums.size > 1
+      "#{ary_nums[0..-2].join(separate)} #{last} #{ary_nums[-1]}"
+    else
+      ary_nums.first
+    end
+  end
+
+  def main_draw
+    square_rows(MATRIX[0])
+    middle_space
+    square_rows(MATRIX[1])
+    middle_space
+    square_rows(MATRIX[2])
+  end
+
   def get_square_at(key)
-    @squares[key]
+    (@squares[key]).to_s
   end
 
   def just_spaces
-    puts  ' ' * 5 + '|' + ' ' * 5 + '|'
+    puts ' ' * 5 + '|' + ' ' * 5 + '|'
   end
 
   def row_lines
-    '-' * 5 + '+' + '-' * 5 + '+' + '-' * 5
+    puts '-' * 5 + '+' + '-' * 5 + '+' + '-' * 5
   end
 
   def square_rows(row_ary)
-    ' ' * 2 + (get_square_at(row_ary[0])).to_s + ' ' * 2 + '|' +
-      ' ' * 2 + (get_square_at(row_ary[1])).to_s + ' ' * 2 + '|' +
-      ' ' * 2 + (get_square_at(row_ary[2])).to_s + ' ' * 2
+    puts ' ' * 2 + get_square_at(row_ary[0]) + ' ' * 2 + '|' +
+         ' ' * 2 + get_square_at(row_ary[1]) + ' ' * 2 + '|' +
+         ' ' * 2 + get_square_at(row_ary[2]) + ' ' * 2
+  end
+
+  def middle_space
+    just_spaces
+    row_lines
+    just_spaces
   end
 
   def winning_combination?(combo)
@@ -188,7 +210,15 @@ class TTTGame
   end
 
   def play
+    clear_screen
     display_welcome
+    main_game
+    display_goodbye
+  end
+
+  private
+
+  def main_game
     loop do
       display_board
       loop do
@@ -200,10 +230,7 @@ class TTTGame
       display_result
       break unless play_again?
     end
-    display_goodbye
   end
-
-  private
 
   def clear_screen
     system 'clear'
@@ -230,21 +257,26 @@ class TTTGame
     board.draw
   end
 
+  def free_and_valid_square?(square)
+    ((1..9).include? square.to_i) && (board.current_keys.include? square.to_i)
+  end
+
   def human_moves
     square = ''
     loop do
-      puts 'Choose a square between 1-9: '
+      puts "Choose a number-square."
+      puts "The free ones are #{board.display_available_keys}"
       square = gets.chomp
-      break if ((1..9).include? square.to_i) && (board.avaliable_keys.include? square.to_i)
+      break if free_and_valid_square?(square)
       puts 'Sorry, the number is not valid or the square is taken'
-      puts "Avaliable squares are #{board.avaliable_keys}"
+      # puts "Avaliable squares are #{board.display_available_keys}"
     end
 
     board.set_square_at(square, human.marker)
   end
 
   def computer_moves
-    board.set_square_at(board.avaliable_keys.sample, computer.marker)
+    board.set_square_at(board.current_keys.sample, computer.marker)
   end
 
   def current_player
