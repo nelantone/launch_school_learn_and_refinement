@@ -62,7 +62,18 @@ and do a spike to explore porblem with temoraly code:
 
 =end
 
+module Joiner
+  def collection(ary_nums, separate = ', ', last = 'or')
+    if ary_nums.size > 1
+      "#{ary_nums[0..-2].join(separate)} #{last} #{ary_nums[-1]}"
+    else
+      ary_nums.first
+    end
+  end
+end
+
 class Board
+  include Joiner
   WINNER_COMBINATIONS = [[1, 2, 3], [4, 5, 6], [7, 8, 9], # rows
                          [1, 5, 9], [3, 5, 7], # diagonals
                          [1, 4, 7], [2, 5, 8], [3, 6, 9]] # cols
@@ -71,7 +82,9 @@ class Board
             [4, 5, 6],
             [7, 8, 9]]
 
-  attr_accessor :squares, :turn
+  MARKERS = ['X', 'O']
+
+  attr_accessor :squares, :turn, :human_mark, :computer_mark
 
   def initialize
     reset
@@ -86,8 +99,10 @@ class Board
   end
 
   def reset
-    @squares = {}
-    @turn = [:human, :computer].sample
+    @squares       = {}
+    @turn          = [:human, :computer].sample
+    @human_mark    = 'X'
+    @computer_mark = 'O'
     (1..9).each { |key| @squares[key] = Square.new }
   end
 
@@ -96,7 +111,8 @@ class Board
   end
 
   def display_available_keys
-    joinor(current_keys)
+    keys = current_keys
+    collection(keys)
   end
 
   def current_keys
@@ -112,15 +128,21 @@ class Board
     WINNER_COMBINATIONS.any? { |combo| winning_combination?(combo) }
   end
 
-  private
-
-  def joinor(ary_nums, separate = ', ', last = 'or')
-    if ary_nums.size > 1
-      "#{ary_nums[0..-2].join(separate)} #{last} #{ary_nums[-1]}"
-    else
-      ary_nums.first
+  def choose_mark
+    loop do
+      puts 'Please choose your mark:'
+      collection(MARKERS)
+      mark = gets.chomp
+      if MARKERS.include? mark.upcase
+        self.human_mark    = mark
+        self.computer_mark = (human_mark == 'X' ? 'O' : 'X')
+        break
+      end
+      puts "Choose 'X' or 'O'"
     end
   end
+
+  private
 
   def main_draw
     square_rows(MATRIX[0])
@@ -161,7 +183,7 @@ class Board
   end
 
   def marked_nums
-    marker = (turn == :human ? TTTGame::HUMAN_MARKER : TTTGame::COMPUTER_MARKER)
+    marker = (turn == :human ? human_mark : computer_mark)
     squares.select { |_, val| val.marker == marker }.keys
   end
 end
@@ -184,11 +206,6 @@ class Square
 end
 
 class Player
-  attr_reader :marker
-
-  def initialize(marker)
-    @marker = marker
-  end
 end
 
 class Human < Player
@@ -198,25 +215,38 @@ class Computer < Player
 end
 
 class TTTGame
-  HUMAN_MARKER        = 'X'
-  COMPUTER_MARKER     = 'O'
+  include Joiner
 
   attr_reader :board, :human, :computer
+  attr_accessor :player_name
 
   def initialize
-    @board 		= Board.new
-    @human 		= Human.new(HUMAN_MARKER)
-    @computer = Computer.new(COMPUTER_MARKER)
+    @board 		   = Board.new
+    @human 		   = Human.new
+    @computer = Computer.new
+    @player_name = ''
   end
 
   def play
     clear_screen
     display_welcome
+    setup_game
     main_game
     display_goodbye
   end
 
   private
+
+  def choose_name
+    puts 'please choose a player name, otherwise press enter'
+    self.player_name = gets.chomp
+    self.player_name = 'Player' if player_name == ''
+  end
+
+  def setup_game
+    choose_name
+    board.choose_mark
+  end
 
   def main_game
     loop do
@@ -253,7 +283,7 @@ class TTTGame
   end
 
   def display_board
-    puts "you are #{human.marker}, computer is #{computer.marker}"
+    puts "you are #{player_name} ( marker #{board.human_mark}) , computer is #{board.computer_mark}"
     board.draw
   end
 
@@ -269,18 +299,26 @@ class TTTGame
       square = gets.chomp
       break if free_and_valid_square?(square)
       puts 'Sorry, the number is not valid or the square is taken'
-      # puts "Avaliable squares are #{board.display_available_keys}"
     end
 
-    board.set_square_at(square, human.marker)
+    board.set_square_at(square, board.human_mark)
   end
 
   def computer_moves
-    board.set_square_at(board.current_keys.sample, computer.marker)
+    board.set_square_at(board.current_keys.sample, board.computer_mark)
   end
 
   def current_player
     board.turn == :human ? human_moves : computer_moves
+  end
+
+  def display_the_winner
+    print 'The winner is '.upcase
+    if board.turn == :human
+      print "#{player_name}!".upcase
+    else
+      print "#{board.turn}!".upcase
+    end
   end
 
   def display_result
@@ -288,11 +326,13 @@ class TTTGame
     puts '=' * 20
     puts 'The final result :'.upcase
     puts '-' * 20
+    puts ''
     if board.winner?
-      puts "The winner is #{board.turn}!".upcase
+      display_the_winner
     else
       puts 'The board is full'.upcase
     end
+    puts ''
     puts '=' * 20
   end
 
